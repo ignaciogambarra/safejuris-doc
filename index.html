@@ -1,0 +1,1765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeJuris.io — Plano de Negócios · 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07111e;
+      --bg2:       #0b1929;
+      --bg3:       #0f2035;
+      --card:      #0d1e30;
+      --card2:     #112438;
+      --border:    rgba(0,201,255,0.15);
+      --border2:   rgba(0,201,255,0.30);
+      --cyan:      #00c9ff;
+      --cyan2:     #18d8ff;
+      --cyan-dim:  rgba(0,201,255,0.08);
+      --cyan-glow: rgba(0,201,255,0.20);
+      --white:     #ffffff;
+      --text:      rgba(255,255,255,0.90);
+      --text2:     rgba(255,255,255,0.60);
+      --text3:     rgba(255,255,255,0.35);
+      --green:     #22d47a;
+      --green-dim: rgba(34,212,122,0.12);
+      --amber:     #f8ae23;
+      --amber-dim: rgba(248,174,35,0.12);
+      --red:       #ff4d6d;
+      --red-dim:   rgba(255,77,109,0.10);
+      --radius:    14px;
+      --radius-lg: 22px;
+      --radius-xl: 32px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* ─── HEX PATTERN ─────────────────────────────────────── */
+    .hex-bg {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52' viewBox='0 0 60 52'%3E%3Cpolygon points='30,2 56,16 56,44 30,58 4,44 4,16' fill='none' stroke='%2300c9ff' stroke-width='0.4' stroke-opacity='0.12'/%3E%3C/svg%3E");
+      background-size: 60px 52px;
+    }
+    .hex-bg-dense {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='35' viewBox='0 0 40 35'%3E%3Cpolygon points='20,2 38,12 38,30 20,40 2,30 2,12' fill='none' stroke='%2300c9ff' stroke-width='0.5' stroke-opacity='0.18'/%3E%3C/svg%3E");
+      background-size: 40px 35px;
+    }
+
+    /* ─── COVER ───────────────────────────────────────────── */
+    .cover {
+      min-height: 100vh; position: relative;
+      background: radial-gradient(ellipse at 70% 30%, rgba(0,201,255,0.07) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(0,100,180,0.10) 0%, transparent 50%),
+                  var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 80px 40px; overflow: hidden;
+    }
+    .cover-noise {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='70' viewBox='0 0 80 70'%3E%3Cpolygon points='40,3 73,21 73,57 40,75 7,57 7,21' fill='none' stroke='%2300c9ff' stroke-width='0.6' stroke-opacity='0.10'/%3E%3C/svg%3E");
+      background-size: 80px 70px;
+    }
+    .cover-glow {
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,201,255,0.08) 0%, transparent 70%);
+      top: -100px; right: -100px; pointer-events: none;
+    }
+    .cover-glow2 {
+      position: absolute; width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,100,200,0.10) 0%, transparent 70%);
+      bottom: -50px; left: -50px; pointer-events: none;
+    }
+    .cover-content { position: relative; z-index: 1; max-width: 780px; }
+    .cover-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cyan-dim); border: 1px solid var(--border2);
+      border-radius: 40px; padding: 7px 18px; margin-bottom: 40px;
+      font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--cyan);
+    }
+    .cover-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); }
+    .cover-logo {
+      font-size: clamp(44px, 8vw, 80px); font-weight: 900;
+      color: var(--white); letter-spacing: -3px; line-height: 1;
+      margin-bottom: 12px;
+    }
+    .cover-logo span { color: var(--cyan); }
+    .cover-logo-dot { font-size: 0.7em; color: var(--cyan); }
+    .cover-tagline {
+      font-size: clamp(13px, 2vw, 17px); font-weight: 400;
+      color: var(--text2); margin-bottom: 56px; line-height: 1.7;
+      max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .cover-tagline strong { color: var(--cyan); font-weight: 700; }
+    .cover-pills {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px;
+    }
+    .pill {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+      padding: 7px 18px; border-radius: 40px;
+      background: rgba(255,255,255,0.05); color: var(--text2);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .pill.cyan { background: var(--cyan-dim); color: var(--cyan); border-color: var(--border2); }
+    .pill.green { background: var(--green-dim); color: var(--green); border-color: rgba(34,212,122,0.3); }
+    .cover-meta {
+      display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    .cover-meta-item {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .cover-meta-val {
+      font-size: 28px; font-weight: 800; color: var(--cyan); letter-spacing: -1px;
+    }
+    .cover-meta-label {
+      font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text3);
+    }
+    .cover-scroll-hint {
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+      animation: pulse-down 2s ease-in-out infinite;
+    }
+    .cover-scroll-hint span { font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text3); }
+    .scroll-arrow { width: 18px; height: 18px; border-right: 1.5px solid rgba(0,201,255,0.4); border-bottom: 1.5px solid rgba(0,201,255,0.4); transform: rotate(45deg); }
+    @keyframes pulse-down { 0%,100%{transform:translateX(-50%) translateY(0);opacity:.5} 50%{transform:translateX(-50%) translateY(6px);opacity:1} }
+
+    /* ─── LAYOUT ──────────────────────────────────────────── */
+    .main { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+    .eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 3.5px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 46px); font-weight: 800;
+      color: var(--white); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 8px;
+    }
+    .section-title .hl { color: var(--cyan); }
+    .section-rule { width: 40px; height: 3px; background: var(--cyan); border-radius: 2px; margin-bottom: 28px; box-shadow: 0 0 12px rgba(0,201,255,0.5); }
+    .section-intro { font-size: 15px; color: var(--text2); max-width: 680px; margin-bottom: 48px; line-height: 1.85; }
+    .section-intro strong { color: var(--white); font-weight: 700; }
+    .section-intro em { font-style: normal; color: var(--cyan); font-weight: 600; }
+
+    /* ─── PROBLEM BLOCK ───────────────────────────────────── */
+    .problem-block {
+      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+      border: 1px solid var(--border2); border-radius: var(--radius-xl);
+      padding: 56px 56px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .problem-block .hex-bg { opacity: 0.5; }
+    .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; position: relative; z-index: 1; }
+    @media(max-width:720px){.problem-grid{grid-template-columns:1fr}}
+    .problem-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px;
+    }
+    .problem-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .problem-text { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
+    .problem-text strong { color: var(--white); font-weight: 700; display: block; margin-bottom: 3px; }
+
+    /* ─── SOLUTION BLOCK ──────────────────────────────────── */
+    .solution-block {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--radius-xl); padding: 52px 56px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .solution-block::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .solution-block p { font-size: 15px; color: var(--text2); line-height: 1.85; position: relative; z-index: 1; }
+    .solution-block p+p { margin-top: 14px; }
+    .solution-block strong { color: var(--white); font-weight: 700; }
+    .solution-block em { font-style: normal; color: var(--cyan); font-weight: 600; }
+
+    /* ─── STATS ROW ───────────────────────────────────────── */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 80px; }
+    @media(max-width:720px){.stats-row{grid-template-columns:1fr 1fr}}
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 20px; text-align: center;
+      position: relative; overflow: hidden;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .stat-card:hover { border-color: var(--border2); box-shadow: 0 0 24px var(--cyan-glow); }
+    .stat-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--cyan); box-shadow:0 0 10px rgba(0,201,255,0.6); }
+    .stat-card.green::after { background:var(--green); box-shadow:0 0 10px rgba(34,212,122,0.5); }
+    .stat-card.amber::after { background:var(--amber); box-shadow:0 0 10px rgba(248,174,35,0.5); }
+    .stat-num { font-size:34px; font-weight:800; color:var(--cyan); letter-spacing:-2px; line-height:1; margin-bottom:8px; }
+    .stat-card.green .stat-num { color:var(--green); }
+    .stat-card.amber .stat-num { color:var(--amber); }
+    .stat-label { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--text3); line-height:1.4; }
+
+    /* ─── FLUXO B2B ───────────────────────────────────────── */
+    .fluxo-b2b {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 52px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .fluxo-b2b .hex-bg { opacity: 0.4; }
+    .fluxo-b2b-inner { position: relative; z-index: 1; }
+    .fluxo-clients-row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 0;
+    }
+    .fluxo-client-node {
+      background: var(--card2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px; text-align: center;
+      min-width: 140px; flex: 1; max-width: 180px;
+      transition: border-color .2s;
+    }
+    .fluxo-client-node:hover { border-color: var(--border2); }
+    .fluxo-client-node.diamond { border-color: rgba(0,201,255,0.5); background: rgba(0,201,255,0.06); }
+    .fluxo-client-node.silver { border-color: rgba(255,255,255,0.2); }
+    .fluxo-client-node.bronze { border-color: rgba(248,174,35,0.25); }
+    .fn-plan { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+    .fluxo-client-node.diamond .fn-plan { color: var(--cyan); }
+    .fluxo-client-node.silver .fn-plan  { color: rgba(200,220,255,0.7); }
+    .fluxo-client-node.bronze .fn-plan  { color: var(--amber); }
+    .fn-name { font-size: 12px; font-weight: 700; color: var(--white); }
+    .fn-sub  { font-size: 10px; color: var(--text3); margin-top: 2px; }
+    .fluxo-down-center {
+      display: flex; justify-content: center; align-items: center; flex-direction: column;
+      padding: 8px 0; gap: 0;
+    }
+    .fluxo-line-v { width: 1.5px; height: 24px; background: linear-gradient(180deg, var(--border2), var(--cyan)); }
+    .fluxo-line-v.up { background: linear-gradient(180deg, var(--cyan), var(--border2)); }
+    .fluxo-arrow-down { border-top: 7px solid var(--cyan); border-left: 4px solid transparent; border-right: 4px solid transparent; filter: drop-shadow(0 0 4px var(--cyan)); }
+    .fluxo-hub {
+      background: linear-gradient(135deg, #0a2040, #0d2a50);
+      border: 1.5px solid var(--border2); border-radius: var(--radius-lg);
+      padding: 28px 40px; text-align: center;
+      box-shadow: 0 0 40px rgba(0,201,255,0.10);
+    }
+    .fluxo-hub-title { font-size: 18px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 4px; }
+    .fluxo-hub-title span { color: var(--cyan); }
+    .fluxo-hub-sub { font-size: 11px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
+    .fluxo-hub-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+    .fluxo-hub-tag {
+      font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 20px;
+      background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2);
+    }
+    .fluxo-sources-row {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+    }
+    .fluxo-source-node {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius); padding: 16px 24px; text-align: center; min-width: 130px;
+    }
+    .fsn-icon { font-size: 22px; margin-bottom: 6px; }
+    .fsn-name { font-size: 12px; font-weight: 700; color: var(--text2); }
+    .fsn-sub  { font-size: 10px; color: var(--text3); margin-top: 2px; }
+    .fluxo-caption { text-align: center; margin-top: 24px; font-size: 12px; color: var(--text3); line-height: 1.7; }
+    .fluxo-caption strong { color: var(--cyan); font-weight: 600; }
+
+    /* ─── OPORTUNIDADE ────────────────────────────────────── */
+    .opp-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 52px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .opp-bar {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px; margin-bottom: 24px;
+    }
+    .opp-bar-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 12px; }
+    .opp-bar-track { background: rgba(0,0,0,0.3); border-radius: 6px; height: 14px; overflow: hidden; position: relative; }
+    .opp-bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 9px; font-weight: 800; color: var(--bg); }
+    .opp-bar-fill.used   { background: linear-gradient(90deg, #22d47a, #4ade80); width: 25.2%; }
+    .opp-bar-fill.gap    { background: linear-gradient(90deg, rgba(0,201,255,0.7), var(--cyan)); width: 74.8%; }
+    .opp-bar-row { display: flex; justify-content: space-between; margin-top: 8px; }
+    .opp-bar-row-item { font-size: 11px; }
+    .opp-bar-row-item .val { font-weight: 800; }
+    .opp-bar-row-item.used .val  { color: var(--green); }
+    .opp-bar-row-item.gap  .val  { color: var(--cyan); }
+    .opp-insight {
+      background: linear-gradient(135deg, rgba(0,201,255,0.06), rgba(0,201,255,0.02));
+      border: 1px solid var(--border2); border-radius: var(--radius-lg);
+      padding: 28px 32px; display: flex; align-items: flex-start; gap: 20px;
+    }
+    .opp-insight-icon { font-size: 32px; flex-shrink: 0; }
+    .opp-insight-body .title { font-size: 17px; font-weight: 800; color: var(--white); margin-bottom: 8px; letter-spacing: -0.3px; }
+    .opp-insight-body p { font-size: 13.5px; color: var(--text2); line-height: 1.75; }
+    .opp-insight-body p strong { color: var(--white); font-weight: 700; }
+    .opp-insight-body p em { font-style: normal; color: var(--cyan); font-weight: 600; }
+
+    /* ─── SAFEJURISERP ────────────────────────────────────── */
+    .erp-block {
+      background: linear-gradient(135deg, #050f1c, #071828);
+      border: 1.5px solid var(--cyan);
+      border-radius: var(--radius-xl); padding: 60px 56px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 80px rgba(0,201,255,0.08), inset 0 0 60px rgba(0,201,255,0.03);
+    }
+    .erp-block::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--cyan2), transparent);
+      box-shadow: 0 0 16px rgba(0,201,255,0.8);
+    }
+    .erp-block .hex-bg { opacity: 0.6; }
+    .erp-inner { position: relative; z-index: 1; }
+    .erp-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cyan); color: var(--bg);
+      border-radius: 30px; padding: 6px 18px; margin-bottom: 24px;
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+    }
+    .erp-title {
+      font-size: clamp(30px, 4vw, 52px); font-weight: 900;
+      color: var(--white); letter-spacing: -2px; line-height: 1; margin-bottom: 8px;
+    }
+    .erp-title span { color: var(--cyan); }
+    .erp-subtitle {
+      font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text3); margin-bottom: 28px;
+    }
+    .erp-desc {
+      font-size: 15px; color: var(--text2); line-height: 1.85; max-width: 780px; margin-bottom: 40px;
+    }
+    .erp-desc strong { color: var(--white); font-weight: 700; }
+    .erp-desc em { font-style: normal; color: var(--cyan); font-weight: 600; }
+    .erp-how-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 16px;
+    }
+    .erp-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 36px; }
+    @media(max-width:760px){.erp-steps{grid-template-columns:1fr}}
+    .erp-step {
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border2);
+      border-radius: var(--radius-lg); padding: 24px 22px;
+    }
+    .erp-step-num {
+      width: 32px; height: 32px; border-radius: 10px;
+      background: var(--cyan-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .erp-step-title { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+    .erp-step-body { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+    .erp-benefits { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+    @media(max-width:600px){.erp-benefits{grid-template-columns:1fr}}
+    .erp-benefit {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: rgba(0,201,255,0.04); border: 1px solid rgba(0,201,255,0.12);
+      border-radius: var(--radius); padding: 16px 18px;
+    }
+    .erp-benefit-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .erp-benefit-text { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+    .erp-benefit-text strong { color: var(--white); font-weight: 700; display: block; margin-bottom: 2px; }
+
+    /* ─── PLANOS ──────────────────────────────────────────── */
+    .planos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 80px; }
+    @media(max-width:760px){.planos-grid{grid-template-columns:1fr}}
+    .plano-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .plano-card:hover { transform: translateY(-4px); }
+    .plano-card.featured {
+      border-color: var(--cyan); background: linear-gradient(160deg, #0a2540, #0d1e30);
+      box-shadow: 0 0 60px rgba(0,201,255,0.12), inset 0 0 40px rgba(0,201,255,0.04);
+    }
+    .plano-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background:var(--border); }
+    .plano-card.bronze::before  { background:linear-gradient(90deg,var(--amber),#f8d47a); }
+    .plano-card.prata::before   { background:linear-gradient(90deg,rgba(200,210,230,0.6),rgba(200,210,230,0.3)); }
+    .plano-card.diamond::before { background:linear-gradient(90deg,var(--cyan),var(--cyan2)); box-shadow:0 0 12px rgba(0,201,255,0.7); }
+    .plano-badge {
+      display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase; padding: 5px 14px; border-radius: 30px; margin-bottom: 20px;
+    }
+    .plano-card.bronze  .plano-badge { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(248,174,35,0.25); }
+    .plano-card.prata   .plano-badge { background: rgba(200,210,230,0.07); color: rgba(200,210,230,0.8); border: 1px solid rgba(200,210,230,0.2); }
+    .plano-card.diamond .plano-badge { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2); }
+    .plano-name { font-size: 26px; font-weight: 800; color: var(--white); letter-spacing: -0.8px; margin-bottom: 6px; }
+    .plano-desc { font-size: 12.5px; color: var(--text2); line-height: 1.6; margin-bottom: 24px; min-height: 48px; }
+    .plano-price-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .plano-price { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 4px; }
+    .plano-price-val { font-size: 13px; font-weight: 700; color: var(--text2); font-style: italic; }
+    .plano-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .plano-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 13px; color: var(--text2); line-height: 1.5;
+    }
+    .plano-features li::before {
+      content: ''; width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+      background: var(--cyan-dim); border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 4L3.5 6L6.5 2' stroke='%2300c9ff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: center; margin-top: 1px;
+    }
+    .plano-card.bronze .plano-features li::before { border-color: rgba(248,174,35,0.4); background-color: var(--amber-dim); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 4L3.5 6L6.5 2' stroke='%23f8ae23' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+    .plano-featured-tag {
+      position: absolute; top: 20px; right: 20px;
+      font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      background: var(--cyan); color: var(--bg); padding: 4px 12px; border-radius: 20px;
+    }
+    .plano-erp-bonus {
+      margin-top: 20px; padding: 14px 16px;
+      background: linear-gradient(135deg, rgba(0,201,255,0.10), rgba(0,201,255,0.04));
+      border: 1px solid rgba(0,201,255,0.35); border-radius: var(--radius);
+    }
+    .plano-erp-bonus-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 6px;
+    }
+    .plano-erp-bonus-text {
+      font-size: 11.5px; color: var(--text2); line-height: 1.5;
+    }
+    .plano-erp-bonus-text strong { color: var(--white); font-weight: 700; }
+
+    /* ─── ARQUITETURA ─────────────────────────────────────── */
+    .arch-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 80px; }
+    .arch-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 28px 32px;
+      display: flex; align-items: flex-start; gap: 24px;
+      position: relative; overflow: hidden;
+      transition: border-color .2s;
+    }
+    .arch-card:hover { border-color: var(--border2); }
+    .arch-num {
+      width: 48px; height: 48px; border-radius: 13px; flex-shrink: 0;
+      background: var(--cyan-dim); border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 800; color: var(--cyan);
+    }
+    .arch-card.c2 .arch-num { background: rgba(34,212,122,0.08); border-color: rgba(34,212,122,0.25); color: var(--green); }
+    .arch-card.c3 .arch-num { background: rgba(248,174,35,0.08); border-color: rgba(248,174,35,0.25); color: var(--amber); }
+    .arch-card.c4 .arch-num { background: rgba(0,201,255,0.12); border-color: rgba(0,201,255,0.40); color: var(--cyan); }
+    .arch-meta { flex: 1; }
+    .arch-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+    .arch-card.c2 .arch-eyebrow { color: var(--green); }
+    .arch-card.c3 .arch-eyebrow { color: var(--amber); }
+    .arch-card.c4 .arch-eyebrow { color: var(--cyan); }
+    .arch-title { font-size: 17px; font-weight: 800; color: var(--white); margin-bottom: 6px; letter-spacing: -0.3px; }
+    .arch-body  { font-size: 13px; color: var(--text2); line-height: 1.75; }
+    .arch-body strong { font-weight: 700; color: var(--white); }
+    .arch-tags  { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .arch-tag { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: rgba(0,0,0,0.25); color: var(--text3); border: 1px solid var(--border); }
+
+    /* ─── MVP BLOCK ───────────────────────────────────────── */
+    .mvp-block {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: var(--radius-xl); padding: 52px 56px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .mvp-block::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--cyan), transparent);
+    }
+    .mvp-block .hex-bg { opacity: 0.4; }
+    .mvp-inner { position: relative; z-index: 1; }
+    .mvp-cost-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 36px; }
+    @media(max-width:720px){.mvp-cost-row{grid-template-columns:1fr}}
+    .mvp-cost-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 22px 20px; text-align: center;
+      position: relative;
+    }
+    .mvp-cost-card.total {
+      border-color: var(--border2); background: linear-gradient(135deg, rgba(0,201,255,0.07), rgba(0,201,255,0.02));
+    }
+    .mvp-cost-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 8px; }
+    .mvp-cost-val { font-size: 22px; font-weight: 800; color: var(--cyan); letter-spacing: -1px; margin-bottom: 4px; }
+    .mvp-cost-card.total .mvp-cost-val { font-size: 26px; color: var(--green); }
+    .mvp-cost-sub { font-size: 10px; color: var(--text3); line-height: 1.4; }
+    .mvp-total-formula {
+      background: rgba(0,201,255,0.05); border: 1px solid var(--border2);
+      border-radius: var(--radius); padding: 16px 20px; margin-bottom: 36px;
+      font-size: 13px; color: var(--text2); line-height: 1.7; text-align: center;
+    }
+    .mvp-total-formula strong { color: var(--cyan); font-weight: 700; }
+    .mvp-steps-title { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
+    .mvp-steps { display: flex; flex-direction: column; gap: 12px; }
+    .mvp-step {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+    }
+    .mvp-step-num {
+      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+      background: var(--cyan-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--cyan);
+    }
+    .mvp-step-body { flex: 1; }
+    .mvp-step-title { font-size: 13.5px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .mvp-step-sub { font-size: 12px; color: var(--text3); }
+    .mvp-step-owner { font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.25); white-space: nowrap; flex-shrink: 0; }
+
+    /* ─── EQUIPE ──────────────────────────────────────────── */
+    .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 80px; }
+    @media(max-width:760px){.team-grid{grid-template-columns:1fr 1fr}}
+    .team-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px 18px; text-align: center;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .team-card:hover { border-color: var(--border2); box-shadow: 0 0 20px var(--cyan-glow); }
+    .team-avatar {
+      width: 52px; height: 52px; border-radius: 14px; margin: 0 auto 12px;
+      background: var(--cyan-dim); border: 1.5px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: var(--cyan);
+    }
+    .team-card.partner .team-avatar { background: rgba(34,212,122,0.08); border-color: rgba(34,212,122,0.30); color: var(--green); }
+    .team-role { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); margin-bottom: 5px; }
+    .team-card.partner .team-role { color: var(--green); }
+    .team-name { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 5px; }
+    .team-desc { font-size: 10.5px; color: var(--text3); line-height: 1.5; }
+
+    /* ─── ROADMAP ─────────────────────────────────────────── */
+    .roadmap-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 80px; }
+    .roadmap-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px 20px;
+      transition: border-color .2s;
+    }
+    .roadmap-item:hover { border-color: var(--border2); }
+    .roadmap-item.highlight { border-color: rgba(0,201,255,0.4); background: rgba(0,201,255,0.04); }
+    .roadmap-item.milestone {
+      border-color: var(--cyan); background: linear-gradient(135deg, rgba(0,201,255,0.08), rgba(0,201,255,0.02));
+      box-shadow: 0 0 30px rgba(0,201,255,0.08);
+    }
+    .roadmap-num {
+      width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+      background: var(--cyan-dim); border: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: var(--cyan);
+    }
+    .roadmap-item.milestone .roadmap-num {
+      background: var(--cyan); color: var(--bg); border-color: var(--cyan);
+      box-shadow: 0 0 12px rgba(0,201,255,0.5); font-size: 14px;
+    }
+    .roadmap-body { flex: 1; }
+    .roadmap-title { font-size: 13.5px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+    .roadmap-item.milestone .roadmap-title { color: var(--cyan); font-size: 15px; }
+    .roadmap-sub   { font-size: 12px; color: var(--text3); }
+
+    /* ─── CLOSING BLOCK ───────────────────────────────────── */
+    .closing-block {
+      background: linear-gradient(135deg, var(--bg2), var(--bg3));
+      border: 1px solid var(--border2); border-radius: var(--radius-xl);
+      padding: 64px 56px; margin-bottom: 80px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .closing-block .hex-bg { opacity: 0.3; }
+    .closing-block-content { position: relative; z-index: 1; }
+    .closing-logo { font-size: 36px; font-weight: 900; color: var(--white); letter-spacing: -2px; margin-bottom: 16px; }
+    .closing-logo span { color: var(--cyan); }
+    .closing-tagline { font-size: 16px; color: var(--text2); max-width: 560px; margin: 0 auto; line-height: 1.75; }
+    .closing-tagline strong { color: var(--cyan); font-weight: 700; }
+
+    /* ─── FOOTER ──────────────────────────────────────────── */
+    .footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      padding: 40px; text-align: center;
+    }
+    .footer-logo { font-size: 22px; font-weight: 900; color: var(--white); letter-spacing: -1px; margin-bottom: 8px; }
+    .footer-logo span { color: var(--cyan); }
+    .footer-sub { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); }
+
+    /* ─── DOWNLOAD BUTTON ─────────────────────────────────── */
+    .btn-download {
+      position: fixed; bottom: 32px; right: 32px; z-index: 9999;
+      display: flex; align-items: center; gap: 10px;
+      background: var(--bg2); color: var(--cyan);
+      border: 1.5px solid var(--border2); border-radius: 50px;
+      padding: 14px 26px; font-family: 'Poppins', sans-serif;
+      font-size: 13px; font-weight: 700; letter-spacing: .5px;
+      cursor: pointer; box-shadow: 0 8px 32px rgba(0,201,255,0.2);
+      transition: transform .2s, box-shadow .2s, background .2s;
+      outline: none;
+    }
+    .btn-download:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(0,201,255,0.3); background: var(--bg3); }
+    .btn-download.loading { opacity: .7; pointer-events: none; }
+    .btn-download .spinner { width:18px; height:18px; border:2px solid rgba(0,201,255,.2); border-top-color:var(--cyan); border-radius:50%; animation:spin .7s linear infinite; display:none; }
+    .btn-download.loading .btn-icon { display:none; }
+    .btn-download.loading .spinner  { display:block; }
+    .btn-download.loading .btn-label::after { content:'...'; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* ─── PAGE BREAK ──────────────────────────────────────── */
+    .no-break, .erp-step, .mvp-step, .mvp-cost-card { page-break-inside: avoid; break-inside: avoid; }
+
+    /* ─── PDF MODE ────────────────────────────────────────── */
+    body.pdf-generating #pdf-root { width:794px!important; max-width:794px!important; overflow:hidden!important; margin:0!important; }
+    body.pdf-generating .cover { width:794px!important; min-height:1080px!important; height:1080px!important; padding:100px 56px 80px!important; }
+    body.pdf-generating .cover-scroll-hint { display:none!important; }
+    body.pdf-generating .cover-logo  { font-size:72px!important; }
+    body.pdf-generating .main { max-width:794px!important; padding:48px 40px!important; }
+    body.pdf-generating .solution-block { padding:36px 40px!important; }
+    body.pdf-generating .problem-block  { padding:36px 40px!important; }
+    body.pdf-generating .stats-row { gap:10px!important; margin-bottom:40px!important; }
+    body.pdf-generating .stat-card { padding:20px 14px!important; }
+    body.pdf-generating .stat-num  { font-size:26px!important; }
+    body.pdf-generating .planos-grid { grid-template-columns:repeat(3,1fr)!important; gap:12px!important; }
+    body.pdf-generating .plano-card { padding:24px 20px!important; }
+    body.pdf-generating .team-grid  { grid-template-columns:repeat(3,1fr)!important; gap:10px!important; }
+    body.pdf-generating .fluxo-b2b  { padding:36px!important; }
+    body.pdf-generating .fluxo-clients-row { gap:8px!important; flex-wrap:nowrap!important; }
+    body.pdf-generating .fluxo-client-node { min-width:100px!important; max-width:130px!important; padding:12px 10px!important; }
+    body.pdf-generating .fn-name { font-size:11px!important; }
+    body.pdf-generating .fn-sub  { font-size:9px!important; }
+    body.pdf-generating .opp-block  { padding:36px 40px!important; }
+    body.pdf-generating .erp-block  { padding:40px 44px!important; }
+    body.pdf-generating .mvp-block  { padding:36px 40px!important; }
+    body.pdf-generating .closing-block { padding:40px 48px!important; }
+    body.pdf-generating .footer { padding:28px 40px!important; }
+    body.pdf-generating .erp-steps { grid-template-columns:repeat(3,1fr)!important; }
+    body.pdf-generating .mvp-cost-row { grid-template-columns:repeat(3,1fr)!important; }
+
+    /* ─── PROBLEM DUAL LABELS ───────────────────────────────── */
+    .problem-dual-header { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px; }
+    .problem-dual-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 20px; text-align: center;
+    }
+    .problem-dual-label.monitor { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2); }
+    .problem-dual-label.office  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.3); }
+
+    /* ─── VERTICALS SPLIT ───────────────────────────────────── */
+    .verticals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    @media(max-width:720px){ .verticals-grid { grid-template-columns: 1fr; } }
+    .vertical-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 24px 22px;
+      position: relative; overflow: hidden;
+    }
+    .vertical-card.monitor { border-top: 3px solid var(--cyan); }
+    .vertical-card.office  { border-top: 3px solid var(--green); }
+    .vertical-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .vertical-card.monitor .vertical-label { color: var(--cyan); }
+    .vertical-card.office  .vertical-label { color: var(--green); }
+    .vertical-title { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 8px; letter-spacing: -0.3px; }
+    .vertical-desc  { font-size: 12.5px; color: var(--text2); line-height: 1.65; }
+    .vertical-desc strong { color: var(--white); font-weight: 700; }
+    .vertical-desc em { font-style: normal; font-weight: 600; }
+    .vertical-card.monitor .vertical-desc em { color: var(--cyan); }
+    .vertical-card.office  .vertical-desc em { color: var(--green); }
+    .vertical-anchor {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 14px; font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .vertical-card.monitor .vertical-anchor { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2); }
+    .vertical-card.office  .vertical-anchor { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.3); }
+
+    /* ─── FLYWHEEL CONNECT ──────────────────────────────────── */
+    .flywheel-note {
+      background: linear-gradient(135deg, rgba(0,201,255,0.05), rgba(34,212,122,0.05));
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 18px 24px; margin-top: 20px; text-align: center;
+      font-size: 13px; color: var(--text2); line-height: 1.7;
+    }
+    .flywheel-note strong { color: var(--white); font-weight: 700; }
+    .flywheel-note em { font-style: normal; color: var(--cyan); font-weight: 600; }
+    .flywheel-note em.grn { color: var(--green); }
+
+    /* ─── PLANOS DUAL TRACK ─────────────────────────────────── */
+    .planos-track-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+    }
+    .planos-track-label::after { content:''; flex:1; height:1px; background: var(--border); }
+    .planos-track-label.monitor { color: var(--cyan); }
+    .planos-track-label.office  { color: var(--green); }
+    .planos-office-wrap { margin-bottom: 80px; }
+    .plano-card.office { border-color: rgba(34,212,122,0.4); background: linear-gradient(160deg, #051a0f, #0d1e14); }
+    .plano-card.office::before { background: linear-gradient(90deg, var(--green), #4ade80); }
+    .plano-card.office .plano-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.3); }
+    .plano-card.office .plano-name { color: var(--white); }
+    .plano-card.office .plano-features li::before { border-color: rgba(34,212,122,0.4); background-color: var(--green-dim); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath d='M1.5 4L3.5 6L6.5 2' stroke='%2322d47a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+    .plano-office-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media(max-width:760px){ .plano-office-grid { grid-template-columns: 1fr; } }
+
+    /* ─── ARCH DUAL ─────────────────────────────────────────── */
+    .arch-track-divider {
+      display: flex; align-items: center; gap: 14px;
+      margin: 8px 0; font-size: 9px; font-weight: 800; letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+    .arch-track-divider::before, .arch-track-divider::after { content:''; flex:1; height:1px; background: var(--border); }
+    .arch-track-divider.monitor { color: var(--cyan); }
+    .arch-track-divider.office  { color: var(--green); }
+    .arch-card.office { border-color: rgba(34,212,122,0.25); }
+    .arch-card.office .arch-eyebrow { color: var(--green); }
+    .arch-card.office .arch-num { background: rgba(34,212,122,0.08); border-color: rgba(34,212,122,0.25); color: var(--green); }
+
+    /* ─── MVP SPLIT (Dual MVP) ───────────────────────────────── */
+    .mvp-split-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 10px;
+    }
+    .mvp-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 80px; }
+    @media(max-width:760px){ .mvp-split-grid { grid-template-columns: 1fr; } }
+    .mvp-card {
+      background: var(--bg2); border: 1.5px solid var(--border2);
+      border-radius: var(--radius-xl); padding: 36px 32px;
+      position: relative; overflow: hidden;
+    }
+    .mvp-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+    }
+    .mvp-card.flex-mvp::before { background: linear-gradient(90deg, var(--cyan), var(--cyan2)); box-shadow: 0 0 10px rgba(0,201,255,0.6); }
+    .mvp-card.ql-mvp::before  { background: linear-gradient(90deg, var(--green), #4ade80); box-shadow: 0 0 10px rgba(34,212,122,0.5); }
+    .mvp-card .hex-bg { opacity: 0.3; }
+    .mvp-card-inner { position: relative; z-index: 1; }
+    .mvp-card-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 9px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .mvp-card.flex-mvp .mvp-card-badge { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2); }
+    .mvp-card.ql-mvp  .mvp-card-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.3); }
+    .mvp-card-title { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -0.8px; margin-bottom: 6px; line-height: 1.2; }
+    .mvp-card.flex-mvp .mvp-card-title span { color: var(--cyan); }
+    .mvp-card.ql-mvp  .mvp-card-title span { color: var(--green); }
+    .mvp-card-client { font-size: 11px; font-weight: 600; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+    .mvp-card-desc { font-size: 13px; color: var(--text2); line-height: 1.75; margin-bottom: 24px; }
+    .mvp-card-desc strong { color: var(--white); font-weight: 700; }
+    .mvp-card-desc em { font-style: normal; font-weight: 600; }
+    .mvp-card.flex-mvp .mvp-card-desc em { color: var(--cyan); }
+    .mvp-card.ql-mvp  .mvp-card-desc em { color: var(--green); }
+    .mvp-card-features-title { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+    .mvp-card.flex-mvp .mvp-card-features-title { color: var(--cyan); }
+    .mvp-card.ql-mvp  .mvp-card-features-title { color: var(--green); }
+    .mvp-card-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .mvp-card-feature {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 10px 14px;
+      font-size: 12.5px; color: var(--text2); line-height: 1.5;
+    }
+    .mvp-card-feature-icon { font-size: 14px; flex-shrink: 0; }
+    .mvp-card-price {
+      background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 16px; text-align: center;
+    }
+    .mvp-card-price-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text3); margin-bottom: 6px; }
+    .mvp-card-price-val { font-size: 20px; font-weight: 800; letter-spacing: -0.8px; }
+    .mvp-card.flex-mvp .mvp-card-price-val { color: var(--cyan); }
+    .mvp-card.ql-mvp  .mvp-card-price-val { color: var(--green); }
+    .mvp-card-price-sub { font-size: 10px; color: var(--text3); margin-top: 3px; }
+
+    /* ─── CALENDÁRIO ─────────────────────────────────────────── */
+    .cal-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 40px 48px; margin-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .cal-block .hex-bg { opacity: 0.3; }
+    .cal-inner { position: relative; z-index: 1; }
+    .cal-months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media(max-width:720px){ .cal-months { grid-template-columns: 1fr; } }
+    .cal-month { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .cal-month-header {
+      padding: 12px 16px; font-size: 11px; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; display: flex; align-items: center; justify-content: space-between;
+    }
+    .cal-month.may .cal-month-header   { background: rgba(0,201,255,0.08); color: var(--cyan); border-bottom: 1px solid rgba(0,201,255,0.15); }
+    .cal-month.jun .cal-month-header   { background: rgba(34,212,122,0.07); color: var(--green); border-bottom: 1px solid rgba(34,212,122,0.15); }
+    .cal-month.jul .cal-month-header   { background: rgba(248,174,35,0.07); color: var(--amber); border-bottom: 1px solid rgba(248,174,35,0.15); }
+    .cal-month-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .cal-item { display: flex; align-items: flex-start; gap: 10px; }
+    .cal-item-tag {
+      font-size: 8px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+    }
+    .cal-item-tag.flex { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--border2); }
+    .cal-item-tag.ql   { background: var(--green-dim); color: var(--green); border: 1px solid rgba(34,212,122,0.25); }
+    .cal-item-tag.both { background: rgba(248,174,35,0.10); color: var(--amber); border: 1px solid rgba(248,174,35,0.25); }
+    .cal-item-body { flex: 1; }
+    .cal-item-title { font-size: 12px; font-weight: 700; color: var(--white); margin-bottom: 2px; line-height: 1.4; }
+    .cal-item-owner { font-size: 10px; color: var(--text3); }
+    .cal-divider { height: 1px; background: var(--border); margin: 2px 0; }
+
+    @media print {
+      * { -webkit-print-color-adjust:exact!important; print-color-adjust:exact!important; }
+      body { background:#07111e!important; }
+      .btn-download { display:none!important; }
+
+      /* ── PLANOS: coluna única p/ quebras limpas entre cards ── */
+      .planos-grid { grid-template-columns:1fr!important; gap:12px!important; margin-bottom:32px!important; }
+      .plano-desc  { min-height:auto!important; }
+      .plano-card  { max-width:100%!important; }
+
+      /* ── CLIENTES: força linha única, nós menores ─────────── */
+      .fluxo-clients-row { flex-wrap:nowrap!important; gap:5px!important; }
+      .fluxo-client-node { min-width:80px!important; max-width:108px!important; padding:10px 8px!important; }
+      .fn-plan { font-size:7px!important; letter-spacing:1px!important; }
+      .fn-name { font-size:10px!important; }
+      .fn-sub  { font-size:8px!important; }
+
+      /* ── EVITAR CABEÇALHOS ÓRFÃOS ────────────────────────── */
+      .eyebrow      { break-after:avoid!important; page-break-after:avoid!important; }
+      .section-title{ break-after:avoid!important; page-break-after:avoid!important; }
+      .section-rule { break-after:avoid!important; page-break-after:avoid!important; }
+      .section-intro{ break-after:avoid!important; page-break-after:avoid!important; margin-bottom:20px!important; }
+      .erp-how-title{ break-after:avoid!important; page-break-after:avoid!important; }
+      .mvp-steps-title{ break-after:avoid!important; page-break-after:avoid!important; }
+
+      /* ── STATS: 2 colunas no print ───────────────────────── */
+      .stats-row { grid-template-columns:1fr 1fr!important; gap:10px!important; }
+
+      /* ── MARGENS MENORES PARA MELHOR APROVEITAMENTO ───────── */
+      .problem-block, .solution-block, .fluxo-b2b,
+      .opp-block, .erp-block, .mvp-block,
+      .arch-grid, .roadmap-list, .team-grid,
+      .closing-block { margin-bottom:36px!important; }
+      .main { padding:48px 40px!important; }
+    }
+  </style>
+</head>
+<body>
+<div id="pdf-root">
+
+<!-- ══ COVER ════════════════════════════════════════════════ -->
+<section class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-glow2"></div>
+  <div class="cover-content">
+    <div class="cover-badge">Plano de Negócios · 2 MVPs · 2026</div>
+    <div class="cover-logo">Safe<span>Juris</span><span class="cover-logo-dot">.io</span></div>
+    <p class="cover-tagline">
+      Inteligência jurídica B2B que monitora, alerta e gera demanda —<br>
+      <strong>dois MVPs, dois clientes âncora, uma plataforma.</strong>
+    </p>
+    <div class="cover-pills">
+      <span class="pill cyan">MVP 1 — Grupo FLEX</span>
+      <span class="pill green">MVP 2 — Quevedo &amp; Luz</span>
+      <span class="pill">Monitoramento Jurídico</span>
+      <span class="pill">Busca &amp; Apreensão</span>
+      <span class="pill">Gestão de Prazos OAB</span>
+      <span class="pill">SaaS B2B</span>
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-val">32</div>
+        <div class="cover-meta-label">Bancos monitorados</div>
+      </div>
+      <div class="cover-meta-item" style="padding: 0 32px; border-left:1px solid rgba(0,201,255,0.15); border-right:1px solid rgba(0,201,255,0.15);">
+        <div class="cover-meta-val">2</div>
+        <div class="cover-meta-label">MVPs em paralelo</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-val">3</div>
+        <div class="cover-meta-label">Planos disponíveis</div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-scroll-hint"><span>Scroll</span><div class="scroll-arrow"></div></div>
+</section>
+
+<!-- ══ MAIN ══════════════════════════════════════════════════ -->
+<main class="main">
+
+<!-- O PROBLEMA -->
+  <div class="eyebrow">O Problema</div>
+  <h2 class="section-title">Dois mercados, <span class="hl">o mesmo caos</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    O SafeJuris resolve dois problemas distintos que coexistem no ecossistema jurídico: <strong>empresas que perdem eventos críticos de clientes</strong> e <strong>escritórios que operam sem controle real de prazos, publicações e execuções</strong>. Ambos pagam caro por isso — em dinheiro, em clientes e em oportunidades.
+  </p>
+
+  <div class="problem-block">
+    <div class="hex-bg"></div>
+    <div class="problem-dual-header">
+      <div class="problem-dual-label monitor">Para Empresas — Vertical Monitor</div>
+      <div class="problem-dual-label office">Para Escritórios — Vertical Office</div>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <div class="problem-icon">📡</div>
+        <div class="problem-text">
+          <strong>Eventos críticos invisíveis</strong>
+          Busca e apreensão, execuções e penhoras existem antes de chegarem ao conhecimento da empresa — cada dia sem informação é um dia perdido na negociação.
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">📅</div>
+        <div class="problem-text">
+          <strong>Prazos fora de controle</strong>
+          Advogados gerenciam prazos processuais em planilhas e anotações — um prazo perdido pode custar o processo inteiro.
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">🔁</div>
+        <div class="problem-text">
+          <strong>Monitoramento manual e falho</strong>
+          Equipes dependem de intervenção humana para consultar tribunais — processo lento, propenso a erros e inescalável.
+        </div>
+      </div>
+      <div class="problem-item">
+        <div class="problem-icon">📢</div>
+        <div class="problem-text">
+          <strong>Publicações da OAB ignoradas</strong>
+          Intimações e publicações chegam ao diário oficial sem sistema que as capture e distribua automaticamente aos advogados responsáveis.
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- A SOLUÇÃO -->
+  <div class="eyebrow">A Solução</div>
+  <h2 class="section-title">Safe<span class="hl">Juris</span><span style="color:var(--cyan)">.io</span></h2>
+  <div class="section-rule"></div>
+
+  <div class="solution-block">
+    <div class="hex-bg hex-bg-dense"></div>
+    <p>
+      O SafeJuris é uma <strong>plataforma de inteligência jurídica B2B</strong> construída sobre duas verticais que se complementam. Uma única infraestrutura, dois produtos distintos — cada um pensado para o cliente que o usa, entregando exatamente o que falta no mercado jurídico hoje.
+    </p>
+    <p>
+      <em>SafeJuris Monitor</em> — para empresas: monitora os credores em vez dos clientes, captura processos críticos em tempo real e entrega alertas contextuais via API. A lógica é inverter a vigilância: em vez de rastrear cada cliente, rastreamos os bancos que emitem busca e apreensão — e cruzamos com a carteira do contratante. O resultado é um <strong>sistema de alerta precoce</strong> que transforma cada evento jurídico em vantagem de negociação.
+    </p>
+    <p>
+      <em>SafeJuris Office</em> — para escritórios: gerencia prazos processuais, distribui tarefas por caso, captura e trata publicações recebidas na OAB do advogado e precifica os serviços do escritório <strong>com base na execução de cumprimento de sentença</strong>. Inspirado no modelo ASTREA — mas construído para escalar com a operação do parceiro, não contra ela.
+    </p>
+    <div class="verticals-grid">
+      <div class="vertical-card monitor">
+        <div class="vertical-label">Vertical Monitor</div>
+        <div class="vertical-title">Para Empresas</div>
+        <p class="vertical-desc">
+          API de monitoramento jurídico conectada ao Escavador via N8n. <em>32 CNPJs de bancos monitorados</em>, alertas de busca e apreensão, execução e penhora em tempo real. Integração direta com a plataforma existente do cliente.
+        </p>
+        <div class="vertical-anchor">MVP 1 · Grupo FLEX</div>
+      </div>
+      <div class="vertical-card office">
+        <div class="vertical-label">Vertical Office</div>
+        <div class="vertical-title">Para Escritórios</div>
+        <p class="vertical-desc">
+          Gestão de prazos, tarefas e publicações da OAB. <em>Precificação por resultado</em> — fee vinculado à execução de cumprimento de sentença. O escritório opera com eficiência, o SafeJuris cresce junto.
+        </p>
+        <div class="vertical-anchor">MVP 2 · Quevedo &amp; Luz</div>
+      </div>
+    </div>
+  </div>
+
+<!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Verticais — Monitor (empresas) + Office (escritórios)</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-num">32</div>
+      <div class="stat-label">CNPJs de bancos monitorados — Vertical Monitor</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">OAB</div>
+      <div class="stat-label">Publicações capturadas e distribuídas — Vertical Office</div>
+    </div>
+    <div class="stat-card amber">
+      <div class="stat-num">2</div>
+      <div class="stat-label">MVPs em paralelo — Grupo FLEX + Quevedo &amp; Luz</div>
+    </div>
+  </div>
+
+<!-- FLUXO MVP -->
+  <div class="eyebrow">Os Dois MVPs</div>
+  <h2 class="section-title">Dois clientes âncora, <span class="hl">dois MVPs em paralelo</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    O plano foi revisado e dividido em <strong>dois MVPs com clientes âncora distintos</strong>. Cada um valida uma vertical diferente da plataforma — monitoramento jurídico e gestão de escritório — gerando tração paralela com o mesmo time.
+  </p>
+
+  <div class="mvp-split-grid">
+
+    <!-- MVP 1 — GRUPO FLEX -->
+    <div class="mvp-card flex-mvp">
+      <div class="hex-bg"></div>
+      <div class="mvp-card-inner">
+        <div class="mvp-card-badge">MVP 1</div>
+        <div class="mvp-card-title">Grupo <span>FLEX</span></div>
+        <div class="mvp-card-client">Cliente Diamante · API de Monitoramento</div>
+        <p class="mvp-card-desc">
+          O SafeJuris integra a plataforma Safe como <em>camada de enriquecimento de dados</em> —
+          cada cliente da carteira FLEX é cruzado com processos de busca e apreensão e execuções
+          captados dos credores. Assessores recebem alertas contextuais no momento certo,
+          <strong>transformando cada evento crítico em alavanca de negociação.</strong>
+        </p>
+        <div class="mvp-card-features-title">O que entregamos</div>
+        <div class="mvp-card-features">
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">🔍</span>Monitoramento contínuo de 32 CNPJs de bancos credores via Escavador API</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">⚡</span>Alerta imediato de busca e apreensão, execução e penhora por assessor</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">🔗</span>API contextualizada — integração direta com o sistema Safe da FLEX</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">🤖</span>Resumo por IA do processo para briefing rápido ao assessor</div>
+        </div>
+        <div class="mvp-card-price">
+          <div class="mvp-card-price-label">Investimento mensal (FLEX)</div>
+          <div class="mvp-card-price-val">R$14.750/mês</div>
+          <div class="mvp-card-price-sub">Escavador R$8.250 + Operação R$6.000 + Tráfego R$500</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MVP 2 — QUEVEDO & LUZ -->
+    <div class="mvp-card ql-mvp">
+      <div class="hex-bg"></div>
+      <div class="mvp-card-inner">
+        <div class="mvp-card-badge">MVP 2</div>
+        <div class="mvp-card-title">Quevedo <span>&amp; Luz</span></div>
+        <div class="mvp-card-client">Escritório Parceiro · Plataforma de Gestão</div>
+        <p class="mvp-card-desc">
+          Inspirado no modelo ASTREA, o SafeJuris atua como <em>sistema de gestão jurídica</em>
+          para o escritório — controla prazos, tarefas e publicações recebidas na OAB.
+          A precificação é baseada no <strong>resultado de execução de cumprimento de sentença</strong>,
+          alinhando o sucesso do SafeJuris com o sucesso do escritório.
+        </p>
+        <div class="mvp-card-features-title">O que entregamos</div>
+        <div class="mvp-card-features">
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">📅</span>Gestão de prazos processuais — controle centralizado com alertas de vencimento</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">✅</span>Gestão de tarefas por processo — atribuição, status e histórico por caso</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">📡</span>Recepção e tratamento de publicações da OAB do advogado</div>
+          <div class="mvp-card-feature"><span class="mvp-card-feature-icon">⚖️</span>Precificação por execução de cumprimento de sentença — fee sobre resultado</div>
+        </div>
+        <div class="mvp-card-price">
+          <div class="mvp-card-price-label">Modelo de receita</div>
+          <div class="mvp-card-price-val">Fee por resultado</div>
+          <div class="mvp-card-price-sub">Cobrança vinculada à execução de cumprimento de sentença — a definir</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<!-- FLUXO B2B -->
+  <div class="eyebrow">Como Funciona</div>
+  <h2 class="section-title">Um hub, <span class="hl">dois mercados</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    O SafeJuris opera como <strong>hub centralizado de inteligência jurídica</strong> servindo dois tipos de cliente em paralelo. Empresas que monitoram carteiras e escritórios que gerenciam processos — mesma infraestrutura, entregas distintas, ecossistema que se alimenta.
+  </p>
+
+  <div class="fluxo-b2b no-break">
+    <div class="hex-bg"></div>
+    <div class="fluxo-b2b-inner">
+      <!-- Clientes -->
+      <div class="fluxo-clients-row">
+        <div class="fluxo-client-node bronze">
+          <div class="fn-plan">Monitor · Bronze</div>
+          <div class="fn-name">Empresa A</div>
+          <div class="fn-sub">Monitoramento básico</div>
+        </div>
+        <div class="fluxo-client-node silver">
+          <div class="fn-plan">Monitor · Prata</div>
+          <div class="fn-name">Empresa B</div>
+          <div class="fn-sub">API + alertas</div>
+        </div>
+        <div class="fluxo-client-node diamond">
+          <div class="fn-plan">Monitor · MVP 1</div>
+          <div class="fn-name">Grupo FLEX</div>
+          <div class="fn-sub">Diamante + ERP</div>
+        </div>
+        <div class="fluxo-client-node" style="border-color:rgba(34,212,122,0.5);background:rgba(34,212,122,0.06);">
+          <div class="fn-plan" style="color:var(--green);">Office · MVP 2</div>
+          <div class="fn-name">Quevedo &amp; Luz</div>
+          <div class="fn-sub">Prazos · OAB · Execução</div>
+        </div>
+        <div class="fluxo-client-node" style="border-color:rgba(34,212,122,0.25);background:rgba(34,212,122,0.03);">
+          <div class="fn-plan" style="color:rgba(34,212,122,0.6);">Office · Futuro</div>
+          <div class="fn-name">Escritório C</div>
+          <div class="fn-sub">Gestão jurídica</div>
+        </div>
+      </div>
+      <!-- Down -->
+      <div class="fluxo-down-center">
+        <div class="fluxo-line-v"></div>
+        <div class="fluxo-arrow-down"></div>
+      </div>
+      <!-- Hub -->
+      <div style="display:flex;justify-content:center;margin-bottom:0;">
+        <div class="fluxo-hub">
+          <div class="fluxo-hub-title">Safe<span>Juris</span>.io</div>
+          <div class="fluxo-hub-sub">Monitor · Office · ERP · Banco Seguro · Entrega</div>
+          <div class="fluxo-hub-tags">
+            <span class="fluxo-hub-tag">N8n</span>
+            <span class="fluxo-hub-tag">Banco criptografado</span>
+            <span class="fluxo-hub-tag">Monitor API</span>
+            <span class="fluxo-hub-tag">Gestão de prazos</span>
+            <span class="fluxo-hub-tag">Publicações OAB</span>
+            <span class="fluxo-hub-tag">SafeJurisERP</span>
+          </div>
+        </div>
+      </div>
+      <!-- Down -->
+      <div class="fluxo-down-center">
+        <div class="fluxo-line-v up"></div>
+        <div style="border-bottom:7px solid rgba(255,255,255,0.2);border-left:4px solid transparent;border-right:4px solid transparent;"></div>
+      </div>
+      <!-- Fontes -->
+      <div class="fluxo-sources-row">
+        <div class="fluxo-source-node">
+          <div class="fsn-icon">⚖️</div>
+          <div class="fsn-name">Escavador API V2</div>
+          <div class="fsn-sub">32 CNPJs · R$0,03/req</div>
+        </div>
+        <div class="fluxo-source-node" style="border-color:rgba(34,212,122,0.25);">
+          <div class="fsn-icon">📢</div>
+          <div class="fsn-name">Diário da Justiça / OAB</div>
+          <div class="fsn-sub">Publicações e intimações</div>
+        </div>
+      </div>
+      <div class="flywheel-note">
+        O <strong>SafeJurisERP</strong> fecha o ciclo: quando o Monitor identifica um evento crítico na carteira da FLEX, ele conecta aquele cliente a um <em>advogado parceiro</em> — como <em class="grn">Quevedo &amp; Luz</em> — que gerencia o caso pelo Office. <strong>Duas verticais que se alimentam.</strong>
+      </div>
+    </div>
+  </div>
+
+<!-- SAFEJURISERP -->
+  <div class="eyebrow">O Flywheel</div>
+  <h2 class="section-title">Safe<span class="hl">JurisERP</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    O SafeJurisERP é o mecanismo que conecta o Monitor ao Office — ele transforma eventos jurídicos identificados na carteira de empresas em <strong>demanda qualificada para escritórios parceiros</strong>. Cada problema detectado na Vertical Monitor vira um caso gerenciado pela Vertical Office.
+  </p>
+
+  <div class="erp-block">
+    <div class="hex-bg hex-bg-dense"></div>
+    <div class="erp-inner">
+      <div class="erp-badge">✦ A conexão que fecha o ciclo</div>
+      <div class="erp-title">Safe<span>JurisERP</span></div>
+      <div class="erp-subtitle">O flywheel que alimenta as duas verticais</div>
+      <div class="erp-desc">
+        Quando o SafeJuris Monitor detecta um problema jurídico crítico — uma execução, uma busca e apreensão, uma restrição — o ERP classifica o tipo de demanda e <em>conecta automaticamente aquela pessoa com um advogado parceiro da rede SafeJuris</em>.<br><br>
+        Esse parceiro — como <strong>Quevedo &amp; Luz</strong> — recebe o caso pelo SafeJuris Office, já com contexto do processo, prazo e histórico. O escritório gerencia pelo Office, precifica pela execução e paga ao SafeJuris o fee acordado. <em>O Monitor gera a demanda. O Office a executa. O ERP fecha o ciclo.</em>
+      </div>
+
+      <div class="erp-how-title">O ciclo completo — 4 passos</div>
+      <div class="erp-steps">
+        <div class="erp-step">
+          <div class="erp-step-num">1</div>
+          <div class="erp-step-title">Monitor identifica</div>
+          <div class="erp-step-body">A Vertical Monitor detecta um evento crítico na carteira da FLEX — busca e apreensão, execução ou penhora — vinculado a um cliente real.</div>
+        </div>
+        <div class="erp-step">
+          <div class="erp-step-num">2</div>
+          <div class="erp-step-title">ERP classifica e roteia</div>
+          <div class="erp-step-body">O SafeJurisERP categoriza o tipo de demanda jurídica e localiza na rede de parceiros o escritório adequado para aquele caso específico.</div>
+        </div>
+        <div class="erp-step">
+          <div class="erp-step-num">3</div>
+          <div class="erp-step-title">Office gerencia o caso</div>
+          <div class="erp-step-body">O escritório parceiro recebe o caso no SafeJuris Office — com prazo, contexto e histórico do processo — e gerencia tarefas e publicações da OAB até a resolução.</div>
+        </div>
+        <div class="erp-step">
+          <div class="erp-step-num">4</div>
+          <div class="erp-step-title">Fee por resultado</div>
+          <div class="erp-step-body">Na execução do cumprimento de sentença, o SafeJuris recebe o fee acordado. O escritório cresce. O cliente da FLEX é resolvido. Todos ganham.</div>
+        </div>
+      </div>
+
+      <div class="erp-benefits">
+        <div class="erp-benefit">
+          <div class="erp-benefit-icon">🔄</div>
+          <div class="erp-benefit-text">
+            <strong>Flywheel natural</strong>
+            Quanto mais a FLEX monitora, mais casos o ERP roteia para escritórios parceiros — a escala de um alimenta o outro.
+          </div>
+        </div>
+        <div class="erp-benefit">
+          <div class="erp-benefit-icon">🎯</div>
+          <div class="erp-benefit-text">
+            <strong>Demanda 100% qualificada</strong>
+            Cada caso vem com problema real identificado, tipo classificado e contexto processual — zero triagem manual pelo escritório.
+          </div>
+        </div>
+        <div class="erp-benefit">
+          <div class="erp-benefit-icon">💰</div>
+          <div class="erp-benefit-text">
+            <strong>Receita por resultado — Vertical Office</strong>
+            O fee é vinculado à execução — alinhamento total entre o sucesso do SafeJuris e o sucesso do escritório parceiro.
+          </div>
+        </div>
+        <div class="erp-benefit">
+          <div class="erp-benefit-icon">🤝</div>
+          <div class="erp-benefit-text">
+            <strong>Rede de parceiros escalável</strong>
+            Cada escritório que entra no Office amplia a capacidade de resolução do ERP — mais parceiros, mais casos atendidos, mais receita.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ARQUITETURA TÉCNICA -->
+  <div class="eyebrow">A Infraestrutura</div>
+  <h2 class="section-title">Como a <span class="hl">plataforma funciona</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    Uma única infraestrutura serve as duas verticais. O N8n orquestra a captação, o banco próprio armazena com criptografia, e cada cliente — seja empresa ou escritório — acessa seu ambiente exclusivo com dados isolados e entrega sob medida.
+  </p>
+
+  <div class="arch-grid">
+
+    <div class="arch-card no-break">
+      <div class="arch-num">1</div>
+      <div class="arch-meta">
+        <div class="arch-eyebrow">Captação</div>
+        <div class="arch-title">Ingestão automática via N8n + Escavador</div>
+        <div class="arch-body">
+          O motor N8n monitora continuamente os <strong>32 CNPJs dos bancos credores</strong> via Escavador API V2. Quando um novo processo é detectado, ele entra automaticamente no pipeline de processamento. A tarifa contratada é de <strong>R$0,03/requisição</strong> — mais eficiente que o modelo pré-pago (R$0,05/req). Toda a operação de captação é transparente ao cliente final.
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">N8n</span>
+          <span class="arch-tag">Escavador API V2</span>
+          <span class="arch-tag">32 CNPJs</span>
+          <span class="arch-tag">R$0,03/req</span>
+          <span class="arch-tag">Automação contínua</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-card c2 no-break">
+      <div class="arch-num">2</div>
+      <div class="arch-meta">
+        <div class="arch-eyebrow">Armazenamento Seguro</div>
+        <div class="arch-title">Banco de dados próprio SafeJuris — criptografado</div>
+        <div class="arch-body">
+          Todos os dados captados são armazenados em <strong>banco de dados próprio do SafeJuris</strong>, com criptografia de ponta a ponta. Por tratar dados sensíveis — CPF, CNPJ, processos judiciais — a segurança é prioridade máxima da arquitetura. Os dados de cada cliente ficam <strong>completamente segregados</strong>: nenhum contratante acessa informações de outro.
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">Banco próprio SafeJuris</span>
+          <span class="arch-tag">Criptografia ponta a ponta</span>
+          <span class="arch-tag">Dados sensíveis protegidos</span>
+          <span class="arch-tag">Segregação por cliente</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-card c3 no-break">
+      <div class="arch-num">3</div>
+      <div class="arch-meta">
+        <div class="arch-eyebrow">Ambiente do Cliente</div>
+        <div class="arch-title">Portal exclusivo SafeJuris — autonomia total</div>
+        <div class="arch-body">
+          Cada cliente acessa um <strong>ambiente próprio dentro da plataforma SafeJuris</strong>. Por lá, é possível: adicionar novos CPFs/CNPJs a serem monitorados; visualizar andamentos processuais em lista clara e organizada; acessar resumos gerados por IA (disponível nos planos Prata e Diamante); filtrar por tipo de processo, risco e data; e exportar relatórios. O nível de detalhe visível <strong>varia conforme o plano contratado</strong>.
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">Portal exclusivo por cliente</span>
+          <span class="arch-tag">Adicionar CPF/CNPJ</span>
+          <span class="arch-tag">Andamentos em lista</span>
+          <span class="arch-tag">Resumo IA (Prata+)</span>
+          <span class="arch-tag">Exportação</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-card c4 no-break">
+      <div class="arch-num">4</div>
+      <div class="arch-meta">
+        <div class="arch-eyebrow">Integração API · Vertical Monitor</div>
+        <div class="arch-title">Alertas em tempo real e conectividade externa</div>
+        <div class="arch-body">
+          O cliente pode se conectar via <strong>API REST documentada</strong> ao ambiente SafeJuris, extraindo informações e integrando com seus sistemas próprios. Sempre que uma nova informação vinculada a um CPF ou CNPJ monitorado for captada, o sistema dispara um <strong>alerta automático via webhook</strong> — permitindo que o time do contratante reaja sem precisar acessar o portal. Zero infraestrutura extra exigida do cliente.
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">REST API documentada</span>
+          <span class="arch-tag">Webhook em tempo real</span>
+          <span class="arch-tag">Alertas por nova captação</span>
+          <span class="arch-tag">Integração com sistemas do cliente</span>
+          <span class="arch-tag">Zero infra exigida</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-track-divider office">Vertical Office — Módulos para Escritórios</div>
+
+    <div class="arch-card office no-break">
+      <div class="arch-num">5</div>
+      <div class="arch-meta">
+        <div class="arch-eyebrow">Gestão Jurídica · Vertical Office</div>
+        <div class="arch-title">Módulos de gestão para escritórios parceiros</div>
+        <div class="arch-body">
+          O SafeJuris Office entrega ao escritório uma central de controle sobre sua operação processual: <strong>prazos com alertas automáticos de vencimento</strong>, tarefas por processo com atribuição e histórico, e captura automática de publicações do Diário da Justiça vinculadas ao advogado. Casos recebidos via SafeJurisERP chegam já contextualizados — o escritório começa a trabalhar, não a triagear.
+        </div>
+        <div class="arch-tags">
+          <span class="arch-tag">Gestão de prazos processuais</span>
+          <span class="arch-tag">Tarefas por processo</span>
+          <span class="arch-tag">Publicações OAB automáticas</span>
+          <span class="arch-tag">Casos via SafeJurisERP</span>
+          <span class="arch-tag">Painel de execuções</span>
+          <span class="arch-tag">Fee por resultado</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<!-- OPORTUNIDADE -->
+  <div class="eyebrow">O Negócio</div>
+  <h2 class="section-title">Duas alavancas, <span class="hl">um modelo escalável</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    O SafeJuris opera com infraestrutura já contratada e operacional. O custo técnico do MVP FLEX representa uma fração da capacidade disponível — e a Vertical Office abre uma segunda fonte de receita sem custo de infraestrutura adicional. <strong>Escala pelos dois lados ao mesmo tempo.</strong>
+  </p>
+
+  <div class="opp-block">
+    <div class="opp-bar">
+      <div class="opp-bar-label">Utilização da capacidade contratada — Vertical Monitor (R$8.250/mês)</div>
+      <div class="opp-bar-track">
+        <div style="display:flex;height:100%;">
+          <div class="opp-bar-fill used" style="width:25.2%;color:#fff;font-size:9px;padding-right:8px;display:flex;align-items:center;justify-content:flex-end;">
+          </div>
+          <div class="opp-bar-fill gap" style="width:74.8%;color:var(--bg);font-size:9px;padding-right:10px;display:flex;align-items:center;justify-content:flex-end;">
+          </div>
+        </div>
+      </div>
+      <div class="opp-bar-row">
+        <div class="opp-bar-row-item used">
+          <div class="val">R$2.075</div>
+          <div style="font-size:10px;color:var(--text3);">Custo técnico atual — MVP Grupo FLEX</div>
+        </div>
+        <div class="opp-bar-row-item gap">
+          <div class="val">~R$6.175 disponíveis</div>
+          <div style="font-size:10px;color:var(--text3);">Capacidade livre — novos clientes Monitor</div>
+        </div>
+      </div>
+    </div>
+    <div class="opp-insight">
+      <div class="opp-insight-icon">💡</div>
+      <div class="opp-insight-body">
+        <div class="title">Dois motores de receita independentes</div>
+        <p>
+          A <strong>Vertical Monitor</strong> escala com cada novo cliente B2B adicionado — custo marginal mínimo, infraestrutura já paga pelo MVP FLEX. A <strong>Vertical Office</strong> gera receita por resultado: fee vinculado à execução de cumprimento de sentença, sem necessidade de novo contrato de API. São dois modelos de monetização que crescem em paralelo, com o <em>SafeJurisERP</em> como ponte que alimenta escritórios parceiros com casos identificados pelo Monitor — <strong>gerando demanda para a Vertical Office diretamente da Vertical Monitor.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+<!-- PLANOS -->
+  <div class="eyebrow">Modelo de Precificação</div>
+  <h2 class="section-title">Duas trilhas, <span class="hl">um ecossistema</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    Cada vertical tem seu modelo de precificação próprio, desenhado para o perfil do cliente. Empresas pagam mensalidade por capacidade de monitoramento. Escritórios pagam por resultado — fee vinculado à execução. Os dois modelos coexistem e se alimentam.
+  </p>
+
+  <div style="margin-bottom:80px;">
+
+    <div class="planos-track-label monitor">Vertical Monitor — Para Empresas</div>
+    <div class="planos-grid" style="margin-bottom:32px;">
+
+      <!-- BRONZE -->
+      <div class="plano-card bronze no-break">
+        <span class="plano-badge">Bronze</span>
+        <div class="plano-name">Essencial</div>
+        <div class="plano-desc">Para empresas que precisam de visibilidade básica sobre processos críticos da carteira.</div>
+        <div class="plano-price-block">
+          <div class="plano-price">Investimento mensal</div>
+          <div class="plano-price-val">A definir — planilha de custos</div>
+        </div>
+        <ul class="plano-features">
+          <li>Monitoramento mensal por CNPJ/CPF</li>
+          <li>Alertas de busca e apreensão e execução</li>
+          <li>Portal web com visão de processos ativos</li>
+          <li>Relatório mensal consolidado</li>
+          <li>Notificações por e-mail</li>
+          <li>Volume: até 500 clientes monitorados</li>
+          <li>Suporte por e-mail</li>
+        </ul>
+      </div>
+
+      <!-- PRATA -->
+      <div class="plano-card prata no-break">
+        <span class="plano-badge">Prata</span>
+        <div class="plano-name">Profissional</div>
+        <div class="plano-desc">Para operações que precisam de agilidade na resposta e integração via API com seus sistemas.</div>
+        <div class="plano-price-block">
+          <div class="plano-price">Investimento mensal</div>
+          <div class="plano-price-val">A definir — planilha de custos</div>
+        </div>
+        <ul class="plano-features">
+          <li>Tudo do Bronze</li>
+          <li>Monitoramento semanal (maior frequência)</li>
+          <li>Resumo por IA em cada processo detectado</li>
+          <li>Acesso à API de consulta (read-only)</li>
+          <li>Alertas via webhook + e-mail</li>
+          <li>Volume: até 2.000 clientes monitorados</li>
+          <li>Suporte prioritário</li>
+        </ul>
+      </div>
+
+      <!-- DIAMANTE -->
+      <div class="plano-card diamond featured no-break">
+        <span class="plano-featured-tag">MVP 1 · FLEX</span>
+        <span class="plano-badge">Diamante</span>
+        <div class="plano-name">Enterprise</div>
+        <div class="plano-desc">Plataforma completa — API full, SLA dedicado, ERP incluso e integração direta com a plataforma do cliente.</div>
+        <div class="plano-price-block">
+          <div class="plano-price">Investimento mensal</div>
+          <div class="plano-price-val">Contrato enterprise — conforme entregáveis</div>
+        </div>
+        <ul class="plano-features">
+          <li>Tudo do Prata</li>
+          <li>Monitoramento diário de todos os processos</li>
+          <li>API completa — leitura, alertas e webhook em tempo real</li>
+          <li>CPFs/CNPJs ilimitados via portal e API</li>
+          <li>Integração com plataforma existente do cliente</li>
+          <li>Relatórios personalizados e exportáveis</li>
+          <li>SLA dedicado com tempo de resposta garantido</li>
+          <li>Reuniões periódicas de alinhamento</li>
+        </ul>
+        <div class="plano-erp-bonus">
+          <div class="plano-erp-bonus-label">✦ SafeJurisERP incluso</div>
+          <div class="plano-erp-bonus-text">
+            Casos identificados pelo Monitor são roteados automaticamente para escritórios parceiros — <strong>gerando demanda qualificada sem custo adicional.</strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="planos-track-label office">Vertical Office — Para Escritórios Parceiros</div>
+    <div class="plano-office-grid">
+
+      <div class="plano-card office no-break">
+        <span class="plano-featured-tag" style="background:var(--green);color:var(--bg);">MVP 2 · Q&amp;L</span>
+        <span class="plano-badge">Escritório Parceiro</span>
+        <div class="plano-name">Office</div>
+        <div class="plano-desc">Para escritórios que entram na rede SafeJuris como parceiros de resolução — recebem casos, gerenciam pelo Office e pagam por resultado.</div>
+        <div class="plano-price-block">
+          <div class="plano-price">Modelo de receita</div>
+          <div class="plano-price-val" style="color:var(--green);">Fee por execução</div>
+        </div>
+        <ul class="plano-features">
+          <li>Acesso ao SafeJuris Office completo</li>
+          <li>Gestão de prazos processuais com alertas de vencimento</li>
+          <li>Gestão de tarefas por processo — atribuição e histórico</li>
+          <li>Recepção automática de publicações da OAB</li>
+          <li>Recebimento de casos via SafeJurisERP</li>
+          <li>Painel de execuções e cumprimento de sentença</li>
+          <li>Fee sobre resultado — cobrança vinculada à execução</li>
+        </ul>
+      </div>
+
+      <div class="plano-card no-break" style="background:rgba(0,0,0,0.15);border-style:dashed;display:flex;align-items:center;justify-content:center;text-align:center;padding:36px;">
+        <div>
+          <div style="font-size:28px;margin-bottom:12px;">🌐</div>
+          <div style="font-size:15px;font-weight:800;color:var(--white);margin-bottom:8px;">Rede de Parceiros</div>
+          <div style="font-size:12.5px;color:var(--text2);line-height:1.65;max-width:280px;">
+            Cada escritório que entra no Office amplia a capacidade de resolução do ERP. Mais parceiros, mais casos atendidos, mais receita para todas as verticais.
+          </div>
+          <div style="margin-top:16px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);">Expansão prevista — 2026</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- EQUIPE -->
+  <div class="eyebrow">Quem Constrói</div>
+  <h2 class="section-title">Quem está <span class="hl">construindo</span></h2>
+  <div class="section-rule"></div>
+
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar">GM</div>
+      <div class="team-role">Head · Gestão</div>
+      <div class="team-name">Gabriel Miranda</div>
+      <div class="team-desc">Gestão da operação, estratégia comercial e relacionamento B2B</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">PD</div>
+      <div class="team-role">Automação · Dados</div>
+      <div class="team-name">Pedro Dahmer</div>
+      <div class="team-desc">N8n, automação de fluxos, Escavador API, banco de dados de processos</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">NP</div>
+      <div class="team-role">Tech · Backend</div>
+      <div class="team-name">Nicholas Porto</div>
+      <div class="team-desc">API de entrega, infraestrutura técnica, especificação de contratos e segurança</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">D</div>
+      <div class="team-role">Infra · Suporte</div>
+      <div class="team-name">Daniel</div>
+      <div class="team-desc">Suporte e manutenção de infraestrutura — integração com sistemas legados</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar" style="font-size:11px;">V·360</div>
+      <div class="team-role">Estratégia & Produto</div>
+      <div class="team-name">vendo.vc 360</div>
+      <div class="team-desc">Estratégia comercial, design de produto e entregáveis do MVP</div>
+    </div>
+  </div>
+
+<!-- CALENDÁRIO -->
+  <div class="eyebrow">Quando Acontece</div>
+  <h2 class="section-title">Calendário de <span class="hl">entregas</span></h2>
+  <div class="section-rule"></div>
+  <p class="section-intro">
+    Entregas mês a mês para os dois MVPs em paralelo, com responsáveis definidos por entregável.
+  </p>
+
+  <div class="cal-block">
+    <div class="hex-bg"></div>
+    <div class="cal-inner">
+      <div class="cal-months">
+
+        <!-- MAIO -->
+        <div class="cal-month may">
+          <div class="cal-month-header">
+            <span>Maio 2026</span>
+            <span style="font-size:9px;opacity:.7;">Sprint 1</span>
+          </div>
+          <div class="cal-month-body">
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Assinatura contrato Diamante</div>
+                <div class="cal-item-owner">Gabriel Miranda · Ignácio</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Configuração do ambiente + banco de dados segregado</div>
+                <div class="cal-item-owner">Nicholas Porto · Pedro Dahmer</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag ql">Q&amp;L</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Escopo do MVP com Quevedo &amp; Luz</div>
+                <div class="cal-item-owner">Gabriel Miranda · Ignácio</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag both">AMBOS</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Especificação técnica da API (Nicholas Porto)</div>
+                <div class="cal-item-owner">Nicholas Porto</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- JUNHO -->
+        <div class="cal-month jun">
+          <div class="cal-month-header">
+            <span>Junho 2026</span>
+            <span style="font-size:9px;opacity:.7;">Sprint 2</span>
+          </div>
+          <div class="cal-month-body">
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Integração N8n + Escavador — carteira FLEX ativa</div>
+                <div class="cal-item-owner">Pedro Dahmer</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Ativação do portal + treinamento equipe FLEX</div>
+                <div class="cal-item-owner">Gabriel Miranda · Daniel</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag ql">Q&amp;L</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Desenvolvimento do módulo de prazos e tarefas</div>
+                <div class="cal-item-owner">Nicholas Porto · Pedro Dahmer</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag ql">Q&amp;L</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Integração com publicações OAB</div>
+                <div class="cal-item-owner">Pedro Dahmer</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- JULHO -->
+        <div class="cal-month jul">
+          <div class="cal-month-header">
+            <span>Julho 2026</span>
+            <span style="font-size:9px;opacity:.7;">Go-live</span>
+          </div>
+          <div class="cal-month-body">
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Ativação do SafeJurisERP + advogados parceiros</div>
+                <div class="cal-item-owner">Nicholas Porto · Gabriel Miranda</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag flex">FLEX</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Transferência da conta Escavador para SafeJuris</div>
+                <div class="cal-item-owner">Gabriel Miranda</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag ql">Q&amp;L</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Piloto Quevedo &amp; Luz — go-live e coleta de feedback</div>
+                <div class="cal-item-owner">Gabriel Miranda · Squad</div>
+              </div>
+            </div>
+            <div class="cal-divider"></div>
+            <div class="cal-item">
+              <span class="cal-item-tag both">AMBOS</span>
+              <div class="cal-item-body">
+                <div class="cal-item-title">Revisão de métricas + decisão sobre expansão</div>
+                <div class="cal-item-owner">Ignácio · Gabriel Miranda</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<!-- CLOSING -->
+  <div class="closing-block">
+    <div class="hex-bg hex-bg-dense"></div>
+    <div class="closing-block-content">
+      <div class="closing-logo">Safe<span>Juris</span>.io</div>
+      <p class="closing-tagline">
+        Dois MVPs. Dois clientes âncora. Uma plataforma que monitora, alerta e gera resultado.<br>
+        <strong>O SafeJuris começa com a FLEX e Quevedo &amp; Luz — e escala para o mercado.</strong>
+      </p>
+    </div>
+  </div>
+
+<!-- ROADMAP -->
+  <div class="eyebrow">Ação</div>
+  <h2 class="section-title">Próximos <span class="hl">passos</span></h2>
+  <div class="section-rule"></div>
+
+  <div class="roadmap-list">
+    <div class="roadmap-item highlight no-break">
+      <div class="roadmap-num">1</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Aprovação do plano revisado com 2 MVPs</div>
+        <div class="roadmap-sub">Validação do novo escopo com todos os sócios — MVP FLEX (monitoramento) + MVP Quevedo &amp; Luz (gestão de escritório)</div>
+      </div>
+    </div>
+    <div class="roadmap-item no-break">
+      <div class="roadmap-num">2</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Decisão sobre contrato Escavador (piso R$8.250/mês)</div>
+        <div class="roadmap-sub">Renegociar o piso contratual ou usar o lastro para expandir projetos jurídicos — urgente para não pagar além do consumo</div>
+      </div>
+    </div>
+    <div class="roadmap-item no-break">
+      <div class="roadmap-num">3</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Assinatura do contrato Diamante — Grupo FLEX (Maio/2026)</div>
+        <div class="roadmap-sub">Formalização da minuta com SLA, escopo, entregáveis e modelo de faturamento transparente</div>
+      </div>
+    </div>
+    <div class="roadmap-item no-break">
+      <div class="roadmap-num">4</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Escopo do MVP Quevedo &amp; Luz — acordo comercial (Maio/2026)</div>
+        <div class="roadmap-sub">Definir funcionalidades, modelo de fee por resultado e prazo de entrega do piloto</div>
+      </div>
+    </div>
+    <div class="roadmap-item no-break">
+      <div class="roadmap-num">5</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Nicholas Porto inicia especificação técnica da API</div>
+        <div class="roadmap-sub">Backend, endpoints e infraestrutura — base técnica compartilhada pelos dois MVPs</div>
+      </div>
+    </div>
+    <div class="roadmap-item no-break">
+      <div class="roadmap-num">6</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Aprovação do modelo de precificação — Marcos Bersagui</div>
+        <div class="roadmap-sub">Planilha de custos (Gabriel Miranda) + modelo de precificação dos dois MVPs para validação final</div>
+      </div>
+    </div>
+    <div class="roadmap-item milestone no-break">
+      <div class="roadmap-num">🚀</div>
+      <div class="roadmap-body">
+        <div class="roadmap-title">Julho 2026 — dois MVPs ao vivo</div>
+        <div class="roadmap-sub">FLEX monitorando em tempo real + Quevedo &amp; Luz gerenciando prazos e publicações. SafeJuris operando nas duas verticais.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-logo">Safe<span>Juris</span>.io</div>
+  <div class="footer-sub">Plano de Negócios · Documento Interno · Abril 2026</div>
+</footer>
+
+</div><!-- #pdf-root -->
+
+<button class="btn-download" id="btnDownload" onclick="downloadPDF()">
+  <svg class="btn-icon" width="18" height="18" viewBox="0 0 18 18" fill="none">
+    <path d="M9 2v10M5 8l4 4 4-4M3 15h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="spinner"></span>
+  <span class="btn-label">Exportar PDF</span>
+</button>
+
+<script>
+  async function downloadPDF() {
+    const btn = document.getElementById('btnDownload');
+    btn.classList.add('loading');
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9998;display:flex;align-items:center;justify-content:center;';
+    overlay.innerHTML = '<div style="background:#0b1929;border:1px solid rgba(0,201,255,0.3);border-radius:16px;padding:32px 40px;text-align:center;font-family:Poppins,sans-serif;"><div style="font-size:14px;font-weight:700;color:#00c9ff;margin-bottom:8px;">Gerando PDF...</div><div style="font-size:12px;color:rgba(255,255,255,0.4);">Aguarde alguns instantes</div></div>';
+    document.body.appendChild(overlay);
+    document.body.classList.add('pdf-generating');
+    document.documentElement.style.maxWidth = '794px';
+    document.documentElement.style.overflow = 'visible';
+    const root = document.getElementById('pdf-root');
+    const opt = {
+      margin: 0,
+      filename: 'safejuris-plano-de-negocios-2026.pdf',
+      image: { type: 'jpeg', quality: 0.97 },
+      html2canvas: { scale: 2, useCORS: true, logging: false, width: 794, windowWidth: 794 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: {
+        mode: ['css'],
+        avoid: ['.stat-card', '.plano-card', '.arch-card', '.problem-item', '.roadmap-item', '.team-card', '.erp-step', '.mvp-step', '.mvp-cost-card', '.no-break']
+      }
+    };
+    try {
+      await html2pdf().set(opt).from(root).save();
+    } catch(e) { console.error(e); }
+    finally {
+      document.body.classList.remove('pdf-generating');
+      document.documentElement.style.maxWidth = '';
+      document.documentElement.style.overflow = '';
+      overlay.remove();
+      btn.classList.remove('loading');
+    }
+  }
+</script>
+</body>
+</html>
