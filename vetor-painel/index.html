@@ -1054,16 +1054,15 @@ function renderInputsGrid(){
         <span class="tt" data-tip="${f.tip}">?</span>
       </div>
       <div class="inp-row">
-        <input class="inp-field${f.locked?' locked':''}" id="f_${f.id}" type="text"
+        <input class="inp-field" id="f_${f.id}" type="text"
           oninput="mascaraMoeda(this);frChanged('${f.id}')"
-          ${f.locked?'readonly':''}
           placeholder="R$ 0,00">
       </div>
       <div class="inp-bar"><div class="inp-bar-fill" id="ib_${f.id}" style="background:${colorMap[f.color]||'var(--brand)'};width:0%"></div></div>
       <div class="inp-meta"><span id="ip_${f.id}">0%</span><span id="im_${f.id}">meta ${fmtK(f.meta)}</span></div>
     </div>
   `).join('');
-  FRENTES.forEach(f=>{ if(f.locked) f.realizado=f.meta; set('f_'+f.id, f.realizado); });
+  FRENTES.forEach(f=>{ set('f_'+f.id, f.realizado); });
 }
 
 function renderFrentesGrid(){
@@ -1160,7 +1159,6 @@ function atualizarDisplayMetas(){
 }
 
 function calcular(){
-  FRENTES.forEach(f=>{ if(f.locked) f.realizado=f.meta; });
   const total=FRENTES.reduce((s,f)=>s+f.realizado,0);
   const MT=metaTotal();const restante=Math.max(0,MT-total);const p=pct(total,MT);
   const offset=CIRCUM*(1-p/100);
