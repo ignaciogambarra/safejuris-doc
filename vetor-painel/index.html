@@ -1414,15 +1414,18 @@ function fecharModal(){
   document.getElementById('modal').classList.add('hidden');
   localStorage.setItem('vetor_modal_seen','1');
 }
+let _counterFrame=null;
 function animCounter(id,target,dur){
   const el=document.getElementById(id);if(!el)return;
+  if(_counterFrame){cancelAnimationFrame(_counterFrame);_counterFrame=null;}
   const start=parseFloat((el.textContent||'').replace(/[^0-9]/g,''))||0;
+  if(Math.abs(start-target)<1){el.textContent=fmt(target);return;}
   const step=(target-start)/(dur/16);let cur=start;
   const tick=()=>{
     cur+=step;
-    if((step>0&&cur>=target)||(step<0&&cur<=target)){el.textContent=fmt(target);return;}
-    el.textContent=fmt(Math.round(cur));requestAnimationFrame(tick);
-  };requestAnimationFrame(tick);
+    if((step>0&&cur>=target)||(step<0&&cur<=target)){el.textContent=fmt(target);_counterFrame=null;return;}
+    el.textContent=fmt(Math.round(cur));_counterFrame=requestAnimationFrame(tick);
+  };_counterFrame=requestAnimationFrame(tick);
 }
 
 let confettiRunning=false;
