@@ -1233,10 +1233,10 @@ async function salvar(){
     const f=FRENTES.find(f=>f.id===id);if(f)legacy[id]=f.realizado;
   });
 
-  // 3) Tenta salvar com data_json (se a coluna existir), senão usa só legado
-  let {error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy,data_json:{frentes:FRENTES}},{onConflict:'id'});
+  // 3) Salva via UPDATE (RLS permite update, não insert)
+  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES}}).eq('id',1);
   if(error?.code==='42703'||error?.message?.includes('data_json')){
-    ({error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy},{onConflict:'id'}));
+    ({error}=await sb.from('vetor_painel_maio26').update({...legacy}).eq('id',1));
   }
 
   if(error){
