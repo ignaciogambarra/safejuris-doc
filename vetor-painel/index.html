@@ -1038,8 +1038,7 @@ function renderMetasGrid(){
     <div class="meta-group">
       <div class="meta-group-label">${f.label}</div>
       <input class="meta-field" id="m_${f.id}" type="text"
-        oninput="metaChanged('${f.id}',this)"
-        ${f.locked?'readonly style="opacity:.5;cursor:default"':''}>
+        oninput="metaChanged('${f.id}',this)">
     </div>
   `).join('');
   FRENTES.forEach(f=>set('m_'+f.id, f.meta));
