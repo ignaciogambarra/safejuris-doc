@@ -1171,19 +1171,43 @@ function atualizarFrente(id,v,meta){
   if(fs&&!FRENTES.find(f=>f.id===id)?.locked){fs.className='fcard-status '+statusClass(p);fs.textContent=statusLabel(p);}
 }
 
+// ── LOCAL STORAGE ──
+const LS_KEY = 'vetor_frentes_maio26_v1';
+function salvarLocal(){
+  try{localStorage.setItem(LS_KEY, JSON.stringify(FRENTES));}catch(e){}
+}
+function carregarLocal(){
+  try{
+    const s=localStorage.getItem(LS_KEY);
+    if(s){const f=JSON.parse(s);if(f?.length) FRENTES=f;}
+  }catch(e){}
+}
+
 // ── SALVAR ──
 function salvarDebounced(){clearTimeout(_saveTimer);_saveTimer=setTimeout(()=>salvar(),800);}
 
+let _broadcastCh = null;
 async function salvar(){
   setStatus('⏳ Salvando...','saving');
+  salvarLocal();
+
+  // 1) Broadcast full state para todos que estão com o link aberto agora
+  if(_broadcastCh){
+    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES}});
+  }
+
+  // 2) Persistir realizado dos 5 campos legados no Supabase
   const legacy={updated_at:new Date().toISOString()};
   ['recorrente','novas','base','inad','exames'].forEach(id=>{
     const f=FRENTES.find(f=>f.id===id);if(f)legacy[id]=f.realizado;
   });
+
+  // 3) Tenta salvar com data_json (se a coluna existir), senão usa só legado
   let {error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy,data_json:{frentes:FRENTES}},{onConflict:'id'});
   if(error?.code==='42703'||error?.message?.includes('data_json')){
     ({error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy},{onConflict:'id'}));
   }
+
   if(error){
     setStatus('⚠ Erro ao salvar','err');
     console.error('Supabase save error:',error);
@@ -1196,15 +1220,18 @@ async function salvar(){
 
 // ── CARREGAR ──
 async function carregar(){
+  // Prioridade: Supabase data_json > Supabase legado > localStorage
   const {data,error}=await sb.from('vetor_painel_maio26').select('*').eq('id',1).single();
-  if(error||!data)return;
-  if(data.data_json?.frentes?.length){
-    FRENTES=data.data_json.frentes;
-  } else {
-    ['recorrente','novas','base','inad','exames'].forEach(id=>{
-      const f=FRENTES.find(f=>f.id===id);
-      if(f&&data[id]!=null) f.realizado=data[id];
-    });
+  if(!error&&data){
+    if(data.data_json?.frentes?.length){
+      FRENTES=data.data_json.frentes;
+    } else {
+      // Aplica realizados do Supabase nas frentes base (localStorage já foi carregado antes)
+      ['recorrente','novas','base','inad','exames'].forEach(id=>{
+        const f=FRENTES.find(f=>f.id===id);
+        if(f&&data[id]!=null) f.realizado=data[id];
+      });
+    }
   }
   renderAll();
   calcular();
@@ -1212,24 +1239,33 @@ async function carregar(){
 
 // ── REALTIME ──
 function iniciarRealtime(){
-  sb.channel('vetor-painel')
+  // Canal broadcast — sync full state entre sessões abertas agora
+  _broadcastCh = sb.channel('vetor-broadcast');
+  _broadcastCh
+    .on('broadcast',{event:'state'},(msg)=>{
+      if(!msg.payload?.frentes?.length) return;
+      _syncAtivo=true;
+      FRENTES=msg.payload.frentes;
+      renderAll();calcular();
+      _syncAtivo=false;
+      setStatus('↻ Atualizado por outro usuário','ok');
+      setTimeout(()=>setStatus('— sincronizado','idle'),3000);
+    })
+    .subscribe();
+
+  // Canal postgres_changes — fallback para realizados base
+  sb.channel('vetor-db')
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'vetor_painel_maio26'},
       (payload)=>{
-        const d=payload.new;_syncAtivo=true;
-        if(d.data_json?.frentes?.length){
-          FRENTES=d.data_json.frentes;
-          renderAll();calcular();
-        } else {
-          ['recorrente','novas','base','inad','exames'].forEach(id=>{
-            const f=FRENTES.find(f=>f.id===id);
-            const foco=document.activeElement?.id;
-            if(f&&d[id]!=null&&foco!=='f_'+id){f.realizado=d[id];set('f_'+id,f.realizado);}
-          });
-          calcular();
-        }
-        _syncAtivo=false;
-        setStatus('↻ Atualizado por outro usuário','ok');
-        setTimeout(()=>setStatus('— sincronizado','idle'),3000);
+        const d=payload.new;
+        if(d.data_json?.frentes?.length) return; // broadcast já cuida disso
+        _syncAtivo=true;
+        ['recorrente','novas','base','inad','exames'].forEach(id=>{
+          const f=FRENTES.find(f=>f.id===id);
+          const foco=document.activeElement?.id;
+          if(f&&d[id]!=null&&foco!=='f_'+id){f.realizado=d[id];set('f_'+id,f.realizado);}
+        });
+        calcular();_syncAtivo=false;
       })
     .subscribe();
 }
@@ -1366,11 +1402,12 @@ window.addEventListener('DOMContentLoaded',async()=>{
   if(!localStorage.getItem('vetor_modal_seen')){
     document.getElementById('modal').classList.remove('hidden');
   }
+  carregarLocal();  // aplica frentes salvas localmente (custom frentes, metas editadas)
   renderAll();
+  iniciarRealtime(); // inicia canais antes do carregar para não perder broadcasts
   try{ await carregar(); }catch(e){console.warn('Carregar falhou:',e);}
   calcular();
   destacarSemana();
-  iniciarRealtime();
 });
 </script>
 </body>
