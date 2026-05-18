@@ -330,6 +330,11 @@ input[type=number]{-moz-appearance:textfield}
 .fcard-remove:hover{background:var(--red);color:white}
 .edit-mode .fcard:not(.locked) .fcard-remove{display:flex}
 
+/* ── FCARD EDIT ── */
+.fcard-edit{position:absolute;top:8px;right:34px;width:20px;height:20px;border-radius:50%;background:#e0f2fe;color:#0369a1;border:none;cursor:pointer;font-size:10px;display:none;align-items:center;justify-content:center;font-weight:700;line-height:1;transition:all .15s;z-index:2}
+.fcard-edit:hover{background:#0369a1;color:white}
+.edit-mode .fcard:not(.locked) .fcard-edit{display:flex}
+
 /* ── FCARD ADD ── */
 .fcard-add{background:var(--bg);border:2px dashed var(--border);border-radius:12px;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;min-height:120px;transition:all .2s;color:var(--ink-soft);font-size:12px;font-weight:600;padding:20px;text-align:center}
 .fcard-add:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-light)}
@@ -457,6 +462,30 @@ input[type=number]{-moz-appearance:textfield}
     <div class="mnf-btns">
       <button class="mnf-btn-cancel" onclick="fecharModalNovaFrente()">Cancelar</button>
       <button class="mnf-btn-ok" onclick="confirmarNovaFrente()">Adicionar frente</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR FRENTE -->
+<div class="mnf-overlay hidden" id="modal-editar-frente">
+  <div class="mnf-box">
+    <div class="mnf-title">✏ Editar frente</div>
+    <input type="hidden" id="mef-id">
+    <label class="mnf-label">Nome</label>
+    <input class="mnf-input" id="mef-nome" type="text" maxlength="40" placeholder="Ex: Parcerias">
+    <label class="mnf-label">Emoji / ícone</label>
+    <input class="mnf-input" id="mef-icon" type="text" maxlength="4" placeholder="📌" style="width:80px;text-align:center;font-size:20px">
+    <label class="mnf-label">Cor</label>
+    <div class="mnf-colors">
+      <div class="mnf-color" data-cor="blue"   style="background:var(--brand)"  onclick="selecionarCorEdit(this)"></div>
+      <div class="mnf-color" data-cor="green"  style="background:var(--green)"  onclick="selecionarCorEdit(this)"></div>
+      <div class="mnf-color" data-cor="orange" style="background:var(--orange)" onclick="selecionarCorEdit(this)"></div>
+      <div class="mnf-color" data-cor="purple" style="background:var(--purple)" onclick="selecionarCorEdit(this)"></div>
+      <div class="mnf-color" data-cor="teal"   style="background:var(--teal)"   onclick="selecionarCorEdit(this)"></div>
+    </div>
+    <div class="mnf-btns">
+      <button class="mnf-btn-cancel" onclick="fecharModalEditarFrente()">Cancelar</button>
+      <button class="mnf-btn-ok" onclick="confirmarEditarFrente()">Salvar alterações</button>
     </div>
   </div>
 </div>
@@ -954,6 +983,7 @@ let _syncAtivo = false;
 let _saveTimer  = null;
 let _modoEdicao = false;
 let _novaCor    = 'blue';
+let _editarCor  = 'blue';
 
 // ── MÁSCARA MOEDA ──
 function mascaraMoeda(el){
@@ -1044,6 +1074,7 @@ function renderFrentesGrid(){
   const cards=FRENTES.map(f=>`
     <div class="fcard ${f.color}${f.locked?' locked':''}" onclick="${clickMap[f.id]||"abrirAcc('acc-"+f.id+"')"}">
       <div class="fcard-accent"></div>
+      ${!f.locked?`<button class="fcard-edit" onclick="event.stopPropagation();abrirModalEditarFrente('${f.id}')" title="Editar frente">✏</button>`:''}
       ${!f.locked?`<button class="fcard-remove" onclick="event.stopPropagation();confirmarRemover('${f.id}')" title="Remover frente">×</button>`:''}
       <span class="fcard-icon">${f.icon}</span>
       <div class="fcard-label">${f.label}</div>
@@ -1302,6 +1333,33 @@ function confirmarRemover(id){
   if(!f||f.locked)return;
   if(!confirm('Remover a frente "'+f.label+'"? Os dados serão perdidos.'))return;
   FRENTES=FRENTES.filter(f=>f.id!==id);
+  renderAll();calcular();salvar();
+}
+
+function abrirModalEditarFrente(id){
+  const f=FRENTES.find(f=>f.id===id);if(!f||f.locked)return;
+  document.getElementById('modal-editar-frente').classList.remove('hidden');
+  document.getElementById('mef-id').value=id;
+  document.getElementById('mef-nome').value=f.label;
+  document.getElementById('mef-icon').value=f.icon;
+  _editarCor=f.color;
+  document.querySelectorAll('#modal-editar-frente .mnf-color').forEach(el=>el.classList.toggle('sel',el.dataset.cor===f.color));
+  setTimeout(()=>document.getElementById('mef-nome').focus(),50);
+}
+function fecharModalEditarFrente(){document.getElementById('modal-editar-frente').classList.add('hidden');}
+function selecionarCorEdit(el){
+  _editarCor=el.dataset.cor;
+  document.querySelectorAll('#modal-editar-frente .mnf-color').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function confirmarEditarFrente(){
+  const id=document.getElementById('mef-id').value;
+  const nome=document.getElementById('mef-nome').value.trim();
+  const icon=(document.getElementById('mef-icon').value.trim()||'📌');
+  if(!nome){document.getElementById('mef-nome').focus();return;}
+  const f=FRENTES.find(f=>f.id===id);if(!f)return;
+  f.label=nome;f.icon=icon;f.color=_editarCor;
+  fecharModalEditarFrente();
   renderAll();calcular();salvar();
 }
 
