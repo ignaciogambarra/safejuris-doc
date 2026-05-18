@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Painel de Metas — Maio 2026 | Vetor SST</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Albert+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:        #092737;
+  --navy-mid:    #1D212D;
+  --brand:       #FECD20;
+  --brand-light: #FFF8DC;
+  --brand-dark:  #E6B800;
+  --orange:      #ea580c;
+  --orange-l:    #fff7ed;
+  --green:       #059669;
+  --green-l:     #ecfdf5;
+  --teal:        #0d9488;
+  --teal-l:      #f0fdfa;
+  --purple:      #7c3aed;
+  --purple-l:    #f5f3ff;
+  --red:         #dc2626;
+  --red-l:       #fef2f2;
+  --yellow:      #d97706;
+  --yellow-l:    #fffbeb;
+  --ink:         #092737;
+  --ink-mid:     #374151;
+  --ink-soft:    #6B7280;
+  --border:      #e2e8f0;
+  --bg:          #F1F3F5;
+  --white:       #ffffff;
+  --r:           12px;
+  --r-sm:        8px;
+  --r-lg:        16px;
+  --sh:          0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.06);
+  --sh-md:       0 4px 24px rgba(0,0,0,.09);
+  --sh-lg:       0 12px 48px rgba(0,0,0,.14);
+  --font:        'Cabin',system-ui,sans-serif;
+  --font-head:   'Albert Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,15,30,.8);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-overlay.hidden{display:none}
+.modal{background:var(--white);border-radius:20px;max-width:520px;width:100%;box-shadow:var(--sh-lg);overflow:hidden}
+.modal-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);padding:32px 36px 28px;color:white}
+.modal-header h2{font-size:20px;font-weight:800;letter-spacing:-.3px;font-family:var(--font-head)}
+.modal-header p{font-size:13px;opacity:.6;margin-top:5px}
+.modal-steps{padding:28px 36px}
+.modal-step{display:flex;gap:16px;margin-bottom:22px;align-items:flex-start}
+.modal-step:last-child{margin-bottom:0}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--brand-light);color:var(--navy);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid var(--brand-dark)}
+.step-text strong{display:block;font-size:14px;color:var(--ink);margin-bottom:3px;font-weight:700}
+.step-text span{font-size:12px;color:var(--ink-soft);line-height:1.55}
+.modal-footer{padding:0 36px 32px}
+.modal-btn{width:100%;background:var(--brand);color:white;border:none;border-radius:10px;padding:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.2px}
+.modal-btn:hover{background:var(--brand-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(9,39,55,.25)}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 40px}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo .mark{width:30px;height:30px;background:var(--navy);border-radius:7px;display:flex;align-items:center;justify-content:center}
+.nav-logo .mark svg{width:14px;height:14px;fill:white}
+.nav-logo span{font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.nav-links{display:flex;gap:2px}
+.nav-link{font-size:12px;font-weight:600;color:var(--ink-soft);padding:7px 14px;border-radius:8px;text-decoration:none;transition:all .15s;cursor:pointer}
+.nav-link:hover{background:var(--brand-light);color:var(--brand)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.nav-updated{font-size:11px;color:var(--ink-soft)}
+.nav-print{font-size:11px;font-weight:600;color:var(--ink-mid);cursor:pointer;padding:6px 12px;border:1px solid var(--border);border-radius:8px;background:var(--white);transition:all .15s}
+.nav-print:hover{background:var(--bg);border-color:var(--brand);color:var(--brand)}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0d3347 60%,#092737 100%);padding:52px 40px 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-80px;width:360px;height:360px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.03);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--brand);border:1px solid var(--brand-dark);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:16px}
+.hero-title{font-size:32px;font-weight:800;color:white;letter-spacing:-.4px;line-height:1.15;margin-bottom:10px;font-family:var(--font-head)}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.5);font-weight:400;line-height:1.6}
+.hero-right{text-align:right;padding-bottom:4px}
+.hero-meta-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.45);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px}
+.hero-goal{font-size:56px;font-weight:900;color:var(--brand);letter-spacing:-2px;line-height:1;font-family:var(--font-head)}
+.hero-goal-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:8px}
+
+/* ── ALERT STRIP ── */
+.alert-strip{background:var(--brand);border-bottom:2px solid var(--brand-dark);padding:11px 40px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;color:var(--navy);font-weight:600}
+.alert-strip strong{font-weight:800;color:var(--navy)}
+
+/* ── CONTAINER ── */
+.container{max-width:1200px;margin:0 auto;padding:40px 24px 80px}
+
+/* ── SECTION HEAD ── */
+.shead{display:flex;align-items:center;gap:14px;margin-bottom:24px;margin-top:52px}
+.shead:first-child{margin-top:0}
+.shead-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.shead-text{flex-shrink:0}
+.shead-text h2{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.2px;font-family:var(--font-head)}
+.shead-text p{font-size:11px;color:var(--ink-soft);margin-top:1px}
+.shead-line{flex:1;height:1px;background:var(--border)}
+.shead.blue   .shead-icon{background:var(--brand-light);color:var(--brand)}
+.shead.green  .shead-icon{background:var(--green-l);color:var(--green)}
+.shead.slate  .shead-icon{background:#f1f5f9;color:var(--ink-mid)}
+.shead.red    .shead-icon{background:var(--red-l);color:var(--red)}
+.shead.amber  .shead-icon{background:var(--yellow-l);color:var(--yellow)}
+
+/* ── PAINEL ── */
+.painel{background:var(--white);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden;margin-bottom:20px}
+.painel-top{padding:40px 40px 32px;display:grid;grid-template-columns:auto 1fr;gap:56px;align-items:center}
+@media(max-width:700px){.painel-top{grid-template-columns:1fr;text-align:center;gap:32px}}
+
+/* RING */
+.ring-wrap{position:relative;width:196px;height:196px;flex-shrink:0}
+@media(max-width:700px){.ring-wrap{margin:0 auto}}
+.ring-svg{width:196px;height:196px;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:#f1f5f9;stroke-width:14}
+.ring-fill{fill:none;stroke-width:14;stroke-linecap:round;transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1),stroke .5s}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-pct{font-size:34px;font-weight:900;color:var(--ink);line-height:1;letter-spacing:-1px;font-family:var(--font-head)}
+.ring-pct-label{font-size:10px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px;margin-top:4px}
+
+/* PAINEL RIGHT */
+.painel-kicker{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.painel-valor{font-size:44px;font-weight:900;color:var(--ink);letter-spacing:-1.5px;line-height:1;font-family:var(--font-head)}
+.painel-valor em{font-size:16px;font-weight:500;color:var(--ink-soft);margin-left:10px;font-style:normal;letter-spacing:0}
+.painel-msg{font-size:14px;color:var(--ink-mid);margin-top:10px;line-height:1.65;font-weight:400}
+.painel-pace{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.pace-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 18px;font-size:11px;color:var(--ink-soft);min-width:148px}
+.pace-card strong{display:block;font-size:16px;font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:1px;letter-spacing:-.4px}
+.pace-card.good{background:var(--green-l);border-color:#a7f3d0}
+.pace-card.good strong{color:var(--green)}
+.pace-card.bad{background:var(--red-l);border-color:#fecaca}
+.pace-card.bad strong{color:var(--red)}
+
+/* INPUTS */
+.inputs-strip{background:var(--bg);border-top:1px solid var(--border);padding:14px 28px 0;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft)}
+.inputs-strip{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.metas-toggle{background:transparent;border:1px solid rgba(9,39,55,.25);color:var(--navy);font-size:11px;font-weight:700;padding:5px 13px;border-radius:6px;cursor:pointer;font-family:var(--font);transition:all .2s;white-space:nowrap;flex-shrink:0}
+.metas-toggle:hover{background:var(--navy);color:var(--brand)}
+.metas-edit{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease;background:var(--navy)}
+.metas-edit.open{max-height:200px;padding:18px 28px 20px}
+.metas-edit-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px}
+.metas-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.meta-group{display:flex;flex-direction:column;gap:5px}
+.meta-group-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.4px;text-transform:uppercase}
+.meta-field{display:block;width:100%;height:36px;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:0 10px;font-family:var(--font);font-size:13px;font-weight:700;color:var(--white);outline:none;transition:all .2s;text-align:center;background:rgba(255,255,255,.08);box-sizing:border-box}
+.meta-field:focus{border-color:var(--brand);background:rgba(254,205,32,.1);color:var(--brand)}
+.inputs-grid{background:var(--bg);padding:16px 28px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.inp-group{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px 18px 14px}
+.inp-label{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--ink-soft);margin-bottom:10px}
+.inp-label-text{flex:1;min-width:0}
+.inp-label .tt{width:15px;height:15px;border-radius:50%;background:var(--border);color:var(--ink-soft);font-size:8px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:help;position:relative;flex-shrink:0}
+.inp-label .tt:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);color:white;font-size:11px;font-weight:400;letter-spacing:0;text-transform:none;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:99;pointer-events:none;max-width:240px;white-space:normal;text-align:left;box-shadow:var(--sh-md)}
+.inp-row{display:block}
+.inp-field{display:block;width:100%;height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:15px;font-weight:700;color:var(--ink);outline:none;transition:all .2s;text-align:center;background:var(--white);box-sizing:border-box}
+.inp-field:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.inp-field.locked{background:#f0fdfa;border-color:rgba(13,148,136,.35);color:var(--teal);cursor:default}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+.inp-meta{font-size:10px;color:var(--ink-soft);margin-top:5px;display:flex;justify-content:space-between}
+.inp-bar{height:3px;background:var(--border);border-radius:99px;margin-top:7px;overflow:hidden}
+.inp-bar-fill{height:100%;border-radius:99px;transition:width .5s ease}
+
+/* MRR */
+.mrr-row{display:grid;grid-template-columns:1fr 1fr 2fr;gap:16px;margin-bottom:0}
+@media(max-width:700px){.mrr-row{grid-template-columns:1fr 1fr}.mrr-insight{grid-column:span 2}}
+.mrr-stat{border-radius:12px;padding:22px 24px;text-align:center}
+.mrr-stat.good{background:var(--teal-l);border:1px solid rgba(13,148,136,.18)}
+.mrr-stat.bad{background:var(--red-l);border:1px solid rgba(220,38,38,.15)}
+.mrr-num{font-size:42px;font-weight:900;line-height:1;letter-spacing:-1px}
+.mrr-stat.good .mrr-num{color:var(--teal)}
+.mrr-stat.bad  .mrr-num{color:var(--red)}
+.mrr-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:6px}
+.mrr-stat.good .mrr-lbl{color:#0f766e}
+.mrr-stat.bad  .mrr-lbl{color:#991b1b}
+.mrr-sub{font-size:11px;color:var(--ink-soft);margin-top:4px}
+.mrr-insight{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:12px;padding:22px 24px}
+.mrr-insight-title{font-size:10px;font-weight:800;color:#92400e;margin-bottom:8px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.7px}
+.mrr-insight p{font-size:13px;color:#92400e;line-height:1.75}
+.mrr-insight em{font-style:normal;font-weight:700;color:#78350f}
+
+/* FRENTES CARDS */
+.frentes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}
+.fcard{background:var(--white);border-radius:12px;box-shadow:var(--sh);padding:20px;cursor:pointer;transition:all .2s;border:1px solid var(--border);position:relative;overflow:hidden}
+.fcard:hover{box-shadow:var(--sh-md);transform:translateY(-2px);border-color:transparent}
+.fcard-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.fcard.blue   .fcard-accent{background:var(--brand)}
+.fcard.green  .fcard-accent{background:var(--green)}
+.fcard.orange .fcard-accent{background:var(--orange)}
+.fcard.purple .fcard-accent{background:var(--purple)}
+.fcard.teal   .fcard-accent{background:var(--teal)}
+.fcard-icon{font-size:20px;margin-bottom:12px;margin-top:4px;display:block}
+.fcard-label{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.fcard-val{font-size:20px;font-weight:900;color:var(--ink);line-height:1;margin-bottom:10px;letter-spacing:-.5px}
+.fcard-bar{height:3px;background:var(--bg);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.fcard-bar-fill{height:100%;border-radius:99px;transition:width .6s ease}
+.fcard.blue   .fcard-bar-fill{background:var(--brand)}
+.fcard.green  .fcard-bar-fill{background:var(--green)}
+.fcard.orange .fcard-bar-fill{background:var(--orange)}
+.fcard.purple .fcard-bar-fill{background:var(--purple)}
+.fcard.teal   .fcard-bar-fill{background:var(--teal)}
+.fcard-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px}
+.status-critico  {background:#fee2e2;color:var(--red)}
+.status-atencao  {background:var(--yellow-l);color:var(--yellow)}
+.status-ritmo    {background:var(--brand-light);color:var(--brand)}
+.status-batido   {background:var(--green-l);color:var(--green)}
+.status-garantido{background:var(--teal-l);color:var(--teal)}
+
+/* ACCORDION */
+.frentes-acc{margin-bottom:0;display:flex;flex-direction:column;gap:8px}
+.acc-item{background:var(--white);border-radius:12px;box-shadow:var(--sh);overflow:hidden;border:1px solid var(--border);transition:box-shadow .2s,border-color .2s}
+.acc-item.open{box-shadow:var(--sh-md);border-color:transparent}
+.acc-header{padding:18px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background .15s}
+.acc-header:hover{background:#fafbfc}
+.acc-header-left{display:flex;align-items:center;gap:14px}
+.acc-stripe{width:4px;height:36px;border-radius:4px;flex-shrink:0}
+.acc-item.blue   .acc-stripe{background:var(--brand)}
+.acc-item.green  .acc-stripe{background:var(--green)}
+.acc-item.orange .acc-stripe{background:var(--orange)}
+.acc-item.purple .acc-stripe{background:var(--purple)}
+.acc-item.teal   .acc-stripe{background:var(--teal)}
+.acc-title{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
+.acc-subtitle{font-size:11px;color:var(--ink-soft);margin-top:2px}
+.acc-right{display:flex;align-items:center;gap:10px}
+.acc-badge{font-size:13px;font-weight:800;padding:5px 14px;border-radius:8px;letter-spacing:-.3px}
+.acc-item.blue   .acc-badge{background:var(--brand-light);color:var(--brand)}
+.acc-item.green  .acc-badge{background:var(--green-l);color:var(--green)}
+.acc-item.orange .acc-badge{background:var(--orange-l);color:var(--orange)}
+.acc-item.purple .acc-badge{background:var(--purple-l);color:var(--purple)}
+.acc-item.teal   .acc-badge{background:var(--teal-l);color:var(--teal)}
+.acc-chevron{width:22px;height:22px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--ink-soft);transition:transform .25s,background .2s,color .2s;flex-shrink:0}
+.acc-item.open .acc-chevron{transform:rotate(180deg);background:var(--brand-light);color:var(--brand)}
+.acc-body{display:none;padding:20px 24px 28px;border-top:1px solid var(--border)}
+.acc-item.open .acc-body{display:block}
+.acc-insight{background:var(--brand-light);border-left:3px solid var(--brand);border-radius:0 8px 8px 0;padding:14px 18px;font-size:13px;color:var(--navy);margin-bottom:20px;line-height:1.75}
+.acc-insight strong{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;opacity:.6}
+.acc-alert{background:var(--red-l);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:14px 18px;font-size:13px;color:#991b1b;margin-top:16px;line-height:1.75}
+.acc-alert strong{display:block;margin-bottom:4px;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.7px}
+.act-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);margin:16px 0 12px}
+.act-list{list-style:none}
+.act-item{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid rgba(226,232,240,.7);align-items:flex-start}
+.act-item:last-child{border-bottom:none}
+.act-check{width:20px;height:20px;border:1.5px solid var(--border);border-radius:6px;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .15s;background:var(--white)}
+.act-check:hover{border-color:var(--green);background:var(--green-l)}
+.act-check.done{background:var(--green);border-color:var(--green);color:white}
+.act-text{font-size:13px;color:var(--ink-mid);line-height:1.5;flex:1}
+.act-text.done{text-decoration:line-through;color:var(--border)}
+.act-tags{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}
+.tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:.3px}
+.t-urgente{background:#fee2e2;color:var(--red)}
+.t-hoje   {background:var(--yellow-l);color:var(--yellow)}
+.t-s1     {background:var(--brand-light);color:var(--brand)}
+.t-s2     {background:var(--purple-l);color:var(--purple)}
+.t-leo    {background:#e0f2fe;color:#0369a1}
+.t-debora {background:#fce7f3;color:#be185d}
+.t-time   {background:var(--green-l);color:var(--green)}
+
+/* SPRINT */
+.sprint-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.sw{background:var(--white);border-radius:12px;box-shadow:var(--sh);overflow:hidden;border:1px solid var(--border);transition:all .2s}
+.sw.current{box-shadow:0 0 0 2px var(--brand),var(--sh-md);border-color:var(--brand)}
+.sw-head{padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.sw.w0 .sw-head{background:#475569}
+.sw.w1 .sw-head{background:var(--brand)}
+.sw.w2 .sw-head{background:var(--purple)}
+.sw.w3 .sw-head{background:var(--green)}
+.sw.wf .sw-head{background:var(--navy)}
+.sw-head-title{font-size:12px;font-weight:700;color:white;letter-spacing:-.1px}
+.sw-badge{font-size:9px;background:rgba(255,255,255,.18);color:white;padding:3px 9px;border-radius:99px;font-weight:700;letter-spacing:.4px}
+.sw-body{padding:16px 20px}
+.sw-item{font-size:12px;color:var(--ink-mid);padding:6px 0;border-bottom:1px solid rgba(226,232,240,.6);display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.sw-item:last-child{border-bottom:none}
+.sw-dot{width:5px;height:5px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.sw.w0 .sw-dot{background:#94a3b8}
+.sw.w1 .sw-dot{background:var(--brand)}
+.sw.w2 .sw-dot{background:var(--purple)}
+.sw.w3 .sw-dot{background:var(--green)}
+.sw.wf .sw-dot{background:var(--navy)}
+
+/* BLOQUEIOS */
+.bloqueios-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.bk{background:var(--white);border-radius:12px;box-shadow:var(--sh);padding:24px 28px;border:1px solid var(--border)}
+.bk.r{border-top:3px solid var(--red)}
+.bk.o{border-top:3px solid var(--orange)}
+.bk.p{border-top:3px solid var(--purple)}
+.bk-icon{font-size:22px;margin-bottom:12px;display:block}
+.bk-title{font-size:14px;font-weight:700;margin-bottom:10px}
+.bk.r .bk-title{color:var(--red)}
+.bk.o .bk-title{color:var(--orange)}
+.bk.p .bk-title{color:var(--purple)}
+.bk-desc{font-size:13px;color:var(--ink-soft);line-height:1.75;margin-bottom:16px}
+.bk-acao-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft);margin-bottom:5px;display:block}
+.bk-acao{font-size:12px;font-weight:500;color:var(--ink-mid);background:var(--bg);padding:10px 14px;border-radius:8px;border:1px solid var(--border);line-height:1.6}
+
+/* NOTA */
+.nota{background:var(--white);border-radius:var(--r-lg);box-shadow:var(--sh-md);padding:40px;border:1px solid var(--border)}
+.nota-kicker{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--brand);margin-bottom:4px}
+.nota-title{font-size:20px;font-weight:800;color:var(--ink);margin-bottom:20px;letter-spacing:-.4px;font-family:var(--font-head)}
+.nota p{font-size:14px;color:var(--ink-mid);line-height:1.85}
+.nota p+p{margin-top:12px}
+.nota-diag{background:linear-gradient(135deg,#fffbeb,#fef3c7);border:1px solid #fde68a;border-radius:10px;padding:18px 22px;font-size:13px;color:#78350f;line-height:1.75;margin-top:22px}
+.nota-diag-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;display:block;color:#92400e}
+.nota-diag strong{font-weight:700;color:#451a03}
+
+/* FOOTER */
+.footer{text-align:center;font-size:11px;color:var(--ink-soft);padding:48px 28px;border-top:1px solid var(--border);background:var(--white);letter-spacing:.3px}
+
+/* CONFETTI */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+
+/* ── SAVE STATUS ── */
+.save-status{font-size:11px;padding:5px 11px;border-radius:7px;font-weight:600;transition:all .3s;white-space:nowrap}
+.save-status.idle{color:var(--ink-soft)}
+.save-status.saving{color:var(--yellow);background:var(--yellow-l)}
+.save-status.ok{color:var(--green);background:var(--green-l)}
+.save-status.err{color:var(--red);background:var(--red-l)}
+
+/* ── FCARD REMOVE ── */
+.fcard-remove{position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--red-l);color:var(--red);border:none;cursor:pointer;font-size:13px;display:none;align-items:center;justify-content:center;font-weight:700;line-height:1;transition:all .15s;z-index:2}
+.fcard-remove:hover{background:var(--red);color:white}
+.edit-mode .fcard:not(.locked) .fcard-remove{display:flex}
+
+/* ── FCARD ADD ── */
+.fcard-add{background:var(--bg);border:2px dashed var(--border);border-radius:12px;display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;min-height:120px;transition:all .2s;color:var(--ink-soft);font-size:12px;font-weight:600;padding:20px;text-align:center}
+.fcard-add:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-light)}
+.fcard-add-icon{font-size:24px}
+.edit-mode .fcard-add{display:flex}
+
+/* ── MODAL NOVA FRENTE ── */
+.mnf-overlay{position:fixed;inset:0;background:rgba(10,15,30,.7);z-index:1001;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.mnf-overlay.hidden{display:none}
+.mnf-box{background:var(--white);border-radius:16px;max-width:400px;width:100%;box-shadow:var(--sh-lg);padding:32px}
+.mnf-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:20px;font-family:var(--font-head)}
+.mnf-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:6px;display:block;margin-top:14px}
+.mnf-input{width:100%;height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:14px;color:var(--ink);outline:none;transition:border .2s;box-sizing:border-box}
+.mnf-input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(254,205,32,.15)}
+.mnf-colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.mnf-color{width:28px;height:28px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:all .15s}
+.mnf-color.sel{border-color:var(--ink);transform:scale(1.15)}
+.mnf-btns{display:flex;gap:10px;margin-top:22px}
+.mnf-btn-cancel{flex:1;padding:11px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink-soft);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer}
+.mnf-btn-ok{flex:2;padding:11px;border:none;border-radius:8px;background:var(--navy);color:white;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s}
+.mnf-btn-ok:hover{background:var(--brand);color:var(--navy)}
+
+/* PRINT */
+@media print{
+  .nav,.alert-strip,.modal-overlay,.mnf-overlay,#confetti-canvas{display:none!important}
+  .acc-body{display:block!important}
+  body{background:white}
+  .painel,.frentes-grid,.acc-item,.sw,.bk,.nota{box-shadow:none;border:1px solid #e2e8f0}
+}
+@media(max-width:640px){
+  .hero{padding:32px 20px 36px}
+  .hero-title{font-size:22px}
+  .hero-goal{font-size:40px}
+  .container{padding:24px 16px 60px}
+  .nav{padding:0 16px}
+  .inputs-grid{padding:14px 16px 20px;gap:10px}
+  .painel-top{padding:28px 20px}
+  .mrr-row{grid-template-columns:1fr}
+  .mrr-insight{grid-column:span 1}
+  .painel-pace{flex-direction:column}
+  .frentes-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .alert-strip{padding:10px 20px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="mark"><svg viewBox="0 0 14 14"><path d="M7 1L13 13H1L7 1Z"/></svg></div>
+      <span>Vetor SST · Painel Maio 2026</span>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" onclick="ir('painel')">Receita</a>
+      <a class="nav-link" onclick="ir('frentes')">Frentes</a>
+      <a class="nav-link" onclick="ir('sprint')">Sprint</a>
+      <a class="nav-link" onclick="ir('bloqueios')">Bloqueios</a>
+    </div>
+    <div class="nav-right">
+      <span class="save-status idle" id="save-status">— sincronizado</span>
+      <button class="nav-print" onclick="window.print()">Imprimir</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay hidden" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Painel de Metas — Maio 2026</h2>
+      <p>Vetor SST · 3 passos para começar</p>
+    </div>
+    <div class="modal-steps">
+      <div class="modal-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Atualize o progresso diariamente</strong>
+          <span>Na seção "Painel de Receita", insira quanto cada frente já faturou. Use os botões + e − ou digite o valor. O painel recalcula tudo automaticamente.</span>
+        </div>
+      </div>
+      <div class="modal-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <strong>Abra as frentes e marque as ações</strong>
+          <span>Clique em cada frente de receita para ver o plano de ação. Conforme executar, marque as tarefas como concluídas.</span>
+        </div>
+      </div>
+      <div class="modal-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <strong>O progresso é salvo automaticamente</strong>
+          <span>Pode fechar e reabrir — tudo é salvo neste navegador. O painel mostra o ritmo diário necessário para bater a meta de R$150.000.</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn" onclick="fecharModal()">Entendido — abrir o painel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL NOVA FRENTE -->
+<div class="mnf-overlay hidden" id="modal-nova-frente">
+  <div class="mnf-box">
+    <div class="mnf-title">⊕ Nova frente de receita</div>
+    <label class="mnf-label">Nome da frente</label>
+    <input class="mnf-input" id="mnf-nome" type="text" placeholder="Ex: Consultorias, Renovações..." maxlength="40">
+    <label class="mnf-label">Emoji / ícone</label>
+    <input class="mnf-input" id="mnf-icon" type="text" placeholder="📌" maxlength="4" style="width:80px;text-align:center;font-size:20px">
+    <label class="mnf-label">Meta do mês (R$)</label>
+    <input class="mnf-input" id="mnf-meta" type="text" placeholder="R$ 0,00" oninput="mascaraMoeda(this)">
+    <label class="mnf-label">Cor</label>
+    <div class="mnf-colors">
+      <div class="mnf-color sel" data-cor="blue"   style="background:var(--brand)"  onclick="selecionarCor(this)"></div>
+      <div class="mnf-color"     data-cor="green"  style="background:var(--green)"  onclick="selecionarCor(this)"></div>
+      <div class="mnf-color"     data-cor="orange" style="background:var(--orange)" onclick="selecionarCor(this)"></div>
+      <div class="mnf-color"     data-cor="purple" style="background:var(--purple)" onclick="selecionarCor(this)"></div>
+      <div class="mnf-color"     data-cor="teal"   style="background:var(--teal)"   onclick="selecionarCor(this)"></div>
+    </div>
+    <div class="mnf-btns">
+      <button class="mnf-btn-cancel" onclick="fecharModalNovaFrente()">Cancelar</button>
+      <button class="mnf-btn-ok" onclick="confirmarNovaFrente()">Adicionar frente</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">⚡ Urgente</div>
+      <h1 class="hero-title">Plano de Ataque — Maio 2026</h1>
+      <p class="hero-sub">Leonardo Perez · CEO &nbsp;·&nbsp; Eduardo Luzardo · CFO as a Service &nbsp;·&nbsp; Holding Bersagui &amp; Gambarra</p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-meta-label">Meta do Mês</div>
+      <div class="hero-goal" id="hero-goal-val">R$ 150.000</div>
+      <div class="hero-goal-sub">5 frentes ativas em paralelo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="alert-strip">
+  ⚠&nbsp; <strong id="alert-dias">—</strong>&nbsp; para fechar o mês. Cada dia sem execução é receita que não volta.
+</div>
+
+<div class="container">
+
+  <!-- PAINEL -->
+  <div id="painel" style="scroll-margin-top:64px">
+    <div class="shead blue">
+      <div class="shead-icon">📊</div>
+      <div class="shead-text"><h2>Painel de Receita</h2><p>Atualizar diariamente</p></div>
+      <div class="shead-line"></div>
+    </div>
+  </div>
+
+  <div class="painel">
+    <div class="painel-top">
+      <!-- RING -->
+      <div class="ring-wrap">
+        <svg class="ring-svg" viewBox="0 0 180 180">
+          <circle class="ring-track" cx="90" cy="90" r="80"/>
+          <circle class="ring-fill" id="ring" cx="90" cy="90" r="80"
+            stroke-dasharray="502.65" stroke-dashoffset="502.65" stroke="var(--brand)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="ring-pct">0%</div>
+          <div class="ring-pct-label">da meta</div>
+        </div>
+      </div>
+      <!-- INFO -->
+      <div class="painel-right">
+        <div class="painel-kicker">Total Realizado em Maio</div>
+        <div class="painel-valor"><span id="total-val">R$ 0</span><em id="painel-meta-txt">de R$ 150k</em></div>
+        <div class="painel-msg" id="painel-msg">Insira os valores realizados abaixo para começar o acompanhamento.</div>
+        <div class="painel-pace">
+          <div class="pace-card" id="pace-necessario">
+            <strong id="pace-nec-val">—</strong>
+            Ritmo necessário/dia
+          </div>
+          <div class="pace-card" id="pace-atual">
+            <strong id="pace-at-val">—</strong>
+            Ritmo atual/dia
+          </div>
+          <div class="pace-card">
+            <strong id="dias-uteis-val">—</strong>
+            Dias úteis restantes
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="inputs-strip">
+      <span>Insira os valores realizados — atualizar diariamente</span>
+      <button class="metas-toggle" id="btn-metas" onclick="toggleMetas()">⚙ Editar metas</button>
+    </div>
+    <div class="metas-edit" id="metas-edit">
+      <div class="metas-edit-label">Metas do mês</div>
+      <div class="metas-grid" id="metas-grid">
+        <div class="meta-group">
+          <div class="meta-group-label">Base Recorrente</div>
+          <input class="meta-field" id="m_recorrente" type="text" oninput="metaChanged('recorrente',this)">
+        </div>
+        <div class="meta-group">
+          <div class="meta-group-label">Vendas Novas</div>
+          <input class="meta-field" id="m_novas" type="text" oninput="metaChanged('novas',this)">
+        </div>
+        <div class="meta-group">
+          <div class="meta-group-label">Vendas Base</div>
+          <input class="meta-field" id="m_base" type="text" oninput="metaChanged('base',this)">
+        </div>
+        <div class="meta-group">
+          <div class="meta-group-label">Inadimplência</div>
+          <input class="meta-field" id="m_inad" type="text" oninput="metaChanged('inad',this)">
+        </div>
+        <div class="meta-group">
+          <div class="meta-group-label">Exames</div>
+          <input class="meta-field" id="m_exames" type="text" oninput="metaChanged('exames',this)">
+        </div>
+      </div>
+    </div>
+    <div class="inputs-grid" id="inputs-grid">
+
+      <div class="inp-group">
+        <div class="inp-label">
+          <span class="inp-label-text">Base Recorrente MRR</span>
+          <span class="tt" data-tip="Receita já garantida pelos contratos ativos. Fatura automaticamente todo mês, independente de novas vendas.">?</span>
+        </div>
+        <div class="inp-row">
+          <input class="inp-field" id="f_recorrente" type="text" oninput="mascaraMoeda(this);calcular()">
+        </div>
+        <div class="inp-bar"><div class="inp-bar-fill" id="ib_recorrente" style="background:var(--teal);width:100%"></div></div>
+        <div class="inp-meta"><span id="ip_recorrente">100% garantido</span><span id="im_recorrente">meta R$35k</span></div>
+      </div>
+
+      <div class="inp-group">
+        <div class="inp-label">
+          <span class="inp-label-text">Vendas Novas</span>
+          <span class="tt" data-tip="Receita de contratos com clientes que nunca foram da Vetor SST. Cada novo contrato fechado entra aqui.">?</span>
+        </div>
+        <div class="inp-row">
+          <input class="inp-field" id="f_novas" type="text" oninput="mascaraMoeda(this);calcular()">
+        </div>
+        <div class="inp-bar"><div class="inp-bar-fill" id="ib_novas" style="background:var(--brand);width:0%"></div></div>
+        <div class="inp-meta"><span id="ip_novas">0%</span><span id="im_novas">meta R$60k</span></div>
+      </div>
+
+      <div class="inp-group">
+        <div class="inp-label">
+          <span class="inp-label-text">Vendas Base (upsell)</span>
+          <span class="tt" data-tip="Receita adicional de clientes que já são da Vetor — serviços extras, complementações de contrato, upgrades de plano.">?</span>
+        </div>
+        <div class="inp-row">
+          <input class="inp-field" id="f_base" type="text" oninput="mascaraMoeda(this);calcular()">
+        </div>
+        <div class="inp-bar"><div class="inp-bar-fill" id="ib_base" style="background:var(--green);width:0%"></div></div>
+        <div class="inp-meta"><span id="ip_base">0%</span><span id="im_base">meta R$20k</span></div>
+      </div>
+
+      <div class="inp-group">
+        <div class="inp-label">
+          <span class="inp-label-text">Inadimplência</span>
+          <span class="tt" data-tip="Dinheiro recuperado de clientes inadimplentes. Débora é a responsável — a meta dela é R$15k dos R$55k em aberto.">?</span>
+        </div>
+        <div class="inp-row">
+          <input class="inp-field" id="f_inad" type="text" oninput="mascaraMoeda(this);calcular()">
+        </div>
+        <div class="inp-bar"><div class="inp-bar-fill" id="ib_inad" style="background:var(--orange);width:0%"></div></div>
+        <div class="inp-meta"><span id="ip_inad">0%</span><span id="im_inad">meta R$15k</span></div>
+      </div>
+
+      <div class="inp-group">
+        <div class="inp-label">
+          <span class="inp-label-text">Exames Ocupacionais</span>
+          <span class="tt" data-tip="Faturamento operacional de exames médicos (admissional, periódico, demissional) realizados pelas clínicas parceiras.">?</span>
+        </div>
+        <div class="inp-row">
+          <input class="inp-field" id="f_exames" type="text" oninput="mascaraMoeda(this);calcular()">
+        </div>
+        <div class="inp-bar"><div class="inp-bar-fill" id="ib_exames" style="background:var(--purple);width:0%"></div></div>
+        <div class="inp-meta"><span id="ip_exames">0%</span><span id="im_exames">meta R$20k</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MRR -->
+  <div class="mrr-row">
+    <div class="mrr-stat good">
+      <div class="mrr-num" id="mrr-pct-rec">23%</div>
+      <div class="mrr-lbl">Receita Recorrente</div>
+      <div class="mrr-sub" id="mrr-sub-rec">R$35k garantido/mês</div>
+    </div>
+    <div class="mrr-stat bad">
+      <div class="mrr-num" id="mrr-pct-var">77%</div>
+      <div class="mrr-lbl">Receita Variável</div>
+      <div class="mrr-sub" id="mrr-sub-var">R$115k do zero/mês</div>
+    </div>
+    <div class="mrr-insight">
+      <div class="mrr-insight-title">⚠ Diagnóstico Central</div>
+      <p><em>77% da receita recomeça do zero em junho.</em> Este é o problema estrutural da Vetor hoje. A meta de longo prazo da holding é inverter: 70%+ recorrente até dez/2026. Cada contrato fechado este mês é um tijolo nessa fundação.</p>
+    </div>
+  </div>
+
+  <!-- FRENTES -->
+  <div id="frentes" style="scroll-margin-top:64px">
+    <div class="shead green">
+      <div class="shead-icon">🎯</div>
+      <div class="shead-text"><h2>Frentes de Receita</h2><p>5 frentes em execução paralela</p></div>
+      <div class="shead-line"></div>
+    </div>
+  </div>
+
+  <div class="frentes-grid" id="frentes-grid">
+    <div class="fcard teal" onclick="ir('frentes')">
+      <div class="fcard-accent"></div>
+      <span class="fcard-icon">🔒</span>
+      <div class="fcard-label">Base Recorrente</div>
+      <div class="fcard-val" id="fv_recorrente">R$ 35k</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_recorrente" style="width:100%"></div></div>
+      <span class="fcard-status status-garantido">✓ Garantido</span>
+    </div>
+    <div class="fcard blue" onclick="abrirAcc('acc-novas')">
+      <div class="fcard-accent"></div>
+      <span class="fcard-icon">🎯</span>
+      <div class="fcard-label">Vendas Novas</div>
+      <div class="fcard-val" id="fv_novas">R$ 60k</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_novas" style="width:0%"></div></div>
+      <span class="fcard-status" id="fs_novas">— %</span>
+    </div>
+    <div class="fcard green" onclick="abrirAcc('acc-base')">
+      <div class="fcard-accent"></div>
+      <span class="fcard-icon">🔄</span>
+      <div class="fcard-label">Vendas Base</div>
+      <div class="fcard-val" id="fv_base">R$ 20k</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_base" style="width:0%"></div></div>
+      <span class="fcard-status" id="fs_base">— %</span>
+    </div>
+    <div class="fcard orange" onclick="abrirAcc('acc-inad')">
+      <div class="fcard-accent"></div>
+      <span class="fcard-icon">💰</span>
+      <div class="fcard-label">Inadimplência</div>
+      <div class="fcard-val" id="fv_inad">R$ 15k</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_inad" style="width:0%"></div></div>
+      <span class="fcard-status" id="fs_inad">— %</span>
+    </div>
+    <div class="fcard purple" onclick="abrirAcc('acc-exames')">
+      <div class="fcard-accent"></div>
+      <span class="fcard-icon">🏥</span>
+      <div class="fcard-label">Exames</div>
+      <div class="fcard-val" id="fv_exames">R$ 20k</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_exames" style="width:0%"></div></div>
+      <span class="fcard-status" id="fs_exames">— %</span>
+    </div>
+  </div>
+
+  <!-- ACCORDION -->
+  <div class="frentes-acc" id="frentes-acc">
+
+    <div class="acc-item blue" id="acc-novas">
+      <div class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <div class="acc-header-left">
+          <div class="acc-stripe"></div>
+          <div>
+            <div class="acc-title">Vendas Novas — Clientes Novos</div>
+            <div class="acc-subtitle">Prospecção ativa + processo comercial estruturado</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <span class="acc-badge" id="ab_novas">R$ 60.000</span>
+          <span class="acc-chevron">▼</span>
+        </div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-insight">
+          <strong>Contexto</strong>
+          Para bater R$60k em novos clientes, com ticket médio estimado entre R$500–R$1.500/mês (pacote PGR + PCMSO), são necessários entre <strong>40 a 120 novos contratos</strong>. Se o ticket médio for R$2.000+, o número cai para 30. Leonardo deve confirmar o ticket médio atual para calibrar o volume de prospecção necessário.
+        </div>
+        <div class="act-title">Ações — clique para marcar como concluído</div>
+        <ul class="act-list">
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Levantar o ticket médio dos últimos 3 meses</div><div class="act-tags"><span class="tag t-hoje">Hoje</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Definir meta diária de propostas enviadas</div><div class="act-tags"><span class="tag t-hoje">Hoje</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Aprovar tabela de preços padrão — eliminar propostas 100% customizadas</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Criar script de abordagem WhatsApp com gancho regulatório (NR-1 + eSocial SST)</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-time">Time</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Mapear leads no funil que aguardam follow-up e retomar contato</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Ativar mínimo 10 contatos/dia útil via WhatsApp ou ligação</div><div class="act-tags"><span class="tag t-s1">Diário</span><span class="tag t-time">Time Comercial</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Ativar parceiros estratégicos (contadores, RH, sindicatos) com proposta de indicação</div><div class="act-tags"><span class="tag t-s2">Semana 2</span><span class="tag t-leo">Leo</span></div></div></li>
+        </ul>
+        <div class="acc-alert"><strong>⚡ Decisão imediata</strong>Existe tabela de preços formalizada? Se cada proposta for negociada individualmente, o processo comercial é lento e a margem escapa. Leo aprova uma tabela padrão esta semana.</div>
+      </div>
+    </div>
+
+    <div class="acc-item green" id="acc-base">
+      <div class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <div class="acc-header-left">
+          <div class="acc-stripe"></div>
+          <div>
+            <div class="acc-title">Vendas para a Base — Upsell &amp; Cross-sell</div>
+            <div class="acc-subtitle">Clientes ativos que ainda não têm todos os serviços</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <span class="acc-badge" id="ab_base">R$ 20.000</span>
+          <span class="acc-chevron">▼</span>
+        </div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-insight">
+          <strong>Contexto</strong>
+          Esta é a frente com maior taxa de conversão — o cliente já confia na Vetor. O problema: <strong>não existe mapeamento do mix de produtos por cliente.</strong> Sem saber o que cada um compra, deixamos dinheiro na mesa todo mês.
+        </div>
+        <div class="act-title">Ações</div>
+        <ul class="act-list">
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Exportar carteira ativa e mapear: quais têm PGR mas não PCMSO? Quais têm NRs vencendo nos próximos 60 dias?</div><div class="act-tags"><span class="tag t-urgente">Urgente</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Ligar pessoalmente para os 20 maiores clientes da carteira e checar necessidades abertas</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-leo">Leo + Time</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Lançar campanha de "saúde regulatória" — WhatsApp para clientes com NRs vencendo ou eSocial desatualizado</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-time">Time</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Identificar clientes com exames avulsos mas sem PCMSO — converter para mensalidade</div><div class="act-tags"><span class="tag t-s2">Semana 2</span><span class="tag t-time">Comercial</span></div></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item orange" id="acc-inad">
+      <div class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <div class="acc-header-left">
+          <div class="acc-stripe"></div>
+          <div>
+            <div class="acc-title">Recuperação de Inadimplência</div>
+            <div class="acc-subtitle">R$55k em aberto — meta de recuperar R$15k em maio</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <span class="acc-badge" id="ab_inad">R$ 15.000</span>
+          <span class="acc-chevron">▼</span>
+        </div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-insight">
+          <strong>Contexto</strong>
+          Existe R$55k em aberto e Débora está dedicada a esta métrica — <strong>mas sem nenhuma meta atrelada.</strong> Sem meta, sem pressão. Leo precisa se reunir com ela ainda hoje ou amanhã para definir a meta e validar a campanha de quitação.
+        </div>
+        <div class="act-title">Ações</div>
+        <ul class="act-list">
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Leo reúne com Débora — definir meta individual de R$15k e entender perfis de inadimplente</div><div class="act-tags"><span class="tag t-urgente">Urgente</span><span class="tag t-leo">Leo</span><span class="tag t-debora">Débora</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Segmentar inadimplentes: (A) até 30 dias · (B) 31–90 dias · (C) +90 dias — abordagem diferente por grupo</div><div class="act-tags"><span class="tag t-hoje">Esta semana</span><span class="tag t-debora">Débora</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Lançar campanha de quitação: condição especial (desconto de multa ou parcelamento) até 20/05</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Grupo A (até 30 dias): ligação direta — são os mais fáceis e rápidos de recuperar</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-debora">Débora</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Grupo C (+90 dias): Leo decide — acordar, protestar ou dar baixa?</div><div class="act-tags"><span class="tag t-s2">Semana 2</span><span class="tag t-leo">Leo</span></div></div></li>
+        </ul>
+        <div class="acc-alert"><strong>⚡ Travamento crítico</strong>Débora trabalha sem meta — não é culpa dela, é falha de gestão. A reunião com Leo é o desbloqueio que libera os R$15k desta frente.</div>
+      </div>
+    </div>
+
+    <div class="acc-item purple" id="acc-exames">
+      <div class="acc-header" onclick="toggleAcc(this.parentElement)">
+        <div class="acc-header-left">
+          <div class="acc-stripe"></div>
+          <div>
+            <div class="acc-title">Exames Ocupacionais</div>
+            <div class="acc-subtitle">Faturamento operacional via clínicas parceiras</div>
+          </div>
+        </div>
+        <div class="acc-right">
+          <span class="acc-badge" id="ab_exames">R$ 20.000</span>
+          <span class="acc-chevron">▼</span>
+        </div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-insight">
+          <strong>Contexto</strong>
+          Exames são a frente mais previsível — há ciclos obrigatórios (periódicos, admissionais, demissionais). O foco é confirmar os agendamentos do mês e ativar proativamente clientes com exames vencendo em maio/junho.
+        </div>
+        <div class="act-title">Ações</div>
+        <ul class="act-list">
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Levantar pipeline de exames já agendados para maio — qual é o gap para R$20k?</div><div class="act-tags"><span class="tag t-hoje">Hoje</span><span class="tag t-leo">Leo</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Contactar todos os clientes com exames periódicos vencendo em maio e junho</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-time">Time</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Confirmar disponibilidade das clínicas parceiras para as próximas 3 semanas</div><div class="act-tags"><span class="tag t-s1">Semana 1</span><span class="tag t-time">Operacional</span></div></div></li>
+          <li class="act-item"><div class="act-check" onclick="ck(this)"></div><div><div class="act-text">Incluir proposta de exame admissional em todo novo contrato fechado</div><div class="act-tags"><span class="tag t-s1">Contínuo</span><span class="tag t-time">Comercial</span></div></div></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SPRINT -->
+  <div id="sprint" style="scroll-margin-top:64px">
+    <div class="shead slate">
+      <div class="shead-icon">📅</div>
+      <div class="shead-text"><h2>Sprint Semanal</h2><p>Cadência de execução — maio 2026</p></div>
+      <div class="shead-line"></div>
+    </div>
+  </div>
+  <div class="sprint-grid">
+    <div class="sw w0" id="sw0">
+      <div class="sw-head"><span class="sw-head-title">Hoje — 08/05 (Sex)</span><span class="sw-badge">Setup</span></div>
+      <div class="sw-body">
+        <div class="sw-item"><div class="sw-dot"></div>Leo levanta ticket médio atual</div>
+        <div class="sw-item"><div class="sw-dot"></div>Leo agenda reunião com Débora</div>
+        <div class="sw-item"><div class="sw-dot"></div>Confirmar pipeline de exames maio</div>
+        <div class="sw-item"><div class="sw-dot"></div>Time recebe este plano e alinha</div>
+      </div>
+    </div>
+    <div class="sw w1" id="sw1">
+      <div class="sw-head"><span class="sw-head-title">Semana 1 — 11 a 15/05</span><span class="sw-badge">Atacar</span></div>
+      <div class="sw-body">
+        <div class="sw-item"><div class="sw-dot"></div>Reunião Leo + Débora — meta inadimplência</div>
+        <div class="sw-item"><div class="sw-dot"></div>Mapa de gaps da carteira ativa pronto</div>
+        <div class="sw-item"><div class="sw-dot"></div>Campanha quitação inadimplentes lançada</div>
+        <div class="sw-item"><div class="sw-dot"></div>Tabela de preços formalizada</div>
+        <div class="sw-item"><div class="sw-dot"></div>10 prospecções/dia iniciadas</div>
+      </div>
+    </div>
+    <div class="sw w2" id="sw2">
+      <div class="sw-head"><span class="sw-head-title">Semana 2 — 18 a 22/05</span><span class="sw-badge">Pressão</span></div>
+      <div class="sw-body">
+        <div class="sw-item"><div class="sw-dot"></div>Review do termômetro: onde estamos?</div>
+        <div class="sw-item"><div class="sw-dot"></div>Top 20 clientes da base contatados</div>
+        <div class="sw-item"><div class="sw-dot"></div>Parceiros estratégicos ativados</div>
+        <div class="sw-item"><div class="sw-dot"></div>Exames periódicos: todos agendados</div>
+        <div class="sw-item"><div class="sw-dot"></div>Decisão inadimplentes +90 dias</div>
+      </div>
+    </div>
+    <div class="sw w3" id="sw3">
+      <div class="sw-head"><span class="sw-head-title">Semana 3 — 25 a 29/05</span><span class="sw-badge">Fechamento</span></div>
+      <div class="sw-body">
+        <div class="sw-item"><div class="sw-dot"></div>Follow-up em todas as propostas abertas</div>
+        <div class="sw-item"><div class="sw-dot"></div>Campanha quitação — última chamada</div>
+        <div class="sw-item"><div class="sw-dot"></div>Confirmar todos os exames do mês</div>
+        <div class="sw-item"><div class="sw-dot"></div>Fechar contratos em negociação</div>
+      </div>
+    </div>
+    <div class="sw wf" id="swf">
+      <div class="sw-head"><span class="sw-head-title">31/05 — Fechamento</span><span class="sw-badge">Check</span></div>
+      <div class="sw-body">
+        <div class="sw-item"><div class="sw-dot"></div>Consolidar receita das 5 frentes</div>
+        <div class="sw-item"><div class="sw-dot"></div>Registrar o que funcionou</div>
+        <div class="sw-item"><div class="sw-dot"></div>Apresentar resultado ao conselho</div>
+        <div class="sw-item"><div class="sw-dot"></div>Ajustar plano de junho</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUEIOS -->
+  <div id="bloqueios" style="scroll-margin-top:64px">
+    <div class="shead red">
+      <div class="shead-icon">🚧</div>
+      <div class="shead-text"><h2>Bloqueios Críticos</h2><p>Remover esses travamentos libera receita imediatamente</p></div>
+      <div class="shead-line"></div>
+    </div>
+  </div>
+  <div class="bloqueios-grid">
+    <div class="bk r">
+      <span class="bk-icon">🔴</span>
+      <div class="bk-title">CEO: execução das decisões do conselho</div>
+      <div class="bk-desc">As estratégias existem — o problema é que decisões tomadas em conselho não chegam à operação. Cada semana sem execução é uma semana perdida de receita. Decisões não expiram, mas janelas de oportunidade sim.</div>
+      <span class="bk-acao-label">Ação imediata</span>
+      <div class="bk-acao">Leo escolhe 1 decisão do conselho por dia e executa. Sem exceção. Sem justificativa.</div>
+    </div>
+    <div class="bk o">
+      <span class="bk-icon">🟠</span>
+      <div class="bk-title">CFO Pedro: capacidade técnica financeira</div>
+      <div class="bk-desc">No mês passado preferiu endividar a empresa a antecipar receita pelo gateway de pagamento. Um CFO tecnicamente limitado toma decisões de curtíssimo prazo que comprometem o caixa estrutural.</div>
+      <span class="bk-acao-label">Ação imediata</span>
+      <div class="bk-acao">Eduardo Luzardo (CFO as a Service) revisa o caixa e define regras claras de uso do gateway para Pedro seguir.</div>
+    </div>
+    <div class="bk p">
+      <span class="bk-icon">🟣</span>
+      <div class="bk-title">Mix de produtos: dados comerciais inexistentes</div>
+      <div class="bk-desc">Não se sabe o que cada cliente compra nem qual serviço tem melhor margem. Sem esse dado a empresa vende no escuro — não sabe onde upsell funciona, não sabe onde focar o comercial.</div>
+      <span class="bk-acao-label">Ação imediata</span>
+      <div class="bk-acao">Semana 1: exportar carteira e mapear produtos por cliente. Levanta o que gera mais receita hoje.</div>
+    </div>
+  </div>
+
+  <!-- NOTA -->
+  <div style="margin-top:32px">
+    <div class="nota">
+      <div class="nota-kicker">Nota do Conselho</div>
+      <div class="nota-title">Holding Bersagui &amp; Gambarra</div>
+      <p>Este plano foi montado para dar ao CEO uma estrutura clara de execução para maio. O problema não é falta de oportunidade — é falta de organização das frentes e acompanhamento diário. A Vetor opera num mercado de demanda obrigatória por lei: toda empresa com funcionário CLT é um cliente potencial. <strong>O único competidor real é a inércia.</strong></p>
+      <p>Leonardo — o conselho está aqui para apoiar, não para executar. Mas precisa de relatório semanal simples: quanto entrou em cada frente, o que está travando e o que vai desbloquear na semana seguinte.</p>
+      <div class="nota-diag">
+        <span class="nota-diag-label">Diagnóstico estrutural — além de maio</span>
+        Hoje apenas 23% da receita (R$35k) é recorrente. Os outros 77% (R$115k) precisam ser conquistados do zero em junho, julho, agosto... A meta de longo prazo da holding é inverter esse índice — <strong>70%+ recorrente até dez/2026</strong>. Cada novo contrato fechado este mês é um tijolo nessa fundação.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Vetor SST &nbsp;·&nbsp; Painel de Metas Maio 2026 &nbsp;·&nbsp; Holding Bersagui &amp; Gambarra &nbsp;·&nbsp; v3.0
+</div>
+
+<script>
+// ── SUPABASE ──
+const { createClient } = supabase;
+const sb = createClient(
+  'https://vpweztxxvjcswccirjme.supabase.co',
+  'sb_publishable_QDrR1SR-JMInRvdYM06Tcg_v7zL6gGG'
+);
+
+// ── FRENTES (fonte única de verdade) ──
+let FRENTES = [
+  {id:'recorrente', label:'Base Recorrente MRR', icon:'🔒', color:'teal',   meta:35000, realizado:0, locked:true,  tip:'Receita garantida pelos contratos ativos. Fatura automaticamente todo mês.'},
+  {id:'novas',      label:'Vendas Novas',         icon:'🎯', color:'blue',   meta:60000, realizado:0, locked:false, tip:'Receita de contratos com clientes que nunca foram da Vetor SST.'},
+  {id:'base',       label:'Vendas Base (upsell)', icon:'🔄', color:'green',  meta:20000, realizado:0, locked:false, tip:'Receita adicional de clientes ativos — extras, upgrades, complementações.'},
+  {id:'inad',       label:'Inadimplência',        icon:'💰', color:'orange', meta:15000, realizado:0, locked:false, tip:'Dinheiro recuperado de clientes inadimplentes.'},
+  {id:'exames',     label:'Exames Ocupacionais',  icon:'🏥', color:'purple', meta:20000, realizado:0, locked:false, tip:'Faturamento de exames médicos via clínicas parceiras.'},
+];
+
+const STATIC_ACCS = new Set(['novas','base','inad','exames']);
+const CIRCUM = 2 * Math.PI * 80;
+let _syncAtivo = false;
+let _saveTimer  = null;
+let _modoEdicao = false;
+let _novaCor    = 'blue';
+
+// ── MÁSCARA MOEDA ──
+function mascaraMoeda(el){
+  const digits=(el.value.replace(/\D/g,'')||'0');
+  const num=parseInt(digits,10).toString().padStart(3,'0');
+  const cents=num.slice(-2);
+  const reais=(num.slice(0,-2).replace(/^0+/,'')||'0');
+  el.value='R$ '+reais.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+','+cents;
+}
+function val(id){
+  const el=document.getElementById(id);if(!el)return 0;
+  const s=(el.value||'').replace(/\D/g,'');
+  return parseInt(s,10)/100||0;
+}
+function set(id,v){
+  const el=document.getElementById(id);if(!el)return;
+  const num=Math.round(Math.abs(v)*100).toString().padStart(3,'0');
+  const cents=num.slice(-2);
+  const reais=(num.slice(0,-2).replace(/^0+/,'')||'0');
+  el.value='R$ '+reais.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+','+cents;
+}
+
+// ── STATUS SAVE ──
+function setStatus(msg,tipo){
+  const el=document.getElementById('save-status');if(!el)return;
+  el.textContent=msg;el.className='save-status '+(tipo||'idle');
+}
+
+// ── HELPERS ──
+function fmt(v){return 'R$ '+Math.round(v).toLocaleString('pt-BR');}
+function fmtK(v){
+  if(v>=1000&&v%1000===0)return 'R$'+(v/1000)+'k';
+  if(v>=1000)return 'R$'+parseFloat((v/1000).toFixed(1))+'k';
+  return 'R$'+v;
+}
+function pct(v,m){return m>0?Math.min(100,v/m*100):0;}
+function metaTotal(){return FRENTES.reduce((s,f)=>s+f.meta,0);}
+
+// ── RENDER ──
+function renderAll(){
+  renderMetasGrid();
+  renderInputsGrid();
+  renderFrentesGrid();
+  syncAccordions();
+  atualizarDisplayMetas();
+}
+
+function renderMetasGrid(){
+  const grid=document.getElementById('metas-grid');if(!grid)return;
+  grid.style.gridTemplateColumns='repeat('+FRENTES.length+',1fr)';
+  grid.innerHTML=FRENTES.map(f=>`
+    <div class="meta-group">
+      <div class="meta-group-label">${f.label}</div>
+      <input class="meta-field" id="m_${f.id}" type="text"
+        oninput="metaChanged('${f.id}',this)"
+        ${f.locked?'readonly style="opacity:.5;cursor:default"':''}>
+    </div>
+  `).join('');
+  FRENTES.forEach(f=>set('m_'+f.id, f.meta));
+}
+
+function renderInputsGrid(){
+  const grid=document.getElementById('inputs-grid');if(!grid)return;
+  const colorMap={teal:'var(--teal)',blue:'var(--brand)',green:'var(--green)',orange:'var(--orange)',purple:'var(--purple)',red:'var(--red)'};
+  grid.innerHTML=FRENTES.map(f=>`
+    <div class="inp-group">
+      <div class="inp-label">
+        <span class="inp-label-text">${f.label}</span>
+        <span class="tt" data-tip="${f.tip}">?</span>
+      </div>
+      <div class="inp-row">
+        <input class="inp-field${f.locked?' locked':''}" id="f_${f.id}" type="text"
+          oninput="mascaraMoeda(this);frChanged('${f.id}')"
+          ${f.locked?'readonly':''}
+          placeholder="R$ 0,00">
+      </div>
+      <div class="inp-bar"><div class="inp-bar-fill" id="ib_${f.id}" style="background:${colorMap[f.color]||'var(--brand)'};width:0%"></div></div>
+      <div class="inp-meta"><span id="ip_${f.id}">0%</span><span id="im_${f.id}">meta ${fmtK(f.meta)}</span></div>
+    </div>
+  `).join('');
+  FRENTES.forEach(f=>{ if(f.locked) f.realizado=f.meta; set('f_'+f.id, f.realizado); });
+}
+
+function renderFrentesGrid(){
+  const grid=document.getElementById('frentes-grid');if(!grid)return;
+  const colorMap={teal:'var(--teal)',blue:'var(--brand)',green:'var(--green)',orange:'var(--orange)',purple:'var(--purple)',red:'var(--red)'};
+  const clickMap={recorrente:"ir('painel')",novas:"abrirAcc('acc-novas')",base:"abrirAcc('acc-base')",inad:"abrirAcc('acc-inad')",exames:"abrirAcc('acc-exames')"};
+  const cards=FRENTES.map(f=>`
+    <div class="fcard ${f.color}${f.locked?' locked':''}" onclick="${clickMap[f.id]||"abrirAcc('acc-"+f.id+"')"}">
+      <div class="fcard-accent"></div>
+      ${!f.locked?`<button class="fcard-remove" onclick="event.stopPropagation();confirmarRemover('${f.id}')" title="Remover frente">×</button>`:''}
+      <span class="fcard-icon">${f.icon}</span>
+      <div class="fcard-label">${f.label}</div>
+      <div class="fcard-val" id="fv_${f.id}">${fmtK(f.meta)}</div>
+      <div class="fcard-bar"><div class="fcard-bar-fill" id="fc_${f.id}" style="background:${colorMap[f.color]||'var(--brand)'};width:0%"></div></div>
+      <span class="fcard-status${f.locked?' status-garantido':''}" id="fs_${f.id}">${f.locked?'✓ Garantido':'— %'}</span>
+    </div>
+  `).join('');
+  grid.innerHTML=cards+`<div class="fcard-add" onclick="abrirModalNovaFrente()"><span class="fcard-add-icon">⊕</span>Nova frente</div>`;
+  const sheadP=document.querySelector('#frentes .shead-text p');
+  if(sheadP) sheadP.textContent=FRENTES.length+' frentes em execução paralela';
+}
+
+function syncAccordions(){
+  STATIC_ACCS.forEach(id=>{
+    const el=document.getElementById('acc-'+id);if(!el)return;
+    el.style.display=FRENTES.some(f=>f.id===id)?'':'none';
+  });
+  document.querySelectorAll('.acc-item[data-custom]').forEach(el=>{
+    if(!FRENTES.some(f=>f.id===el.getAttribute('data-custom'))) el.remove();
+  });
+  const acc=document.getElementById('frentes-acc');if(!acc)return;
+  FRENTES.forEach(f=>{
+    if(STATIC_ACCS.has(f.id)||f.id==='recorrente') return;
+    if(!document.querySelector('.acc-item[data-custom="'+f.id+'"]')){
+      const colorMap={teal:'teal',blue:'blue',green:'green',orange:'orange',purple:'purple'};
+      const div=document.createElement('div');
+      div.className='acc-item '+(colorMap[f.color]||'blue');
+      div.id='acc-'+f.id;
+      div.setAttribute('data-custom',f.id);
+      div.innerHTML=`
+        <div class="acc-header" onclick="toggleAcc(this.parentElement)">
+          <div class="acc-header-left">
+            <div class="acc-stripe"></div>
+            <div>
+              <div class="acc-title">${f.icon} ${f.label}</div>
+              <div class="acc-subtitle">Frente personalizada</div>
+            </div>
+          </div>
+          <div class="acc-right">
+            <span class="acc-badge" id="ab_${f.id}">${fmt(f.meta)}</span>
+            <span class="acc-chevron">▼</span>
+          </div>
+        </div>
+        <div class="acc-body">
+          <div class="acc-insight"><strong>Frente personalizada</strong>Adicione ações e contexto conforme a execução avançar.</div>
+        </div>`;
+      acc.appendChild(div);
+    }
+  });
+}
+
+// ── CALCULAR ──
+function frChanged(id){
+  const f=FRENTES.find(f=>f.id===id);
+  if(f) f.realizado=val('f_'+id);
+  calcular();
+}
+
+function metaChanged(frente,el){
+  mascaraMoeda(el);
+  const f=FRENTES.find(f=>f.id===frente);
+  if(f){ f.meta=val(el.id); if(f.locked) f.realizado=f.meta; }
+  atualizarDisplayMetas();
+  calcular();
+  salvarDebounced();
+}
+
+function atualizarDisplayMetas(){
+  const t=metaTotal();
+  document.getElementById('hero-goal-val').textContent=fmt(t);
+  document.getElementById('painel-meta-txt').textContent='de '+fmtK(t);
+  FRENTES.forEach(f=>{
+    const fvEl=document.getElementById('fv_'+f.id);if(fvEl)fvEl.textContent=fmtK(f.meta);
+    const imEl=document.getElementById('im_'+f.id);if(imEl)imEl.textContent='meta '+fmtK(f.meta);
+    const abEl=document.getElementById('ab_'+f.id);if(abEl)abEl.textContent=fmt(f.meta);
+  });
+  const recMeta=(FRENTES.find(f=>f.id==='recorrente')?.meta)||0;
+  const pRec=t>0?Math.round(recMeta/t*100):0;
+  document.getElementById('mrr-pct-rec').textContent=pRec+'%';
+  document.getElementById('mrr-pct-var').textContent=(100-pRec)+'%';
+  document.getElementById('mrr-sub-rec').textContent=fmtK(recMeta)+' garantido/mês';
+  document.getElementById('mrr-sub-var').textContent=fmtK(t-recMeta)+' do zero/mês';
+}
+
+function calcular(){
+  FRENTES.forEach(f=>{ if(f.locked) f.realizado=f.meta; });
+  const total=FRENTES.reduce((s,f)=>s+f.realizado,0);
+  const MT=metaTotal();const restante=Math.max(0,MT-total);const p=pct(total,MT);
+  const offset=CIRCUM*(1-p/100);
+  const ring=document.getElementById('ring');
+  ring.style.strokeDashoffset=offset;
+  ring.style.stroke=p>=80?'var(--green)':p>=50?'#f59e0b':p>=20?'var(--brand)':'var(--red)';
+  document.getElementById('ring-pct').textContent=p.toFixed(1)+'%';
+  animCounter('total-val',total,600);
+  const diasR=diasUteisAte(new Date('2026-05-31'));
+  const diasD=diasUteisDecorridos();
+  document.getElementById('dias-uteis-val').textContent=diasR+' dias úteis';
+  const necessPorDia=diasR>0?restante/diasR:0;
+  const atualPorDia=diasD>0?total/diasD:0;
+  document.getElementById('pace-nec-val').textContent=fmt(necessPorDia)+'/dia';
+  document.getElementById('pace-at-val').textContent=fmt(atualPorDia)+'/dia';
+  document.getElementById('pace-necessario').className='pace-card'+(necessPorDia>atualPorDia*1.3?' bad':' good');
+  document.getElementById('pace-atual').className='pace-card'+(atualPorDia>=necessPorDia?' good':' bad');
+  let msg='';
+  if(p===0)msg='Insira os valores realizados para iniciar o acompanhamento.';
+  else if(p<25)msg='Início de mês. Acione todas as frentes hoje — sem exceção.';
+  else if(p<50)msg='Progresso iniciado. O ritmo precisa acelerar para fechar o mês.';
+  else if(p<75)msg='Bom andamento! Mantenha o ritmo e garanta as frentes mais atrasadas.';
+  else if(p<100)msg='Sprint final! Faltam apenas '+fmt(restante)+' para bater a meta.';
+  else msg='Meta atingida! Resultado de maio consolidado.';
+  document.getElementById('painel-msg').textContent=msg;
+  document.getElementById('alert-dias').textContent=diasR+' dias úteis restantes';
+  FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
+  if(!_syncAtivo) salvarDebounced();
+  if(p>=100) dispararConfetti();
+}
+
+function atualizarFrente(id,v,meta){
+  const p=pct(v,meta);
+  const fc=document.getElementById('fc_'+id);if(fc)fc.style.width=p+'%';
+  const ib=document.getElementById('ib_'+id);if(ib)ib.style.width=p+'%';
+  const ip=document.getElementById('ip_'+id);if(ip)ip.textContent=p.toFixed(1)+'%';
+  const fs=document.getElementById('fs_'+id);
+  if(fs&&!FRENTES.find(f=>f.id===id)?.locked){fs.className='fcard-status '+statusClass(p);fs.textContent=statusLabel(p);}
+}
+
+// ── SALVAR ──
+function salvarDebounced(){clearTimeout(_saveTimer);_saveTimer=setTimeout(()=>salvar(),800);}
+
+async function salvar(){
+  setStatus('⏳ Salvando...','saving');
+  const legacy={updated_at:new Date().toISOString()};
+  ['recorrente','novas','base','inad','exames'].forEach(id=>{
+    const f=FRENTES.find(f=>f.id===id);if(f)legacy[id]=f.realizado;
+  });
+  let {error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy,data_json:{frentes:FRENTES}},{onConflict:'id'});
+  if(error?.code==='42703'||error?.message?.includes('data_json')){
+    ({error}=await sb.from('vetor_painel_maio26').upsert({id:1,...legacy},{onConflict:'id'}));
+  }
+  if(error){
+    setStatus('⚠ Erro ao salvar','err');
+    console.error('Supabase save error:',error);
+  } else {
+    const h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    setStatus('✓ Salvo às '+h,'ok');
+    setTimeout(()=>setStatus('— sincronizado','idle'),4000);
+  }
+}
+
+// ── CARREGAR ──
+async function carregar(){
+  const {data,error}=await sb.from('vetor_painel_maio26').select('*').eq('id',1).single();
+  if(error||!data)return;
+  if(data.data_json?.frentes?.length){
+    FRENTES=data.data_json.frentes;
+  } else {
+    ['recorrente','novas','base','inad','exames'].forEach(id=>{
+      const f=FRENTES.find(f=>f.id===id);
+      if(f&&data[id]!=null) f.realizado=data[id];
+    });
+  }
+  renderAll();
+  calcular();
+}
+
+// ── REALTIME ──
+function iniciarRealtime(){
+  sb.channel('vetor-painel')
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'vetor_painel_maio26'},
+      (payload)=>{
+        const d=payload.new;_syncAtivo=true;
+        if(d.data_json?.frentes?.length){
+          FRENTES=d.data_json.frentes;
+          renderAll();calcular();
+        } else {
+          ['recorrente','novas','base','inad','exames'].forEach(id=>{
+            const f=FRENTES.find(f=>f.id===id);
+            const foco=document.activeElement?.id;
+            if(f&&d[id]!=null&&foco!=='f_'+id){f.realizado=d[id];set('f_'+id,f.realizado);}
+          });
+          calcular();
+        }
+        _syncAtivo=false;
+        setStatus('↻ Atualizado por outro usuário','ok');
+        setTimeout(()=>setStatus('— sincronizado','idle'),3000);
+      })
+    .subscribe();
+}
+
+// ── ADICIONAR / REMOVER FRENTES ──
+function abrirModalNovaFrente(){
+  document.getElementById('modal-nova-frente').classList.remove('hidden');
+  document.getElementById('mnf-nome').value='';
+  document.getElementById('mnf-icon').value='📌';
+  document.getElementById('mnf-meta').value='';
+  _novaCor='blue';
+  document.querySelectorAll('.mnf-color').forEach(el=>el.classList.toggle('sel',el.dataset.cor==='blue'));
+  setTimeout(()=>document.getElementById('mnf-nome').focus(),50);
+}
+function fecharModalNovaFrente(){document.getElementById('modal-nova-frente').classList.add('hidden');}
+function selecionarCor(el){
+  _novaCor=el.dataset.cor;
+  document.querySelectorAll('.mnf-color').forEach(e=>e.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function confirmarNovaFrente(){
+  const nome=document.getElementById('mnf-nome').value.trim();
+  const icon=document.getElementById('mnf-icon').value.trim()||'📌';
+  const metaRaw=(document.getElementById('mnf-meta').value||'').replace(/\D/g,'');
+  const meta=metaRaw?parseInt(metaRaw)/100:0;
+  if(!nome){document.getElementById('mnf-nome').focus();return;}
+  const id='custom_'+Date.now();
+  FRENTES.push({id,label:nome,icon,color:_novaCor,meta,realizado:0,locked:false,tip:'Frente personalizada.'});
+  fecharModalNovaFrente();
+  renderAll();calcular();salvar();
+}
+function confirmarRemover(id){
+  const f=FRENTES.find(f=>f.id===id);
+  if(!f||f.locked)return;
+  if(!confirm('Remover a frente "'+f.label+'"? Os dados serão perdidos.'))return;
+  FRENTES=FRENTES.filter(f=>f.id!==id);
+  renderAll();calcular();salvar();
+}
+
+// ── MODO EDIÇÃO ──
+function toggleModoEdicao(){
+  _modoEdicao=!_modoEdicao;
+  document.body.classList.toggle('edit-mode',_modoEdicao);
+  const btn=document.getElementById('btn-metas');
+  btn.textContent=_modoEdicao?'✕ Fechar edição':'⚙ Editar metas';
+  document.getElementById('metas-edit').classList.toggle('open',_modoEdicao);
+}
+function toggleMetas(){toggleModoEdicao();}
+
+// ── UTILS ──
+function diasUteisAte(fim){
+  let d=new Date(),count=0;d.setHours(0,0,0,0);
+  const f=new Date(fim);f.setHours(23,59,59,999);
+  while(d<=f){const dw=d.getDay();if(dw!==0&&dw!==6)count++;d.setDate(d.getDate()+1);}
+  return count;
+}
+function diasUteisDecorridos(){
+  const inicio=new Date('2026-05-01');const hoje=new Date();
+  let count=0;let d=new Date(inicio);d.setHours(0,0,0,0);
+  const h=new Date(hoje);h.setHours(0,0,0,0);
+  while(d<h){const dw=d.getDay();if(dw!==0&&dw!==6)count++;d.setDate(d.getDate()+1);}
+  return count;
+}
+function semanaAtual(){
+  const hoje=new Date();const d=hoje.getDate();
+  if(d<=10)return 'w0';if(d<=17)return 'w1';if(d<=24)return 'w2';if(d<=31)return 'w3';return 'wf';
+}
+function statusClass(p){
+  if(p>=100)return 'status-batido';if(p>=60)return 'status-ritmo';
+  if(p>=20)return 'status-atencao';return 'status-critico';
+}
+function statusLabel(p){
+  if(p>=100)return '✅ Batido';if(p>=60)return '🟢 No Ritmo — '+p.toFixed(0)+'%';
+  if(p>=20)return '🟡 Atenção — '+p.toFixed(0)+'%';return '🔴 Crítico — '+p.toFixed(0)+'%';
+}
+function toggleAcc(el){
+  if(event.target.closest('.act-check'))return;
+  el.classList.toggle('open');
+}
+function abrirAcc(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function ck(el){
+  event.stopPropagation();el.classList.toggle('done');
+  el.textContent=el.classList.contains('done')?'✓':'';
+  const t=el.closest('.act-item').querySelector('.act-text');t.classList.toggle('done');
+}
+function ir(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+function fecharModal(){
+  document.getElementById('modal').classList.add('hidden');
+  localStorage.setItem('vetor_modal_seen','1');
+}
+function animCounter(id,target,dur){
+  const el=document.getElementById(id);if(!el)return;
+  const start=parseFloat((el.textContent||'').replace(/[^0-9]/g,''))||0;
+  const step=(target-start)/(dur/16);let cur=start;
+  const tick=()=>{
+    cur+=step;
+    if((step>0&&cur>=target)||(step<0&&cur<=target)){el.textContent=fmt(target);return;}
+    el.textContent=fmt(Math.round(cur));requestAnimationFrame(tick);
+  };requestAnimationFrame(tick);
+}
+
+let confettiRunning=false;
+function dispararConfetti(){
+  if(confettiRunning)return;confettiRunning=true;
+  const canvas=document.getElementById('confetti-canvas');const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const pieces=Array.from({length:120},()=>({
+    x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,
+    r:Math.random()*6+3,d:Math.random()*120,
+    color:['#2563eb','#059669','#ea580c','#7c3aed','#0d9488','#f59e0b'][Math.floor(Math.random()*6)],
+    tilt:Math.random()*10-10,ts:Math.random()*2
+  }));
+  let frame=0;
+  const loop=()=>{
+    if(frame>200){ctx.clearRect(0,0,canvas.width,canvas.height);confettiRunning=false;return;}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.y+=Math.cos(p.d+frame*.01)*2+p.ts;p.x+=Math.sin(frame*.01)*.5;p.tilt=Math.sin(frame*.07)*12;
+      ctx.beginPath();ctx.lineWidth=p.r;ctx.strokeStyle=p.color;
+      ctx.moveTo(p.x+p.tilt+p.r/4,p.y);ctx.lineTo(p.x+p.tilt,p.y+p.tilt+p.r/4);ctx.stroke();
+    });frame++;requestAnimationFrame(loop);
+  };requestAnimationFrame(loop);
+}
+
+function destacarSemana(){
+  const sw=semanaAtual();const el=document.getElementById(sw);
+  if(el)el.classList.add('current');
+}
+
+window.addEventListener('DOMContentLoaded',async()=>{
+  if(!localStorage.getItem('vetor_modal_seen')){
+    document.getElementById('modal').classList.remove('hidden');
+  }
+  renderAll();
+  try{ await carregar(); }catch(e){console.warn('Carregar falhou:',e);}
+  calcular();
+  destacarSemana();
+  iniciarRealtime();
+});
+</script>
+</body>
+</html>
