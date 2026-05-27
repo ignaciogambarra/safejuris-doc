@@ -672,12 +672,12 @@ input[type=number]{-moz-appearance:textfield}
       <div class="cd-card caixa inp-group">
         <div class="inp-label">
           <span class="inp-label-text">🏦 Caixa Disponível</span>
-          <span class="tt" data-tip="Saldo disponível em conta corrente agora. Compõe o total realizado do mês.">?</span>
+          <span class="tt" data-tip="Saldo disponível em conta corrente. Não entra no anel de metas — compõe apenas o Resultado do Período.">?</span>
         </div>
         <div class="inp-row">
           <input class="inp-field" id="f_caixa" type="text" oninput="mascaraMoeda(this);caixaChanged()" placeholder="R$ 0,00">
         </div>
-        <div class="inp-meta"><span style="color:var(--navy);font-weight:600">Incluso no total realizado</span></div>
+        <div class="inp-meta"><span style="color:var(--ink-soft)">Compõe o resultado do período</span></div>
       </div>
       <div class="cd-card despesas inp-group">
         <div class="inp-label">
@@ -1213,7 +1213,7 @@ function atualizarDisplayMetas(){
 }
 
 function calcular(){
-  const totalReceitas=FRENTES.reduce((s,f)=>s+f.realizado,0)+caixa;
+  const totalReceitas=FRENTES.reduce((s,f)=>s+f.realizado,0);
   const MT=metaTotal();const restante=Math.max(0,MT-totalReceitas);const p=pct(totalReceitas,MT);
   const offset=CIRCUM*(1-p/100);
   const ring=document.getElementById('ring');
@@ -1249,9 +1249,9 @@ function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
 function despRealChanged(){ despesasRealizadas=val('f_desp_real'); calcular(); }
 function despProjChanged(){ despesasProjetadas=val('f_desp_proj'); calcular(); }
 function atualizarResultado(totalReceitas){
-  const tr=totalReceitas!=null?totalReceitas:FRENTES.reduce((s,f)=>s+f.realizado,0)+caixa;
+  const tr=totalReceitas!=null?totalReceitas:FRENTES.reduce((s,f)=>s+f.realizado,0);
   const totalDesp=despesasRealizadas+despesasProjetadas;
-  const resultado=tr-totalDesp;
+  const resultado=tr+caixa-totalDesp;
   const dtEl=document.getElementById('desp-total-val');
   if(dtEl) dtEl.textContent=fmt(totalDesp);
   const valEl=document.getElementById('cd-resultado-val');
