@@ -677,7 +677,11 @@ input[type=number]{-moz-appearance:textfield}
         <div class="inp-row">
           <input class="inp-field" id="f_caixa" type="text" oninput="mascaraMoeda(this);caixaChanged()" placeholder="R$ 0,00">
         </div>
-        <div class="inp-meta"><span style="color:var(--ink-soft)">Compõe o resultado do período</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">📥 Antecipação de Recebíveis</div>
+          <input class="inp-field" id="f_antecipacao" type="text" oninput="mascaraMoeda(this);antecipacaoChanged()" placeholder="R$ 0,00">
+        </div>
+        <div class="inp-meta" style="margin-top:6px;"><span style="color:var(--ink-soft)">Ambos compõem o resultado do período</span></div>
       </div>
       <div class="cd-card despesas inp-group">
         <div class="inp-label">
@@ -1032,6 +1036,7 @@ const STATIC_ACCS = new Set(['novas','base','inad','exames']);
 const CIRCUM = 2 * Math.PI * 80;
 let _syncAtivo = false;
 let caixa = 0;
+let antecipacao = 0;
 let despesasRealizadas = 0;
 let despesasProjetadas = 0;
 let _saveTimer  = null;
@@ -1246,12 +1251,13 @@ function calcular(){
 }
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
+function antecipacaoChanged(){ antecipacao=val('f_antecipacao'); calcular(); }
 function despRealChanged(){ despesasRealizadas=val('f_desp_real'); calcular(); }
 function despProjChanged(){ despesasProjetadas=val('f_desp_proj'); calcular(); }
 function atualizarResultado(totalReceitas){
   const tr=totalReceitas!=null?totalReceitas:FRENTES.reduce((s,f)=>s+f.realizado,0);
   const totalDesp=despesasRealizadas+despesasProjetadas;
-  const resultado=tr+caixa-totalDesp;
+  const resultado=tr+caixa+antecipacao-totalDesp;
   const dtEl=document.getElementById('desp-total-val');
   if(dtEl) dtEl.textContent=fmt(totalDesp);
   const valEl=document.getElementById('cd-resultado-val');
@@ -1279,7 +1285,7 @@ function atualizarFrente(id,v,meta){
 // ── LOCAL STORAGE ──
 const LS_KEY = 'vetor_frentes_maio26_v1';
 function salvarLocal(){
-  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}));}catch(e){}
+  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}));}catch(e){}
 }
 function carregarLocal(){
   try{
@@ -1288,7 +1294,7 @@ function carregarLocal(){
       const stored=JSON.parse(s);
       if(Array.isArray(stored)&&stored.length){FRENTES=stored;}
       else if(stored?.frentes?.length){
-        FRENTES=stored.frentes;caixa=stored.caixa||0;
+        FRENTES=stored.frentes;caixa=stored.caixa||0;antecipacao=stored.antecipacao||0;
         despesasRealizadas=stored.despesasRealizadas||0;
         despesasProjetadas=stored.despesasProjetadas||0;
       }
@@ -1306,7 +1312,7 @@ async function salvar(){
 
   // 1) Broadcast full state para todos que estão com o link aberto agora
   if(_broadcastCh){
-    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}});
+    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}});
   }
 
   // 2) Persistir realizado dos 5 campos legados no Supabase
@@ -1316,7 +1322,7 @@ async function salvar(){
   });
 
   // 3) Salva via UPDATE (RLS permite update, não insert)
-  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}}).eq('id',1);
+  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}}).eq('id',1);
   if(error?.code==='42703'||error?.message?.includes('data_json')){
     ({error}=await sb.from('vetor_painel_maio26').update({...legacy}).eq('id',1));
   }
@@ -1339,9 +1345,11 @@ async function carregar(){
     if(data.data_json?.frentes?.length){
       FRENTES=data.data_json.frentes;
       caixa=data.data_json.caixa||0;
+      antecipacao=data.data_json.antecipacao||0;
       despesasRealizadas=data.data_json.despesasRealizadas||0;
       despesasProjetadas=data.data_json.despesasProjetadas||0;
       set('f_caixa',caixa);
+      set('f_antecipacao',antecipacao);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
     } else {
@@ -1366,9 +1374,11 @@ function iniciarRealtime(){
       _syncAtivo=true;
       FRENTES=msg.payload.frentes;
       caixa=msg.payload.caixa||0;
+      antecipacao=msg.payload.antecipacao||0;
       despesasRealizadas=msg.payload.despesasRealizadas||0;
       despesasProjetadas=msg.payload.despesasProjetadas||0;
       set('f_caixa',caixa);
+      set('f_antecipacao',antecipacao);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
       renderAll();calcular();
