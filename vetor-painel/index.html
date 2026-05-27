@@ -682,12 +682,22 @@ input[type=number]{-moz-appearance:textfield}
       <div class="cd-card despesas inp-group">
         <div class="inp-label">
           <span class="inp-label-text">📋 Contas do Período</span>
-          <span class="tt" data-tip="Total de obrigações previstas para o restante do mês — fornecedores, folha, aluguel etc.">?</span>
+          <span class="tt" data-tip="Realizadas: contas já pagas até hoje. Projetadas: obrigações previstas até 31/05. O total compõe o resultado.">?</span>
         </div>
-        <div class="inp-row">
-          <input class="inp-field" id="f_despesas" type="text" oninput="mascaraMoeda(this);despesasChanged()" placeholder="R$ 0,00">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div>
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">✓ Realizadas — já pagas</div>
+            <input class="inp-field" id="f_desp_real" type="text" oninput="mascaraMoeda(this);despRealChanged()" placeholder="R$ 0,00">
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">⏳ Projetadas — até 31/05</div>
+            <input class="inp-field" id="f_desp_proj" type="text" oninput="mascaraMoeda(this);despProjChanged()" placeholder="R$ 0,00">
+          </div>
         </div>
-        <div class="inp-meta"><span>Obrigações restantes no mês</span></div>
+        <div class="inp-meta" style="margin-top:8px;border-top:1px solid var(--border);padding-top:6px;">
+          <span style="font-weight:700;color:var(--orange)">Total obrigações:</span>
+          <span id="desp-total-val" style="font-weight:800;color:var(--orange)">R$ 0</span>
+        </div>
       </div>
       <div class="cd-card resultado-pos inp-group" id="cd-resultado-card">
         <div class="inp-label">
@@ -1022,7 +1032,8 @@ const STATIC_ACCS = new Set(['novas','base','inad','exames']);
 const CIRCUM = 2 * Math.PI * 80;
 let _syncAtivo = false;
 let caixa = 0;
-let despesas = 0;
+let despesasRealizadas = 0;
+let despesasProjetadas = 0;
 let _saveTimer  = null;
 let _modoEdicao = false;
 let _novaCor    = 'blue';
@@ -1235,10 +1246,14 @@ function calcular(){
 }
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
-function despesasChanged(){ despesas=val('f_despesas'); calcular(); }
+function despRealChanged(){ despesasRealizadas=val('f_desp_real'); calcular(); }
+function despProjChanged(){ despesasProjetadas=val('f_desp_proj'); calcular(); }
 function atualizarResultado(totalReceitas){
   const tr=totalReceitas!=null?totalReceitas:FRENTES.reduce((s,f)=>s+f.realizado,0)+caixa;
-  const resultado=tr-despesas;
+  const totalDesp=despesasRealizadas+despesasProjetadas;
+  const resultado=tr-totalDesp;
+  const dtEl=document.getElementById('desp-total-val');
+  if(dtEl) dtEl.textContent=fmt(totalDesp);
   const valEl=document.getElementById('cd-resultado-val');
   const msgEl=document.getElementById('cd-resultado-msg');
   const card=document.getElementById('cd-resultado-card');
@@ -1264,15 +1279,19 @@ function atualizarFrente(id,v,meta){
 // ── LOCAL STORAGE ──
 const LS_KEY = 'vetor_frentes_maio26_v1';
 function salvarLocal(){
-  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,despesas}));}catch(e){}
+  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}));}catch(e){}
 }
 function carregarLocal(){
   try{
     const s=localStorage.getItem(LS_KEY);
     if(s){
       const stored=JSON.parse(s);
-      if(Array.isArray(stored)&&stored.length){FRENTES=stored;} // formato legado
-      else if(stored?.frentes?.length){FRENTES=stored.frentes;caixa=stored.caixa||0;despesas=stored.despesas||0;}
+      if(Array.isArray(stored)&&stored.length){FRENTES=stored;}
+      else if(stored?.frentes?.length){
+        FRENTES=stored.frentes;caixa=stored.caixa||0;
+        despesasRealizadas=stored.despesasRealizadas||0;
+        despesasProjetadas=stored.despesasProjetadas||0;
+      }
     }
   }catch(e){}
 }
@@ -1287,7 +1306,7 @@ async function salvar(){
 
   // 1) Broadcast full state para todos que estão com o link aberto agora
   if(_broadcastCh){
-    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,despesas}});
+    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}});
   }
 
   // 2) Persistir realizado dos 5 campos legados no Supabase
@@ -1297,7 +1316,7 @@ async function salvar(){
   });
 
   // 3) Salva via UPDATE (RLS permite update, não insert)
-  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,despesas}}).eq('id',1);
+  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,despesasRealizadas,despesasProjetadas}}).eq('id',1);
   if(error?.code==='42703'||error?.message?.includes('data_json')){
     ({error}=await sb.from('vetor_painel_maio26').update({...legacy}).eq('id',1));
   }
@@ -1320,9 +1339,11 @@ async function carregar(){
     if(data.data_json?.frentes?.length){
       FRENTES=data.data_json.frentes;
       caixa=data.data_json.caixa||0;
-      despesas=data.data_json.despesas||0;
+      despesasRealizadas=data.data_json.despesasRealizadas||0;
+      despesasProjetadas=data.data_json.despesasProjetadas||0;
       set('f_caixa',caixa);
-      set('f_despesas',despesas);
+      set('f_desp_real',despesasRealizadas);
+      set('f_desp_proj',despesasProjetadas);
     } else {
       // Aplica realizados do Supabase nas frentes base (localStorage já foi carregado antes)
       ['recorrente','novas','base','inad','exames'].forEach(id=>{
@@ -1345,9 +1366,11 @@ function iniciarRealtime(){
       _syncAtivo=true;
       FRENTES=msg.payload.frentes;
       caixa=msg.payload.caixa||0;
-      despesas=msg.payload.despesas||0;
+      despesasRealizadas=msg.payload.despesasRealizadas||0;
+      despesasProjetadas=msg.payload.despesasProjetadas||0;
       set('f_caixa',caixa);
-      set('f_despesas',despesas);
+      set('f_desp_real',despesasRealizadas);
+      set('f_desp_proj',despesasProjetadas);
       renderAll();calcular();
       _syncAtivo=false;
       setStatus('↻ Atualizado por outro usuário','ok');
