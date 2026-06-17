@@ -1091,110 +1091,89 @@ function calcular(){
 
 // ── CRYSTAL BALL ──────────────────────────────────────────────────────────
 function calcCrystalBall(){
-  // Guard rápido: aborta se section não renderizou ainda
   if(!document.getElementById('cb-elapsed')) return;
-  try {
-  // Mês de referência: mês atual do painel
-  const Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
-  const monthStart=new Date(Y,M,1);
-  const monthEnd=new Date(Y,M+1,0); // último dia do mês
-  const hoje=new Date(); hoje.setHours(0,0,0,0);
 
-  // Total de dias úteis no mês
-  let totalDU=0;
-  const daysInMonth=monthEnd.getDate();
-  for(let d=1;d<=daysInMonth;d++){const w=new Date(Y,M,d).getDay();if(w!==0&&w!==6)totalDU++;}
+  // ── Cálculos ────────────────────────────────────────────────────────────
+  var Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
+  var monthStart=new Date(Y,M,1);
+  var monthEnd=new Date(Y,M+1,0);
+  var hoje=new Date(); hoje.setHours(0,0,0,0);
 
-  // Dias úteis decorridos (do dia 1 até ontem, ou até o fim do mês se passou)
-  const refFim=hoje<=monthEnd?new Date(hoje.getTime()-86400000):monthEnd; // ontem ou fim do mês
-  let elapsedDU=0;
+  var totalDU=0;
+  var daysInMonth=monthEnd.getDate();
+  for(var d=1;d<=daysInMonth;d++){var _w=new Date(Y,M,d).getDay();if(_w!==0&&_w!==6)totalDU++;}
+
+  var refFim=hoje<=monthEnd?new Date(hoje.getTime()-86400000):monthEnd;
+  var elapsedDU=0;
   if(refFim>=monthStart){
-    for(let d=1;d<=refFim.getDate();d++){
-      if(new Date(Y,M,d)>refFim)break;
-      const w=new Date(Y,M,d).getDay();if(w!==0&&w!==6)elapsedDU++;
+    for(var d2=1;d2<=refFim.getDate();d2++){
+      if(new Date(Y,M,d2)>refFim)break;
+      var _w2=new Date(Y,M,d2).getDay();if(_w2!==0&&_w2!==6)elapsedDU++;
     }
   }
   elapsedDU=Math.max(0,Math.min(elapsedDU,totalDU));
+  var remainingDU=Math.max(0,totalDU-elapsedDU);
 
-  // Dias úteis restantes
-  const remainingDU=Math.max(0,totalDU-elapsedDU);
+  var realizado=FRENTES.reduce(function(s,f){return s+(f.realizado||0);},0);
+  var meta=FRENTES.reduce(function(s,f){return s+(f.meta||0);},0);
 
-  // Receita e meta
-  const realizado=FRENTES.reduce((s,f)=>s+f.realizado,0);
-  const meta=FRENTES.reduce((s,f)=>s+f.meta,0);
+  var ritmoAtual=elapsedDU>0?realizado/elapsedDU:0;
+  var ritmoNecessario=remainingDU>0?(meta-realizado)/remainingDU:0;
 
-  // Ritmos
-  const ritmoAtual=elapsedDU>0?realizado/elapsedDU:0;
-  const ritmoNecessario=remainingDU>0?(meta-realizado)/remainingDU:0;
+  var dPess=despesasRealizadas+(despesasProjetadas||0)*0.8;
+  var dCons=despesasRealizadas+(despesasProjetadas||0)*1.0;
+  var dOpt =despesasRealizadas+(despesasProjetadas||0)*1.2;
 
-  // Despesas: realizadas fixas + projetadas escalam com o fator do cenário
-  const despPess=despesasRealizadas+despesasProjetadas*0.8;
-  const despCons=despesasRealizadas+despesasProjetadas*1.0;
-  const despOpt =despesasRealizadas+despesasProjetadas*1.2;
+  var potencial=(entradasProjetadas||0)>0?(entradasProjetadas||0):Math.max(0,ritmoAtual*remainingDU);
+  var projPess=realizado+potencial*0.8;
+  var projCons=realizado+potencial*1.0;
+  var projOpt =realizado+potencial*1.2;
 
-  // Projeções de receita
-  const potencial=entradasProjetadas>0?entradasProjetadas:Math.max(0,ritmoAtual*remainingDU);
-  const projPess=realizado+potencial*0.8;
-  const projCons=realizado+potencial*1.0;
-  const projOpt =realizado+potencial*1.2;
+  var resPess=projPess-dPess;
+  var resCons=projCons-dCons;
+  var resOpt =projOpt -dOpt;
 
-  // Resultados operacionais
-  const resPess=projPess-despPess;
-  const resCons=projCons-despCons;
-  const resOpt =projOpt -despOpt;
+  var refDU=remainingDU>0?remainingDU:totalDU;
+  var rNecPess=refDU>0?potencial*0.8/refDU:0;
+  var rNecCons=refDU>0?potencial*1.0/refDU:0;
+  var rNecOpt =refDU>0?potencial*1.2/refDU:0;
 
-  // Ritmo necessário por cenário
-  const refDU=remainingDU>0?remainingDU:totalDU;
-  const ritmoNecPess=refDU>0?potencial*0.8/refDU:0;
-  const ritmoNecCons=refDU>0?potencial*1.0/refDU:0;
-  const ritmoNecOpt =refDU>0?potencial*1.2/refDU:0;
-
-  // Probabilidades — lógica matemática de ritmo
-  const pctDecorrido=totalDU>0?(elapsedDU/totalDU)*100:0;
-  const ritmoPct=meta>0&&totalDU>0?(ritmoAtual/(meta/totalDU))*100:100;
-
-  let pPess=25,pCons=50,pOpt=25;
-  if(ritmoPct<80){
-    const gap=Math.min(80-ritmoPct,40);
-    pPess+=gap*0.35;pOpt-=gap*0.18;pCons-=gap*0.17;
-  } else if(ritmoPct>120){
-    const surplus=Math.min(ritmoPct-120,40);
-    pOpt+=surplus*0.35;pPess-=surplus*0.18;pCons-=surplus*0.17;
-  }
-  // Quanto mais o mês avança, conservador domina
-  pPess*=(1-pctDecorrido/100*0.5);
-  pOpt *=(1-pctDecorrido/100*0.5);
-  pCons=100-pPess-pOpt;
-  pPess=Math.max(5,Math.min(65,pPess));
-  pOpt =Math.max(5,Math.min(65,pOpt));
+  var pctDec=totalDU>0?(elapsedDU/totalDU)*100:0;
+  var ritmoPct=meta>0&&totalDU>0?(ritmoAtual/(meta/totalDU))*100:100;
+  var pPess=25,pCons=50,pOpt=25;
+  if(ritmoPct<80){var g=Math.min(80-ritmoPct,40);pPess+=g*0.35;pOpt-=g*0.18;pCons-=g*0.17;}
+  else if(ritmoPct>120){var s=Math.min(ritmoPct-120,40);pOpt+=s*0.35;pPess-=s*0.18;pCons-=s*0.17;}
+  pPess*=(1-pctDec/100*0.5); pOpt*=(1-pctDec/100*0.5); pCons=100-pPess-pOpt;
+  pPess=Math.max(5,Math.min(65,pPess)); pOpt=Math.max(5,Math.min(65,pOpt));
   pCons=Math.max(10,100-pPess-pOpt);
-  const tot=pPess+pCons+pOpt;
-  const pb={pess:Math.round(pPess/tot*100),opt:Math.round(pOpt/tot*100)};
-  pb.cons=100-pb.pess-pb.opt;
+  var tot=pPess+pCons+pOpt;
+  var pbPess=Math.round(pPess/tot*100);
+  var pbOpt=Math.round(pOpt/tot*100);
+  var pbCons=100-pbPess-pbOpt;
 
-  // Atualiza UI
-  const $=id=>document.getElementById(id);
-  $('cb-elapsed').textContent=elapsedDU;
-  $('cb-elapsed-sub').textContent='de '+totalDU+' dias úteis no mês';
-  $('cb-remaining').textContent=remainingDU;
-  $('cb-remaining-sub').textContent=remainingDU===0?'Mês encerrado':'até o fim do mês';
-  $('cb-pace').textContent=fmt(ritmoAtual);
-  $('cb-required').textContent=remainingDU>0?fmt(Math.max(0,ritmoNecessario)):fmt(0);
+  // ── UI ──────────────────────────────────────────────────────────────────
+  function el(id){return document.getElementById(id);}
+  function set(id,v){var e=el(id);if(e)e.textContent=v;}
 
-  const setCard=(pre,proj,desp,res,prob,ritmoNec)=>{
-    $(pre+'-prob').textContent=prob+'%';
-    $(pre+'-rec').textContent=fmt(proj);
-    $(pre+'-desp').textContent=fmt(desp);
-    $(pre+'-res').textContent=(res<0?'−':'')+fmt(Math.abs(res));
-    $(pre+'-res').className='cb-result-val '+(res>=0?'pos':'neg');
-    if($(pre+'-ritmo')) $(pre+'-ritmo').textContent=ritmoNec>0?fmt(ritmoNec)+'/dia':'—';
-  };
-  setCard('cb-pess',projPess,despPess,resPess,pb.pess,ritmoNecPess);
-  setCard('cb-cons',projCons,despCons,resCons,pb.cons,ritmoNecCons);
-  setCard('cb-opt', projOpt, despOpt, resOpt, pb.opt, ritmoNecOpt);
-  } catch(e){ console.error('CrystalBall error:',e); }
+  set('cb-elapsed', elapsedDU);
+  set('cb-elapsed-sub','de '+totalDU+' dias úteis no mês');
+  set('cb-remaining', remainingDU);
+  set('cb-remaining-sub', remainingDU===0?'Mês encerrado':'até o fim do mês');
+  set('cb-pace', fmt(ritmoAtual));
+  set('cb-required', remainingDU>0?fmt(Math.max(0,ritmoNecessario)):fmt(0));
+
+  function card(pre,proj,desp,res,prob,rNec){
+    set(pre+'-prob', prob+'%');
+    set(pre+'-rec',  fmt(proj));
+    set(pre+'-desp', fmt(desp));
+    var re=el(pre+'-res');
+    if(re){re.textContent=(res<0?'−':'')+fmt(Math.abs(res));re.className='cb-result-val '+(res>=0?'pos':'neg');}
+    set(pre+'-ritmo', rNec>0?fmt(rNec)+'/dia':'—');
+  }
+  card('cb-pess',projPess,dPess,resPess,pbPess,rNecPess);
+  card('cb-cons',projCons,dCons,resCons,pbCons,rNecCons);
+  card('cb-opt', projOpt, dOpt, resOpt, pbOpt, rNecOpt);
 }
-
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
 function antecipacaoChanged(){ antecipacao=val('f_antecipacao'); calcular(); }
 function entradasProjChanged(){ entradasProjetadas=val('f_entradas_proj'); calcular(); }
