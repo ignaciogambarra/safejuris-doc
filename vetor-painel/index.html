@@ -615,19 +615,145 @@ input[type=number]{-moz-appearance:textfield}
   .shead{page-break-after:avoid!important}
   .painel-top,.inputs-grid,.cd-row,.cb-context,.cb-grid{page-break-inside:avoid!important}
 }
+/* ════════════════════════════════════════════════
+   MOBILE — 700px  (phablets / tablets menores)
+   Apenas ajustes de transição para layout em coluna
+════════════════════════════════════════════════ */
+@media(max-width:700px){
+  /* Ring reduz na transição para coluna única */
+  .ring-wrap{width:130px!important;height:130px!important;margin:0 auto}
+  .ring-svg{width:130px!important;height:130px!important}
+  .ring-pct{font-size:24px}
+  .ring-pct-label{font-size:9px}
+
+  /* CB seção — padding lateral mais justo */
+  .cb-section{padding:8px 20px 28px}
+}
+
+/* ════════════════════════════════════════════════
+   MOBILE — 640px  (smartphones em geral)
+   Redesenho visual completo preservando todos os dados
+════════════════════════════════════════════════ */
 @media(max-width:640px){
-  .hero{padding:32px 20px 36px}
-  .hero-title{font-size:22px}
-  .hero-goal{font-size:40px}
-  .container{padding:24px 16px 60px}
+
+  /* ── Nav ─────────────────────────────────── */
   .nav{padding:0 16px}
-  .inputs-grid{padding:14px 16px 20px;gap:10px}
-  .painel-top{padding:28px 20px}
+  .nav-inner{height:48px}
+  .nav-logo span{font-size:12px}
+  .nav-links{display:none}                        /* links de âncora desnecessários no mobile */
+  .save-status,.save-ts{display:none!important}   /* status de sync não cabe na barra */
+
+  /* ── Hero ────────────────────────────────── */
+  .hero{padding:20px 18px 22px}
+  .hero-inner{flex-direction:column!important;align-items:flex-start!important;gap:14px!important}
+  .hero-right{width:100%}
+  .hero-title{font-size:20px;letter-spacing:-.2px}
+  .hero-sub{font-size:11px}
+  .hero-meta-label{font-size:9px;letter-spacing:.8px}
+  .hero-goal{font-size:34px;letter-spacing:-1px}
+  .hero-goal-sub{font-size:11px;margin-top:4px}
+
+  /* ── Alert strip ─────────────────────────── */
+  .alert-strip{padding:10px 18px;font-size:12px}
+
+  /* ── Container ───────────────────────────── */
+  .container{padding:16px 14px 48px}
   .mrr-row{grid-template-columns:1fr}
   .mrr-insight{grid-column:span 1}
-  .painel-pace{flex-direction:column}
+
+  /* ── Section headers ─────────────────────── */
+  .shead{padding:12px 0 6px}
+  .shead h2{font-size:14px}
+  .shead p{font-size:11px}
+  .shead-line{margin-top:5px}
+
+  /* ── Painel (card externo) ───────────────── */
+  .painel{border-radius:10px}
+
+  /* ── Painel top: ring + totais ───────────── */
+  .painel-top{
+    padding:20px 18px 16px!important;
+    text-align:left!important;
+    gap:20px!important
+  }
+  .ring-wrap{width:110px!important;height:110px!important;margin:0!important}
+  .ring-svg{width:110px!important;height:110px!important}
+  .ring-pct{font-size:20px}
+  .ring-pct-label{font-size:9px}
+  .painel-kicker{font-size:9px;letter-spacing:1px;margin-bottom:4px}
+  .painel-valor{font-size:30px;letter-spacing:-.8px}
+  .painel-valor em{font-size:14px;margin-left:6px}
+  .painel-msg{font-size:12px;margin-top:8px}
+
+  /* ── Pace cards — grade 2+1 ──────────────── */
+  .painel-pace{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+    flex-direction:unset!important;
+    gap:8px!important;
+    margin-top:14px!important
+  }
+  .pace-card{min-width:0;padding:10px 14px}
+  .pace-card:nth-child(3){grid-column:span 2}   /* dias úteis: linha inteira */
+  .pace-card strong{font-size:14px;letter-spacing:-.3px}
+
+  /* ── Inputs strip ────────────────────────── */
+  .inputs-strip{padding:12px 18px 0;font-size:9px}
+
+  /* ── Frentes — 2 colunas ─────────────────── */
+  .inputs-grid{
+    grid-template-columns:1fr 1fr!important;
+    padding:12px 18px 18px!important;
+    gap:8px!important
+  }
   .frentes-grid{grid-template-columns:1fr 1fr;gap:8px}
-  .alert-strip{padding:10px 20px}
+  .inp-group{padding:12px 14px}
+
+  /* ── Posição Financeira ───────────────────── */
+  .cd-strip{padding:12px 18px 8px;font-size:9px;letter-spacing:.6px}
+  .cd-row{padding:4px 14px 18px!important;gap:10px}
+  .cd-card{padding:14px 16px}
+  .cd-resultado-val{font-size:24px}
+  .cd-resultado-proj-val{font-size:20px}
+
+  /* ── Crystal Ball — contexto ─────────────── */
+  .cb-section{padding:8px 14px 24px}
+  .cb-context{gap:8px!important;margin-bottom:12px!important}
+  .cb-ctx-item{padding:12px 14px}
+  .cb-ctx-val{font-size:20px}
+  .cb-ctx-sub{font-size:10px;margin-top:2px}
+
+  /* ── Crystal Ball — cenários ─────────────── */
+  .cb-grid{gap:10px!important}
+  .cb-card{padding:16px 18px}
+  .cb-card-header{margin-bottom:12px}
+  .cb-scenario{font-size:12px}
+  .cb-adj{font-size:11px;margin-top:2px}
+  .cb-prob-badge{font-size:13px;padding:5px 11px}
+  .cb-metric{font-size:12px;padding:8px 0}
+  .cb-result-block{padding:12px 14px;margin-top:12px;border-radius:9px}
+  .cb-result-val{font-size:22px}
+
+  /* ── Footer ──────────────────────────────── */
+  .footer{padding:20px 16px 28px;text-align:center}
+}
+
+/* ════════════════════════════════════════════════
+   MOBILE — 390px  (iPhone SE, Galaxy A, telas ~375px)
+════════════════════════════════════════════════ */
+@media(max-width:390px){
+  .hero{padding:16px 14px 18px}
+  .hero-title{font-size:18px}
+  .hero-goal{font-size:28px}
+  .painel-top{padding:16px 14px 12px!important;gap:16px!important}
+  .ring-wrap{width:96px!important;height:96px!important}
+  .ring-svg{width:96px!important;height:96px!important}
+  .ring-pct{font-size:18px}
+  .painel-valor{font-size:26px}
+  .inputs-grid{padding:10px 14px 14px!important;gap:6px!important}
+  .cd-strip{padding:10px 14px 6px}
+  .cd-row{padding:4px 10px 14px!important;gap:8px}
+  .cb-section{padding:6px 10px 20px}
 }
 /* ── CRYSTAL BALL ── */
 .cb-section{padding:8px 28px 32px}
