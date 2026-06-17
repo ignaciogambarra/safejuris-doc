@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-<title>Painel de Metas — Maio 2026 | Vetor SST</title>
+<title id="page-title">Painel de Metas | Vetor SST</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -439,7 +439,7 @@ input[type=number]{-moz-appearance:textfield}
   <div class="nav-inner">
     <div class="nav-logo">
       <div class="mark"><svg viewBox="0 0 14 14"><path d="M7 1L13 13H1L7 1Z"/></svg></div>
-      <span>Vetor SST · Painel Maio 2026</span>
+      <span id="nav-mes">Vetor SST · Painel</span>
     </div>
     <div class="nav-links">
       <a class="nav-link" onclick="ir('painel')">Receita</a>
@@ -455,7 +455,7 @@ input[type=number]{-moz-appearance:textfield}
 <div class="modal-overlay hidden" id="modal">
   <div class="modal">
     <div class="modal-header">
-      <h2>Painel de Metas — Maio 2026</h2>
+      <h2 id="hero-h2">Painel de Metas</h2>
       <p>Vetor SST · 3 passos para começar</p>
     </div>
     <div class="modal-steps">
@@ -542,7 +542,7 @@ input[type=number]{-moz-appearance:textfield}
   <div class="hero-inner">
     <div>
       <div class="hero-badge">⚡ Urgente</div>
-      <h1 class="hero-title">Plano de Ataque — Maio 2026</h1>
+      <h1 class="hero-title" id="hero-h1">Painel de Metas</h1>
       <p class="hero-sub">Leonardo Perez · CEO &nbsp;·&nbsp; Eduardo Luzardo · CFO as a Service &nbsp;·&nbsp; Holding Bersagui &amp; Gambarra</p>
     </div>
     <div class="hero-right">
@@ -585,7 +585,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <!-- INFO -->
       <div class="painel-right">
-        <div class="painel-kicker">Total Realizado em Maio</div>
+        <div class="painel-kicker" id="painel-kicker">Total Realizado no Mês</div>
         <div class="painel-valor"><span id="total-val">R$ 0</span><em id="painel-meta-txt">de R$ 150k</em></div>
         <div class="painel-msg" id="painel-msg">Insira os valores realizados abaixo para começar o acompanhamento.</div>
         <div class="painel-pace">
@@ -844,27 +844,31 @@ input[type=number]{-moz-appearance:textfield}
     </div>
   </div>
 
-  <!-- NOTA -->
-  <div style="margin-top:32px">
-    <div class="nota">
-      <div class="nota-kicker">Nota do Conselho</div>
-      <div class="nota-title">Holding Bersagui &amp; Gambarra</div>
-      <p>Este plano foi montado para dar ao CEO uma estrutura clara de execução para maio. O problema não é falta de oportunidade — é falta de organização das frentes e acompanhamento diário. A Vetor opera num mercado de demanda obrigatória por lei: toda empresa com funcionário CLT é um cliente potencial. <strong>O único competidor real é a inércia.</strong></p>
-      <p>Leonardo — o conselho está aqui para apoiar, não para executar. Mas precisa de relatório semanal simples: quanto entrou em cada frente, o que está travando e o que vai desbloquear na semana seguinte.</p>
-      <div class="nota-diag">
-        <span class="nota-diag-label">Diagnóstico estrutural — além de maio</span>
-        Hoje apenas 23% da receita (R$35k) é recorrente. Os outros 77% (R$115k) precisam ser conquistados do zero em junho, julho, agosto... A meta de longo prazo da holding é inverter esse índice — <strong>70%+ recorrente até dez/2026</strong>. Cada novo contrato fechado este mês é um tijolo nessa fundação.
-      </div>
-    </div>
-  </div>
 
 </div>
 
 <div class="footer">
-  Vetor SST &nbsp;·&nbsp; Painel de Metas Maio 2026 &nbsp;·&nbsp; Holding Bersagui &amp; Gambarra &nbsp;·&nbsp; v3.0
+  <span id="footer-mes">Vetor SST &nbsp;·&nbsp; Painel de Metas &nbsp;·&nbsp; Vetor SST &nbsp;·&nbsp; v3.0</span>
 </div>
 
 <script>
+// ── MÊS DO PAINEL (dinâmico) ──
+const _now = new Date();
+const PANEL_YEAR = _now.getFullYear();
+const PANEL_MONTH_IDX = _now.getMonth();
+const PANEL_MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const PANEL_MONTH_NAME = PANEL_MONTH_NAMES[PANEL_MONTH_IDX];
+const PANEL_LABEL = PANEL_MONTH_NAME + ' ' + PANEL_YEAR;
+(function(){
+  document.title = 'Painel de Metas — ' + PANEL_LABEL + ' | Vetor SST';
+  const s=id=>document.getElementById(id);
+  if(s('nav-mes'))       s('nav-mes').textContent       = 'Vetor SST · Painel ' + PANEL_LABEL;
+  if(s('hero-h2'))       s('hero-h2').textContent       = 'Painel de Metas — ' + PANEL_LABEL;
+  if(s('hero-h1'))       s('hero-h1').textContent       = 'Plano de Ataque — ' + PANEL_LABEL;
+  if(s('painel-kicker')) s('painel-kicker').textContent = 'Total Realizado em ' + PANEL_MONTH_NAME;
+  if(s('footer-mes'))    s('footer-mes').innerHTML      = 'Vetor SST &nbsp;·&nbsp; Painel de Metas ' + PANEL_LABEL + ' &nbsp;·&nbsp; Vetor SST &nbsp;·&nbsp; v3.0';
+})();
+
 // ── SUPABASE ──
 const { createClient } = supabase;
 const sb = createClient(
@@ -1076,7 +1080,7 @@ function calcular(){
   ring.style.stroke=p>=80?'var(--green)':p>=50?'#f59e0b':p>=20?'var(--brand)':'var(--red)';
   document.getElementById('ring-pct').textContent=p.toFixed(1)+'%';
   animCounter('total-val',totalReceitas,600);
-  const diasR=diasUteisAte(new Date('2026-05-31'));
+  const diasR=diasUteisAte(new Date(PANEL_YEAR,PANEL_MONTH_IDX+1,0));
   const diasD=diasUteisDecorridos();
   document.getElementById('dias-uteis-val').textContent=diasR+' dias úteis';
   const necessPorDia=diasR>0?restante/diasR:0;
@@ -1091,7 +1095,7 @@ function calcular(){
   else if(p<50)msg='Progresso iniciado. O ritmo precisa acelerar para fechar o mês.';
   else if(p<75)msg='Bom andamento! Mantenha o ritmo e garanta as frentes mais atrasadas.';
   else if(p<100)msg='Sprint final! Faltam apenas '+fmt(restante)+' para bater a meta.';
-  else msg='Meta atingida! Resultado de maio consolidado.';
+  else msg='Meta atingida! Resultado de '+PANEL_MONTH_NAME+' consolidado.';
   document.getElementById('painel-msg').textContent=msg;
   document.getElementById('alert-dias').textContent=diasR+' dias úteis restantes';
   FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
@@ -1103,8 +1107,8 @@ function calcular(){
 
 // ── CRYSTAL BALL ──────────────────────────────────────────────────────────
 function calcCrystalBall(){
-  // Mês de referência: Maio 2026
-  const Y=2026, M=4; // M=4 → May (0-indexed)
+  // Mês de referência: mês atual do painel
+  const Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
   const monthStart=new Date(Y,M,1);
   const monthEnd=new Date(Y,M+1,0); // último dia do mês
   const hoje=new Date(); hoje.setHours(0,0,0,0);
@@ -1446,7 +1450,7 @@ function diasUteisAte(fim){
   return count;
 }
 function diasUteisDecorridos(){
-  const inicio=new Date('2026-05-01');const hoje=new Date();
+  const inicio=new Date(PANEL_YEAR,PANEL_MONTH_IDX,1);const hoje=new Date();
   let count=0;let d=new Date(inicio);d.setHours(0,0,0,0);
   const h=new Date(hoje);h.setHours(0,0,0,0);
   while(d<h){const dw=d.getDay();if(dw!==0&&dw!==6)count++;d.setDate(d.getDate()+1);}
