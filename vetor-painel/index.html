@@ -872,6 +872,7 @@ let FRENTES = [
 const STATIC_ACCS = new Set(['novas','base','inad','exames']);
 const CIRCUM = 2 * Math.PI * 80;
 let _syncAtivo = false;
+let _dataLoaded = false; // só salva após Supabase carregar
 let caixa = 0;
 let antecipacao = 0;
 let entradasProjetadas = 0;
@@ -1056,8 +1057,6 @@ function atualizarDisplayMetas(){
 }
 
 function calcular(){
-  // Garante que FRENTES.realizado está em sincronia com os inputs antes de calcular
-  FRENTES.forEach(function(f){var inp=document.getElementById('f_'+f.id);if(inp)f.realizado=val('f_'+f.id);});
   const totalReceitas=FRENTES.reduce((s,f)=>s+f.realizado,0);
   const MT=metaTotal();const restante=Math.max(0,MT-totalReceitas);const p=pct(totalReceitas,MT);
   const offset=CIRCUM*(1-p/100);
@@ -1087,7 +1086,7 @@ function calcular(){
   FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
   atualizarResultado(totalReceitas);
   calcCrystalBall();
-  if(!_syncAtivo) salvarDebounced();
+  if(!_syncAtivo && _dataLoaded) salvarDebounced();
   if(p>=100) dispararConfetti();
 }
 
@@ -1269,6 +1268,7 @@ async function carregar(){
   if(!error&&data){
     if(data.data_json?.frentes?.length){
       FRENTES=data.data_json.frentes;
+      _dataLoaded=true;
       caixa=data.data_json.caixa||0;
       antecipacao=data.data_json.antecipacao||0;
       entradasProjetadas=data.data_json.entradasProjetadas||0;
@@ -1310,6 +1310,7 @@ function iniciarRealtime(){
       set('f_entradas_proj',entradasProjetadas);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
+      _dataLoaded=true;
       renderAll();calcular();calcCrystalBall();
       _syncAtivo=false;
       setStatus('↻ Atualizado por outro usuário','ok');
