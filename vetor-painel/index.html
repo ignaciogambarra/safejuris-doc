@@ -384,184 +384,236 @@ input[type=number]{-moz-appearance:textfield}
 .print-only{display:none}
 
 @media print{
-  /* ── Página A4 com margens de segurança ── */
-  @page{size:A4;margin:10mm 12mm 10mm 12mm}
 
-  /* ── Forçar cores e fundos na impressão ── */
-  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  /* ════════════════════════════════════════════════════
+     PÁGINA — A4 com margens executivas de segurança
+  ════════════════════════════════════════════════════ */
+  @page{size:A4 portrait;margin:14mm 15mm 12mm 15mm}
 
-  /* ── Ocultar elementos interativos e navegação ── */
+  /* Forçar cores e fundos exatos */
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;box-shadow:none!important}
+
+  /* ── Ocultar interativos ── */
   .nav,.alert-strip,.modal-overlay,.mnf-overlay,#confetti-canvas,
   .inputs-strip,.metas-edit,.metas-toggle,.hero-badge,
   .inp-label .tt,.acc-header,.acc-chevron,
   button{display:none!important}
 
-  /* ── Mostrar elementos exclusivos de impressão ── */
   .print-only{display:inline!important}
 
-  /* ── Reset geral ── */
-  body{background:#fff!important;font-size:8.5pt;-webkit-font-smoothing:auto}
+  /* ── Base ── */
+  body{background:#fff!important;font-family:'Albert Sans',system-ui,sans-serif;color:#092737}
   .container{padding:0!important;max-width:100%!important}
 
-  /* ── Hero compacto: cabeçalho da página ── */
-  .hero{background:#092737!important;padding:7px 12px!important;border-radius:0!important;page-break-after:avoid}
-  .hero-inner{max-width:100%;padding:0}
-  .hero-title{font-size:13pt!important}
-  .hero-sub{font-size:7pt!important;opacity:.8}
-  .hero-meta-label{font-size:7pt!important}
-  .hero-goal{font-size:17pt!important}
-  .hero-goal-sub{font-size:7pt!important}
+  /* ════════════════════════════════════════════════════
+     CABEÇALHO — elegante, navy completo
+  ════════════════════════════════════════════════════ */
+  .hero{
+    background:#092737!important;
+    padding:13px 18px 12px!important;
+    border-radius:0!important;
+    page-break-after:avoid
+  }
+  .hero-inner{max-width:100%;padding:0;align-items:center;flex-wrap:nowrap;gap:24px}
+  .hero-title{font-size:15pt!important;letter-spacing:-.3px!important;margin-bottom:3px!important}
+  .hero-sub{font-size:8pt!important;opacity:.7!important;margin-top:0!important}
+  .hero-meta-label{font-size:7pt!important;letter-spacing:1.2px!important;opacity:.6!important;margin-bottom:4px!important}
+  .hero-goal{font-size:24pt!important;letter-spacing:-1px!important;line-height:1!important}
+  .hero-goal-sub{font-size:7.5pt!important;opacity:.6!important;margin-top:4px!important}
 
-  /* ── Section headers compactos ── */
-  .shead{padding:5px 0 3px!important;page-break-after:avoid!important}
-  .shead h2{font-size:9.5pt!important}
-  .shead p{font-size:7pt!important}
-  .shead-icon{font-size:13px!important}
-  .shead-line{margin-top:3px!important}
+  /* ════════════════════════════════════════════════════
+     SECTION HEADERS
+  ════════════════════════════════════════════════════ */
+  .shead{padding:10px 0 6px!important;page-break-after:avoid!important}
+  .shead-icon{font-size:15px!important}
+  .shead h2{font-size:10.5pt!important;letter-spacing:-.1px!important}
+  .shead p{font-size:8pt!important}
+  .shead-line{margin-top:6px!important;height:2px!important}
 
-  /* ── Painel de Receita ── */
-  .painel{box-shadow:none!important;border:none!important}
+  /* ════════════════════════════════════════════════════
+     PAINEL DE RECEITA — ring + totais + pace
+  ════════════════════════════════════════════════════ */
+  .painel{background:transparent!important;border:none!important}
   .painel-top{
-    padding:8px 10px!important;
-    gap:14px!important;
+    padding:12px 0 10px!important;
+    gap:24px!important;
     grid-template-columns:auto 1fr!important;
+    align-items:center!important;
     page-break-inside:avoid
   }
 
-  /* ── Ring SVG menor ── */
-  .ring-wrap{width:88px!important;height:88px!important}
-  .ring-svg{width:88px!important;height:88px!important}
-  .ring-pct{font-size:16pt!important}
-  .ring-pct-label{font-size:7pt!important}
+  /* Ring SVG */
+  .ring-wrap{width:90px!important;height:90px!important}
+  .ring-svg{width:90px!important;height:90px!important}
+  .ring-pct{font-size:17pt!important;font-weight:900!important}
+  .ring-pct-label{font-size:7.5pt!important;opacity:.7}
 
-  /* ── Totais e pace cards ── */
-  .painel-kicker{font-size:7pt!important;margin-bottom:4px!important}
-  .painel-valor{font-size:22pt!important}
-  .painel-valor em{font-size:9pt!important;margin-left:6px!important}
-  .painel-msg{font-size:7.5pt!important;margin-top:5px!important}
-  .painel-pace{display:flex!important;flex-wrap:nowrap!important;gap:6px!important;margin-top:8px!important}
-  .pace-card{padding:5px 8px!important;font-size:7pt!important;min-width:0!important;flex:1}
-  .pace-card strong{font-size:10.5pt!important;margin-bottom:0!important}
+  /* Total realizado */
+  .painel-kicker{font-size:7.5pt!important;letter-spacing:1.2px!important;margin-bottom:4px!important}
+  .painel-valor{font-size:28pt!important;letter-spacing:-1.2px!important;line-height:1!important}
+  .painel-valor em{font-size:11pt!important;margin-left:8px!important;font-weight:400!important}
+  .painel-msg{font-size:8.5pt!important;margin-top:6px!important;line-height:1.45!important;color:#374151!important}
 
-  /* ── Frentes: 5 colunas em linha única ── */
+  /* Pace cards */
+  .painel-pace{display:flex!important;flex-wrap:nowrap!important;gap:8px!important;margin-top:12px!important}
+  .pace-card{
+    padding:8px 14px!important;
+    font-size:8pt!important;
+    min-width:0!important;
+    flex:1!important;
+    border-radius:8px!important;
+    border:1px solid #e2e8f0!important;
+    line-height:1.3!important
+  }
+  .pace-card strong{font-size:12.5pt!important;display:block!important;margin-bottom:3px!important;letter-spacing:-.3px!important}
+
+  /* ════════════════════════════════════════════════════
+     FRENTES — 5 colunas
+  ════════════════════════════════════════════════════ */
   .inputs-grid{
     display:grid!important;
     grid-template-columns:repeat(5,1fr)!important;
-    gap:5px!important;
-    padding:5px 10px 8px!important;
+    gap:7px!important;
+    padding:0 0 10px!important;
     background:transparent!important;
     page-break-inside:avoid
   }
   .inp-group{
-    padding:7px 8px!important;
-    box-shadow:none!important;
+    padding:10px 12px!important;
     border:1px solid #e2e8f0!important;
-    border-radius:7px!important;
-    page-break-inside:avoid!important;
-    background:#fff!important
+    border-radius:9px!important;
+    background:#fff!important;
+    page-break-inside:avoid!important
   }
-  .inp-label{font-size:6.5pt!important;margin-bottom:3px!important}
+  .inp-label{font-size:7pt!important;margin-bottom:4px!important;letter-spacing:.3px!important}
   .inp-row{margin:0!important}
   .inp-field{
     border:none!important;
     background:transparent!important;
-    box-shadow:none!important;
-    padding:1px 0!important;
-    font-size:11pt!important;
+    padding:2px 0!important;
+    font-size:12pt!important;
     font-weight:900!important;
     color:#092737!important;
     width:100%!important;
     height:auto!important;
     min-height:0!important;
-    -webkit-appearance:none
+    -webkit-appearance:none;
+    line-height:1.2!important
   }
-  .inp-bar{height:3px!important;border-radius:2px!important;margin:3px 0!important}
+  .inp-bar{height:3px!important;border-radius:2px!important;margin:5px 0 4px!important;background:#f1f3f5!important}
   .inp-bar-fill{height:3px!important}
-  .inp-meta{font-size:6.5pt!important;margin-top:2px!important}
+  .inp-meta{font-size:7pt!important;margin-top:3px!important;color:#6B7280!important}
 
-  /* ── Posição Financeira: 3 colunas ── */
-  .cd-strip{font-size:7pt!important;padding:3px 10px!important;background:transparent!important;border-top:1px solid #e2e8f0!important}
+  /* ════════════════════════════════════════════════════
+     POSIÇÃO FINANCEIRA — 3 colunas
+  ════════════════════════════════════════════════════ */
+  .cd-strip{
+    font-size:7.5pt!important;
+    padding:6px 0 5px!important;
+    background:transparent!important;
+    border-top:1px solid #e2e8f0!important;
+    letter-spacing:.8px!important;
+    color:#374151!important
+  }
   .cd-row{
     display:grid!important;
     grid-template-columns:1fr 1fr 1fr!important;
-    gap:5px!important;
-    padding:5px 10px 8px!important;
+    gap:7px!important;
+    padding:6px 0 10px!important;
     background:transparent!important;
     page-break-inside:avoid
   }
   .cd-card{
-    padding:7px 9px!important;
-    box-shadow:none!important;
+    padding:12px 14px!important;
     border:1px solid #e2e8f0!important;
-    border-radius:7px!important;
-    border-top-width:2px!important;
-    page-break-inside:avoid!important;
-    background:#fff!important
+    border-radius:9px!important;
+    border-top-width:3px!important;
+    background:#fff!important;
+    page-break-inside:avoid!important
   }
-  .cd-resultado-val{font-size:15pt!important;margin:4px 0 2px!important}
-  .cd-resultado-msg{font-size:6.5pt!important;margin-top:2px!important}
-  .cd-resultado-proj-block{margin-top:7px!important;padding-top:7px!important}
-  .cd-resultado-proj-label{font-size:6.5pt!important;margin-bottom:3px!important}
-  .cd-resultado-proj-val{font-size:12pt!important;margin:3px 0 2px!important}
-  .cd-resultado-proj-msg{font-size:6.5pt!important;margin-top:2px!important}
 
-  /* ── Crystal Ball: contexto 4 colunas ── */
-  .cb-section{padding:3px 10px 6px!important}
+  /* Valores do card resultado */
+  .cd-resultado-val{font-size:18pt!important;margin:6px 0 3px!important;letter-spacing:-.5px!important;line-height:1.1!important}
+  .cd-resultado-msg{font-size:7.5pt!important;margin-top:4px!important;line-height:1.4!important;color:#6B7280!important}
+  .cd-resultado-proj-block{margin-top:12px!important;padding-top:12px!important}
+  .cd-resultado-proj-label{font-size:7.5pt!important;margin-bottom:5px!important}
+  .cd-resultado-proj-val{font-size:15pt!important;margin:5px 0 3px!important;letter-spacing:-.4px!important}
+  .cd-resultado-proj-msg{font-size:7.5pt!important;margin-top:4px!important;color:#6B7280!important}
+
+  /* Sub-rótulos internos das cd-cards (caixa, despesas) */
+  .cd-card [style*="font-size:9px"]{font-size:7pt!important}
+  .cd-card .inp-field{font-size:11pt!important}
+
+  /* ════════════════════════════════════════════════════
+     CRYSTAL BALL — contexto 4 colunas
+  ════════════════════════════════════════════════════ */
+  .cb-section{padding:4px 0 8px!important}
   .cb-context{
     grid-template-columns:repeat(4,1fr)!important;
-    gap:5px!important;
-    margin-bottom:6px!important;
+    gap:7px!important;
+    margin-bottom:8px!important;
     page-break-inside:avoid
   }
   .cb-ctx-item{
-    padding:7px 9px!important;
-    box-shadow:none!important;
+    padding:10px 13px!important;
     border:1px solid #e2e8f0!important;
-    border-radius:7px!important;
+    border-radius:9px!important;
     background:#fff!important;
     page-break-inside:avoid
   }
-  .cb-ctx-label{font-size:6.5pt!important;margin-bottom:4px!important}
-  .cb-ctx-val{font-size:14pt!important}
-  .cb-ctx-sub{font-size:6.5pt!important;margin-top:2px!important}
+  .cb-ctx-label{font-size:7pt!important;margin-bottom:6px!important;letter-spacing:.5px!important}
+  .cb-ctx-val{font-size:17pt!important;letter-spacing:-.5px!important;line-height:1!important}
+  .cb-ctx-sub{font-size:7.5pt!important;margin-top:4px!important;color:#6B7280!important}
 
-  /* ── Crystal Ball: cenários 3 colunas ── */
+  /* ════════════════════════════════════════════════════
+     CRYSTAL BALL — cenários 3 colunas
+  ════════════════════════════════════════════════════ */
   .cb-grid{
     grid-template-columns:repeat(3,1fr)!important;
-    gap:6px!important;
+    gap:8px!important;
     page-break-inside:avoid
   }
   .cb-card{
-    padding:9px 10px!important;
-    box-shadow:none!important;
+    padding:13px 15px!important;
     border:1px solid #e2e8f0!important;
-    border-radius:7px!important;
+    border-radius:9px!important;
     background:#fff!important;
     page-break-inside:avoid!important
   }
   .cb-card::before{height:3px!important}
-  .cb-card-header{margin-bottom:7px!important;gap:6px!important}
-  .cb-scenario{font-size:8pt!important}
-  .cb-adj{font-size:6.5pt!important;margin-top:1px!important}
-  .cb-prob-badge{font-size:8.5pt!important;padding:3px 7px!important}
-  .cb-metric{padding:4px 0!important;font-size:7.5pt!important}
-  .cb-result-block{margin-top:7px!important;padding:7px 8px!important;border-radius:6px!important}
-  .cb-result-label{font-size:6.5pt!important;margin-bottom:3px!important}
-  .cb-result-val{font-size:13pt!important}
+  .cb-card-header{margin-bottom:10px!important;gap:8px!important;align-items:flex-start!important}
+  .cb-scenario{font-size:9.5pt!important;font-weight:700!important}
+  .cb-adj{font-size:7.5pt!important;margin-top:2px!important;color:#6B7280!important}
+  .cb-prob-badge{font-size:10pt!important;padding:4px 10px!important;font-weight:800!important}
+  .cb-metric{padding:5px 0!important;font-size:8.5pt!important;line-height:1.3!important}
+  .cb-metric-label{color:#6B7280!important}
+  .cb-metric-val{font-weight:700!important}
+  .cb-result-block{margin-top:10px!important;padding:10px 12px!important;border-radius:8px!important}
+  .cb-result-label{font-size:7pt!important;margin-bottom:5px!important;letter-spacing:.5px!important}
+  .cb-result-val{font-size:16pt!important;letter-spacing:-.5px!important;line-height:1!important}
 
-  /* ── Footer da impressão ── */
+  /* ════════════════════════════════════════════════════
+     RODAPÉ
+  ════════════════════════════════════════════════════ */
   .footer{
     display:flex!important;
     justify-content:space-between!important;
     align-items:center!important;
-    padding:5px 0 0!important;
-    margin-top:6px!important;
-    font-size:7pt!important;
+    padding:7px 0 0!important;
+    margin-top:10px!important;
+    font-size:8pt!important;
     border-top:1px solid #e2e8f0!important;
     background:transparent!important;
+    color:#6B7280!important;
     page-break-inside:avoid
   }
   .footer span{display:inline!important}
+
+  /* ════════════════════════════════════════════════════
+     CONTROLE DE QUEBRA DE PÁGINA
+  ════════════════════════════════════════════════════ */
+  .shead{page-break-after:avoid!important}
+  .painel-top,.inputs-grid,.cd-row,.cb-context,.cb-grid{page-break-inside:avoid!important}
 }
 @media(max-width:640px){
   .hero{padding:32px 20px 36px}
