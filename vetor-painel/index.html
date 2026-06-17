@@ -1232,6 +1232,10 @@ function carregarLocal(){
         despesasRealizadas=stored.despesasRealizadas||0;
         despesasProjetadas=stored.despesasProjetadas||0;
         _dataLoaded=true;
+        // Popula inputs financeiros do localStorage (igual ao carregar Supabase)
+        set('f_caixa',caixa);set('f_antecipacao',antecipacao);
+        set('f_entradas_proj',entradasProjetadas);
+        set('f_desp_real',despesasRealizadas);set('f_desp_proj',despesasProjetadas);
       }
     }
   }catch(e){}
