@@ -1062,6 +1062,8 @@ function atualizarDisplayMetas(){
 }
 
 function calcular(){
+  // Sync inputs→FRENTES (só se input>0, nunca sobrescreve com zero)
+  FRENTES.forEach(function(f){var v=val('f_'+f.id);if(v>0)f.realizado=v;});
   const totalReceitas=FRENTES.reduce((s,f)=>s+f.realizado,0);
   const MT=metaTotal();const restante=Math.max(0,MT-totalReceitas);const p=pct(totalReceitas,MT);
   const offset=CIRCUM*(1-p/100);
