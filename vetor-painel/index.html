@@ -1087,7 +1087,7 @@ function calcular(){
   FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
   atualizarResultado(totalReceitas);
   calcCrystalBall();
-  if(!_syncAtivo && _dataLoaded) salvarDebounced();
+  if(!_syncAtivo && _dataLoaded){ broadcastNow(); salvarDebounced(); }
   if(p>=100) dispararConfetti();
 }
 
@@ -1231,16 +1231,21 @@ function carregarLocal(){
 function salvarDebounced(){clearTimeout(_saveTimer);_saveTimer=setTimeout(()=>salvar(),800);}
 
 let _broadcastCh = null;
+
+// Broadcast imediato — sem debounce, reflete para todos instantaneamente
+function broadcastNow(){
+  if(!_broadcastCh || !_dataLoaded) return;
+  _broadcastCh.send({
+    type:'broadcast',event:'state',
+    payload:{frentes:FRENTES,caixa,antecipacao,entradasProjetadas,despesasRealizadas,despesasProjetadas}
+  });
+}
+
 async function salvar(){
   setStatus('⏳ Salvando...','saving');
   salvarLocal();
 
-  // 1) Broadcast full state para todos que estão com o link aberto agora
-  if(_broadcastCh){
-    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,antecipacao,entradasProjetadas,despesasRealizadas,despesasProjetadas}});
-  }
-
-  // 2) Persistir realizado dos 5 campos legados no Supabase
+  // 1) Persistir realizado dos 5 campos legados no Supabase
   const legacy={updated_at:new Date().toISOString()};
   ['recorrente','novas','base','inad','exames'].forEach(id=>{
     const f=FRENTES.find(f=>f.id===id);if(f)legacy[id]=f.realizado;
