@@ -790,7 +790,7 @@ input[type=number]{-moz-appearance:textfield}
     <div class="cb-grid">
       <div class="cb-card pess">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😟 Pessimista</div><div class="cb-adj">80% das entradas projetadas</div></div>
+          <div><div class="cb-scenario">😟 Pessimista</div><div class="cb-adj">Ritmo −20% do atual</div></div>
           <div class="cb-prob-badge" id="cb-pess-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-pess-rec">—</span></div>
@@ -803,7 +803,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <div class="cb-card cons">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😐 Conservador</div><div class="cb-adj">100% das entradas projetadas</div></div>
+          <div><div class="cb-scenario">😐 Conservador</div><div class="cb-adj">Mantém ritmo atual</div></div>
           <div class="cb-prob-badge" id="cb-cons-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-cons-rec">—</span></div>
@@ -816,7 +816,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <div class="cb-card opt">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😊 Otimista</div><div class="cb-adj">120% das entradas projetadas</div></div>
+          <div><div class="cb-scenario">😊 Otimista</div><div class="cb-adj">Ritmo +20% do atual</div></div>
           <div class="cb-prob-badge" id="cb-opt-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-opt-rec">—</span></div>
@@ -1132,15 +1132,14 @@ function calcCrystalBall(){
   var dTotal=dR+dP; // despesas travadas — iguais nos 3 cenários
   var dPess=dTotal, dCons=dTotal, dOpt=dTotal;
 
-  var eP=entradasProjetadas||0;
-  var pot=eP>0?eP:Math.max(0,ritmoAtual*remainingDU);
-  var rPess=realizado+pot*0.8, rCons=realizado+pot, rOpt=realizado+pot*1.2;
+  // Cenários baseados no ritmo atual — conservador = manter o mesmo ritmo
+  var rNecP=ritmoAtual*0.8;  // pessimista: ritmo cai 20%
+  var rNecC=ritmoAtual*1.0;  // conservador: mantém ritmo atual
+  var rNecO=ritmoAtual*1.2;  // otimista: ritmo sobe 20%
+  var rPess=realizado+rNecP*remainingDU;
+  var rCons=realizado+rNecC*remainingDU;
+  var rOpt =realizado+rNecO*remainingDU;
   var resPess=rPess-dPess, resCons=rCons-dCons, resOpt=rOpt-dOpt;
-
-  var refDU=remainingDU>0?remainingDU:totalDU;
-  var rNecP=refDU>0?pot*0.8/refDU:0;
-  var rNecC=refDU>0?pot/refDU:0;
-  var rNecO=refDU>0?pot*1.2/refDU:0;
 
   var pctD=totalDU>0?(elapsedDU/totalDU)*100:0;
   var rPct=metaT>0&&totalDU>0?(ritmoAtual/(metaT/totalDU))*100:100;
