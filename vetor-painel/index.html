@@ -1093,8 +1093,6 @@ function calcular(){
 function calcCrystalBall(){
   var _el = function(id){return document.getElementById(id);};
   var _tx = function(id,v){var e=_el(id);if(e)e.textContent=v;};
-  if(!_el('cb-elapsed')) return;
-
   var Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
   var monthStart=new Date(Y,M,1);
   var monthEnd=new Date(Y,M+1,0);
@@ -1310,7 +1308,7 @@ function iniciarRealtime(){
       set('f_entradas_proj',entradasProjetadas);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
-      renderAll();calcular();
+      renderAll();calcular();calcCrystalBall();
       _syncAtivo=false;
       setStatus('↻ Atualizado por outro usuário','ok');
       setTimeout(()=>setStatus('— sincronizado','idle'),3000);
@@ -1501,6 +1499,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
   iniciarRealtime(); // inicia canais antes do carregar para não perder broadcasts
   try{ await carregar(); }catch(e){console.warn('Carregar falhou:',e);}
   calcular();
+  calcCrystalBall();
   destacarSemana();
 });
 </script>
