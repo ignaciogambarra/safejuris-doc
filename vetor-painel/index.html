@@ -643,7 +643,7 @@ input[type=number]{-moz-appearance:textfield}
           <span class="tt" data-tip="Receita já garantida pelos contratos ativos. Fatura automaticamente todo mês, independente de novas vendas.">?</span>
         </div>
         <div class="inp-row">
-          <input class="inp-field" id="f_recorrente" type="text" oninput="mascaraMoeda(this);calcular()">
+          <input class="inp-field" id="f_recorrente" type="text" oninput="mascaraMoeda(this);frChanged('recorrente')">
         </div>
         <div class="inp-bar"><div class="inp-bar-fill" id="ib_recorrente" style="background:var(--teal);width:100%"></div></div>
         <div class="inp-meta"><span id="ip_recorrente">100% garantido</span><span id="im_recorrente">meta R$35k</span></div>
@@ -655,7 +655,7 @@ input[type=number]{-moz-appearance:textfield}
           <span class="tt" data-tip="Receita de contratos com clientes que nunca foram da Vetor SST. Cada novo contrato fechado entra aqui.">?</span>
         </div>
         <div class="inp-row">
-          <input class="inp-field" id="f_novas" type="text" oninput="mascaraMoeda(this);calcular()">
+          <input class="inp-field" id="f_novas" type="text" oninput="mascaraMoeda(this);frChanged('novas')">
         </div>
         <div class="inp-bar"><div class="inp-bar-fill" id="ib_novas" style="background:var(--brand);width:0%"></div></div>
         <div class="inp-meta"><span id="ip_novas">0%</span><span id="im_novas">meta R$60k</span></div>
@@ -667,7 +667,7 @@ input[type=number]{-moz-appearance:textfield}
           <span class="tt" data-tip="Receita adicional de clientes que já são da Vetor — serviços extras, complementações de contrato, upgrades de plano.">?</span>
         </div>
         <div class="inp-row">
-          <input class="inp-field" id="f_base" type="text" oninput="mascaraMoeda(this);calcular()">
+          <input class="inp-field" id="f_base" type="text" oninput="mascaraMoeda(this);frChanged('base')">
         </div>
         <div class="inp-bar"><div class="inp-bar-fill" id="ib_base" style="background:var(--green);width:0%"></div></div>
         <div class="inp-meta"><span id="ip_base">0%</span><span id="im_base">meta R$20k</span></div>
@@ -679,7 +679,7 @@ input[type=number]{-moz-appearance:textfield}
           <span class="tt" data-tip="Dinheiro recuperado de clientes inadimplentes. Débora é a responsável — a meta dela é R$15k dos R$55k em aberto.">?</span>
         </div>
         <div class="inp-row">
-          <input class="inp-field" id="f_inad" type="text" oninput="mascaraMoeda(this);calcular()">
+          <input class="inp-field" id="f_inad" type="text" oninput="mascaraMoeda(this);frChanged('inad')">
         </div>
         <div class="inp-bar"><div class="inp-bar-fill" id="ib_inad" style="background:var(--orange);width:0%"></div></div>
         <div class="inp-meta"><span id="ip_inad">0%</span><span id="im_inad">meta R$15k</span></div>
@@ -691,7 +691,7 @@ input[type=number]{-moz-appearance:textfield}
           <span class="tt" data-tip="Faturamento operacional de exames médicos (admissional, periódico, demissional) realizados pelas clínicas parceiras.">?</span>
         </div>
         <div class="inp-row">
-          <input class="inp-field" id="f_exames" type="text" oninput="mascaraMoeda(this);calcular()">
+          <input class="inp-field" id="f_exames" type="text" oninput="mascaraMoeda(this);frChanged('exames')">
         </div>
         <div class="inp-bar"><div class="inp-bar-fill" id="ib_exames" style="background:var(--purple);width:0%"></div></div>
         <div class="inp-meta"><span id="ip_exames">0%</span><span id="im_exames">meta R$20k</span></div>
@@ -1056,6 +1056,8 @@ function atualizarDisplayMetas(){
 }
 
 function calcular(){
+  // Garante que FRENTES.realizado está em sincronia com os inputs antes de calcular
+  FRENTES.forEach(function(f){var inp=document.getElementById('f_'+f.id);if(inp)f.realizado=val('f_'+f.id);});
   const totalReceitas=FRENTES.reduce((s,f)=>s+f.realizado,0);
   const MT=metaTotal();const restante=Math.max(0,MT-totalReceitas);const p=pct(totalReceitas,MT);
   const offset=CIRCUM*(1-p/100);
