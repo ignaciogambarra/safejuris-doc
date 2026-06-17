@@ -1087,7 +1087,7 @@ function calcular(){
   FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
   atualizarResultado(totalReceitas);
   calcCrystalBall();
-  if(!_syncAtivo && _dataLoaded){ broadcastNow(); salvarDebounced(); }
+  if(!_syncAtivo && _dataLoaded){ salvarLocal(); broadcastNow(); salvarDebounced(); }
   if(p>=100) dispararConfetti();
 }
 
@@ -1274,18 +1274,23 @@ async function carregar(){
   const {data,error}=await sb.from('vetor_painel_maio26').select('*').eq('id',1).single();
   if(!error&&data){
     if(data.data_json?.frentes?.length){
-      FRENTES=data.data_json.frentes;
+      // Usa Supabase se tiver dados >= aos da memória atual (evita sobrescrever com zeros)
+      var _supaTotal=(data.data_json.frentes||[]).reduce(function(s,f){return s+(f.realizado||0);},0);
+      var _memTotal=FRENTES.reduce(function(s,f){return s+(f.realizado||0);},0);
+      if(_supaTotal>=_memTotal){
+        FRENTES=data.data_json.frentes;
+        caixa=data.data_json.caixa||0;
+        antecipacao=data.data_json.antecipacao||0;
+        entradasProjetadas=data.data_json.entradasProjetadas||0;
+        despesasRealizadas=data.data_json.despesasRealizadas||0;
+        despesasProjetadas=data.data_json.despesasProjetadas||0;
+        set('f_caixa',caixa);
+        set('f_antecipacao',antecipacao);
+        set('f_entradas_proj',entradasProjetadas);
+        set('f_desp_real',despesasRealizadas);
+        set('f_desp_proj',despesasProjetadas);
+      }
       _dataLoaded=true;
-      caixa=data.data_json.caixa||0;
-      antecipacao=data.data_json.antecipacao||0;
-      entradasProjetadas=data.data_json.entradasProjetadas||0;
-      despesasRealizadas=data.data_json.despesasRealizadas||0;
-      despesasProjetadas=data.data_json.despesasProjetadas||0;
-      set('f_caixa',caixa);
-      set('f_antecipacao',antecipacao);
-      set('f_entradas_proj',entradasProjetadas);
-      set('f_desp_real',despesasRealizadas);
-      set('f_desp_proj',despesasProjetadas);
     } else {
       _dataLoaded=true;
       // Aplica realizados do Supabase nas frentes base (localStorage já foi carregado antes)
@@ -1503,6 +1508,7 @@ function destacarSemana(){
 }
 
 window.addEventListener('DOMContentLoaded',async()=>{
+  _dataLoaded=true; // saves sempre habilitados desde o início
   if(!localStorage.getItem('vetor_modal_seen')){
     document.getElementById('modal').classList.remove('hidden');
   }
