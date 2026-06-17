@@ -1091,6 +1091,9 @@ function calcular(){
 
 // ── CRYSTAL BALL ──────────────────────────────────────────────────────────
 function calcCrystalBall(){
+  // Guard rápido: aborta se section não renderizou ainda
+  if(!document.getElementById('cb-elapsed')) return;
+  try {
   // Mês de referência: mês atual do painel
   const Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
   const monthStart=new Date(Y,M,1);
@@ -1171,7 +1174,6 @@ function calcCrystalBall(){
 
   // Atualiza UI
   const $=id=>document.getElementById(id);
-  if(!$('cb-elapsed'))return;
   $('cb-elapsed').textContent=elapsedDU;
   $('cb-elapsed-sub').textContent='de '+totalDU+' dias úteis no mês';
   $('cb-remaining').textContent=remainingDU;
@@ -1190,6 +1192,7 @@ function calcCrystalBall(){
   setCard('cb-pess',projPess,despPess,resPess,pb.pess,ritmoNecPess);
   setCard('cb-cons',projCons,despCons,resCons,pb.cons,ritmoNecCons);
   setCard('cb-opt', projOpt, despOpt, resOpt, pb.opt, ritmoNecOpt);
+  } catch(e){ console.error('CrystalBall error:',e); }
 }
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
