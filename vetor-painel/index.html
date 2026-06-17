@@ -181,16 +181,16 @@ input[type=number]{-moz-appearance:textfield}
 .cd-card.despesas{border-top:3px solid var(--orange)}
 .cd-card.resultado-pos{border-top:3px solid var(--green)}
 .cd-card.resultado-neg{border-top:3px solid var(--red)}
-.cd-resultado-val{font-size:22px;font-weight:900;letter-spacing:-.5px;line-height:1.2;margin:6px 0 4px;font-family:var(--font-head)}
+.cd-resultado-val{font-size:26px;font-weight:900;letter-spacing:-.8px;line-height:1.1;margin:8px 0 5px;font-family:var(--font-head)}
 .cd-resultado-val.pos{color:var(--green)}
 .cd-resultado-val.neg{color:var(--red)}
-.cd-resultado-msg{font-size:10px;color:var(--ink-soft);margin-top:2px}
-.cd-resultado-proj-block{border-top:1px solid var(--border);margin-top:10px;padding-top:10px;}
-.cd-resultado-proj-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:2px;}
-.cd-resultado-proj-val{font-size:18px;font-weight:900;letter-spacing:-.5px;line-height:1.2;font-family:var(--font-head)}
+.cd-resultado-msg{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
+.cd-resultado-proj-block{border-top:1px solid var(--border);margin-top:16px;padding-top:14px;}
+.cd-resultado-proj-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:4px;display:flex;align-items:center;gap:5px}
+.cd-resultado-proj-val{font-size:22px;font-weight:900;letter-spacing:-.6px;line-height:1.1;margin:6px 0 4px;font-family:var(--font-head)}
 .cd-resultado-proj-val.pos{color:var(--green)}
 .cd-resultado-proj-val.neg{color:var(--red)}
-.cd-resultado-proj-msg{font-size:10px;color:var(--ink-soft);margin-top:2px}
+.cd-resultado-proj-msg{font-size:11px;color:var(--ink-soft);margin-top:3px;line-height:1.4}
 
 /* MRR */
 .mrr-row{display:grid;grid-template-columns:1fr 1fr 2fr;gap:16px;margin-bottom:0}
@@ -742,12 +742,14 @@ input[type=number]{-moz-appearance:textfield}
           <span id="desp-total-val" style="font-weight:800;color:var(--orange)">R$ 0</span>
         </div>
       </div>
-      <div class="cd-card resultado-pos inp-group" id="cd-resultado-card">
-        <div class="inp-label">
-          <span class="inp-label-text">📊 Resultado Atual</span>
+      <div class="cd-card resultado-pos inp-group" id="cd-resultado-card" style="display:flex;flex-direction:column;justify-content:space-between">
+        <div>
+          <div class="inp-label" style="margin-bottom:4px">
+            <span class="inp-label-text">📊 Resultado Atual</span>
+          </div>
+          <div class="cd-resultado-val pos" id="cd-resultado-val">R$ 0</div>
+          <div class="cd-resultado-msg" id="cd-resultado-msg">Receitas totais − Contas do período</div>
         </div>
-        <div class="cd-resultado-val pos" id="cd-resultado-val">R$ 0</div>
-        <div class="cd-resultado-msg" id="cd-resultado-msg">Receitas totais − Contas do período</div>
         <div class="cd-resultado-proj-block">
           <div class="cd-resultado-proj-label">📈 Resultado Projetado</div>
           <div class="cd-resultado-proj-val pos" id="cd-resultado-proj-val">R$ 0</div>
