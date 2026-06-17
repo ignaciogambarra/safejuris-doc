@@ -1091,88 +1091,76 @@ function calcular(){
 
 // ── CRYSTAL BALL ──────────────────────────────────────────────────────────
 function calcCrystalBall(){
-  if(!document.getElementById('cb-elapsed')) return;
+  var _el = function(id){return document.getElementById(id);};
+  var _tx = function(id,v){var e=_el(id);if(e)e.textContent=v;};
+  if(!_el('cb-elapsed')) return;
 
-  // ── Cálculos ────────────────────────────────────────────────────────────
   var Y=PANEL_YEAR, M=PANEL_MONTH_IDX;
   var monthStart=new Date(Y,M,1);
   var monthEnd=new Date(Y,M+1,0);
   var hoje=new Date(); hoje.setHours(0,0,0,0);
 
-  var totalDU=0;
-  var daysInMonth=monthEnd.getDate();
-  for(var d=1;d<=daysInMonth;d++){var _w=new Date(Y,M,d).getDay();if(_w!==0&&_w!==6)totalDU++;}
+  var totalDU=0,dIM=monthEnd.getDate();
+  for(var d=1;d<=dIM;d++){var w=new Date(Y,M,d).getDay();if(w!==0&&w!==6)totalDU++;}
 
-  var refFim=hoje<=monthEnd?new Date(hoje.getTime()-86400000):monthEnd;
+  var refFim=hoje<=monthEnd?new Date(hoje.getTime()-86400000):new Date(monthEnd);
   var elapsedDU=0;
   if(refFim>=monthStart){
     for(var d2=1;d2<=refFim.getDate();d2++){
       if(new Date(Y,M,d2)>refFim)break;
-      var _w2=new Date(Y,M,d2).getDay();if(_w2!==0&&_w2!==6)elapsedDU++;
+      var w2=new Date(Y,M,d2).getDay();if(w2!==0&&w2!==6)elapsedDU++;
     }
   }
   elapsedDU=Math.max(0,Math.min(elapsedDU,totalDU));
   var remainingDU=Math.max(0,totalDU-elapsedDU);
 
-  var realizado=FRENTES.reduce(function(s,f){return s+(f.realizado||0);},0);
-  var meta=FRENTES.reduce(function(s,f){return s+(f.meta||0);},0);
+  var realizado=0;for(var fi=0;fi<FRENTES.length;fi++)realizado+=(FRENTES[fi].realizado||0);
+  var metaT=0;for(var fi2=0;fi2<FRENTES.length;fi2++)metaT+=(FRENTES[fi2].meta||0);
 
   var ritmoAtual=elapsedDU>0?realizado/elapsedDU:0;
-  var ritmoNecessario=remainingDU>0?(meta-realizado)/remainingDU:0;
+  var ritmoNec=remainingDU>0?(metaT-realizado)/remainingDU:0;
 
-  var dPess=despesasRealizadas+(despesasProjetadas||0)*0.8;
-  var dCons=despesasRealizadas+(despesasProjetadas||0)*1.0;
-  var dOpt =despesasRealizadas+(despesasProjetadas||0)*1.2;
+  var dR=despesasRealizadas||0, dP=despesasProjetadas||0;
+  var dPess=dR+dP*0.8, dCons=dR+dP, dOpt=dR+dP*1.2;
 
-  var potencial=(entradasProjetadas||0)>0?(entradasProjetadas||0):Math.max(0,ritmoAtual*remainingDU);
-  var projPess=realizado+potencial*0.8;
-  var projCons=realizado+potencial*1.0;
-  var projOpt =realizado+potencial*1.2;
-
-  var resPess=projPess-dPess;
-  var resCons=projCons-dCons;
-  var resOpt =projOpt -dOpt;
+  var eP=entradasProjetadas||0;
+  var pot=eP>0?eP:Math.max(0,ritmoAtual*remainingDU);
+  var rPess=realizado+pot*0.8, rCons=realizado+pot, rOpt=realizado+pot*1.2;
+  var resPess=rPess-dPess, resCons=rCons-dCons, resOpt=rOpt-dOpt;
 
   var refDU=remainingDU>0?remainingDU:totalDU;
-  var rNecPess=refDU>0?potencial*0.8/refDU:0;
-  var rNecCons=refDU>0?potencial*1.0/refDU:0;
-  var rNecOpt =refDU>0?potencial*1.2/refDU:0;
+  var rNecP=refDU>0?pot*0.8/refDU:0;
+  var rNecC=refDU>0?pot/refDU:0;
+  var rNecO=refDU>0?pot*1.2/refDU:0;
 
-  var pctDec=totalDU>0?(elapsedDU/totalDU)*100:0;
-  var ritmoPct=meta>0&&totalDU>0?(ritmoAtual/(meta/totalDU))*100:100;
-  var pPess=25,pCons=50,pOpt=25;
-  if(ritmoPct<80){var g=Math.min(80-ritmoPct,40);pPess+=g*0.35;pOpt-=g*0.18;pCons-=g*0.17;}
-  else if(ritmoPct>120){var s=Math.min(ritmoPct-120,40);pOpt+=s*0.35;pPess-=s*0.18;pCons-=s*0.17;}
-  pPess*=(1-pctDec/100*0.5); pOpt*=(1-pctDec/100*0.5); pCons=100-pPess-pOpt;
-  pPess=Math.max(5,Math.min(65,pPess)); pOpt=Math.max(5,Math.min(65,pOpt));
-  pCons=Math.max(10,100-pPess-pOpt);
-  var tot=pPess+pCons+pOpt;
-  var pbPess=Math.round(pPess/tot*100);
-  var pbOpt=Math.round(pOpt/tot*100);
-  var pbCons=100-pbPess-pbOpt;
+  var pctD=totalDU>0?(elapsedDU/totalDU)*100:0;
+  var rPct=metaT>0&&totalDU>0?(ritmoAtual/(metaT/totalDU))*100:100;
+  var pP=25,pC=50,pO=25;
+  if(rPct<80){var g=Math.min(80-rPct,40);pP+=g*0.35;pO-=g*0.18;pC-=g*0.17;}
+  else if(rPct>120){var gs=Math.min(rPct-120,40);pO+=gs*0.35;pP-=gs*0.18;pC-=gs*0.17;}
+  pP*=(1-pctD/100*0.5);pO*=(1-pctD/100*0.5);pC=100-pP-pO;
+  pP=Math.max(5,Math.min(65,pP));pO=Math.max(5,Math.min(65,pO));pC=Math.max(10,100-pP-pO);
+  var tot=pP+pC+pO;
+  var pbP=Math.round(pP/tot*100),pbO=Math.round(pO/tot*100),pbC=100-pbP-pbO;
 
-  // ── UI ──────────────────────────────────────────────────────────────────
-  function el(id){return document.getElementById(id);}
-  function set(id,v){var e=el(id);if(e)e.textContent=v;}
+  _tx('cb-elapsed',elapsedDU);
+  _tx('cb-elapsed-sub','de '+totalDU+' dias úteis no mês');
+  _tx('cb-remaining',remainingDU);
+  _tx('cb-remaining-sub',remainingDU===0?'Mês encerrado':'até o fim do mês');
+  _tx('cb-pace',fmt(ritmoAtual));
+  _tx('cb-required',remainingDU>0?fmt(Math.max(0,ritmoNec)):fmt(0));
 
-  set('cb-elapsed', elapsedDU);
-  set('cb-elapsed-sub','de '+totalDU+' dias úteis no mês');
-  set('cb-remaining', remainingDU);
-  set('cb-remaining-sub', remainingDU===0?'Mês encerrado':'até o fim do mês');
-  set('cb-pace', fmt(ritmoAtual));
-  set('cb-required', remainingDU>0?fmt(Math.max(0,ritmoNecessario)):fmt(0));
-
-  function card(pre,proj,desp,res,prob,rNec){
-    set(pre+'-prob', prob+'%');
-    set(pre+'-rec',  fmt(proj));
-    set(pre+'-desp', fmt(desp));
-    var re=el(pre+'-res');
+  var _card=function(pre,proj,desp,res,prob,rn){
+    _tx(pre+'-prob',prob+'%');
+    _tx(pre+'-rec',fmt(proj));
+    _tx(pre+'-desp',fmt(desp));
+    var re=_el(pre+'-res');
     if(re){re.textContent=(res<0?'−':'')+fmt(Math.abs(res));re.className='cb-result-val '+(res>=0?'pos':'neg');}
-    set(pre+'-ritmo', rNec>0?fmt(rNec)+'/dia':'—');
-  }
-  card('cb-pess',projPess,dPess,resPess,pbPess,rNecPess);
-  card('cb-cons',projCons,dCons,resCons,pbCons,rNecCons);
-  card('cb-opt', projOpt, dOpt, resOpt, pbOpt, rNecOpt);
+    _tx(pre+'-ritmo',rn>0?fmt(rn)+'/dia':'—');
+  };
+  _card('cb-pess',rPess,dPess,resPess,pbP,rNecP);
+  _card('cb-cons',rCons,dCons,resCons,pbC,rNecC);
+  _card('cb-opt', rOpt, dOpt, resOpt, pbO,rNecO);
 }
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
 function antecipacaoChanged(){ antecipacao=val('f_antecipacao'); calcular(); }
