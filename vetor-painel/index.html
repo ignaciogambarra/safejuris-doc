@@ -184,6 +184,12 @@ input[type=number]{-moz-appearance:textfield}
 .cd-resultado-val.pos{color:var(--green)}
 .cd-resultado-val.neg{color:var(--red)}
 .cd-resultado-msg{font-size:10px;color:var(--ink-soft);margin-top:2px}
+.cd-resultado-proj-block{border-top:1px solid var(--border);margin-top:10px;padding-top:10px;}
+.cd-resultado-proj-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:2px;}
+.cd-resultado-proj-val{font-size:18px;font-weight:900;letter-spacing:-.5px;line-height:1.2;font-family:var(--font-head)}
+.cd-resultado-proj-val.pos{color:var(--green)}
+.cd-resultado-proj-val.neg{color:var(--red)}
+.cd-resultado-proj-msg{font-size:10px;color:var(--ink-soft);margin-top:2px}
 
 /* MRR */
 .mrr-row{display:grid;grid-template-columns:1fr 1fr 2fr;gap:16px;margin-bottom:0}
@@ -681,7 +687,11 @@ input[type=number]{-moz-appearance:textfield}
           <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">📥 Antecipação de Recebíveis</div>
           <input class="inp-field" id="f_antecipacao" type="text" oninput="mascaraMoeda(this);antecipacaoChanged()" placeholder="R$ 0,00">
         </div>
-        <div class="inp-meta" style="margin-top:6px;"><span style="color:var(--ink-soft)">Ambos compõem o resultado do período</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">📈 Entradas Projetadas</div>
+          <input class="inp-field" id="f_entradas_proj" type="text" oninput="mascaraMoeda(this);entradasProjChanged()" placeholder="R$ 0,00">
+        </div>
+        <div class="inp-meta" style="margin-top:6px;"><span style="color:var(--ink-soft)">Dinheiro projetado para entrar até o final do mês</span></div>
       </div>
       <div class="cd-card despesas inp-group">
         <div class="inp-label">
@@ -709,6 +719,11 @@ input[type=number]{-moz-appearance:textfield}
         </div>
         <div class="cd-resultado-val pos" id="cd-resultado-val">R$ 0</div>
         <div class="cd-resultado-msg" id="cd-resultado-msg">Receitas totais − Contas do período</div>
+        <div class="cd-resultado-proj-block">
+          <div class="cd-resultado-proj-label">📈 Resultado Projetado</div>
+          <div class="cd-resultado-proj-val pos" id="cd-resultado-proj-val">R$ 0</div>
+          <div class="cd-resultado-proj-msg" id="cd-resultado-proj-msg">Inclui entradas projetadas</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1037,6 +1052,7 @@ const CIRCUM = 2 * Math.PI * 80;
 let _syncAtivo = false;
 let caixa = 0;
 let antecipacao = 0;
+let entradasProjetadas = 0;
 let despesasRealizadas = 0;
 let despesasProjetadas = 0;
 let _saveTimer  = null;
@@ -1252,12 +1268,14 @@ function calcular(){
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
 function antecipacaoChanged(){ antecipacao=val('f_antecipacao'); calcular(); }
+function entradasProjChanged(){ entradasProjetadas=val('f_entradas_proj'); calcular(); }
 function despRealChanged(){ despesasRealizadas=val('f_desp_real'); calcular(); }
 function despProjChanged(){ despesasProjetadas=val('f_desp_proj'); calcular(); }
 function atualizarResultado(totalReceitas){
   const tr=totalReceitas!=null?totalReceitas:FRENTES.reduce((s,f)=>s+f.realizado,0);
   const totalDesp=despesasRealizadas+despesasProjetadas;
   const resultado=tr+caixa+antecipacao-totalDesp;
+  const resultadoProj=tr+caixa+antecipacao+entradasProjetadas-totalDesp;
   const dtEl=document.getElementById('desp-total-val');
   if(dtEl) dtEl.textContent=fmt(totalDesp);
   const valEl=document.getElementById('cd-resultado-val');
@@ -1271,6 +1289,16 @@ function atualizarResultado(totalReceitas){
   if(msgEl) msgEl.textContent=pos
     ?'✓ Caixa positivo após as obrigações'
     :'⚠ Déficit — receita insuficiente para as contas';
+  const projEl=document.getElementById('cd-resultado-proj-val');
+  const projMsg=document.getElementById('cd-resultado-proj-msg');
+  if(projEl){
+    const posProj=resultadoProj>=0;
+    projEl.textContent=fmt(Math.abs(resultadoProj));
+    projEl.className='cd-resultado-proj-val '+(posProj?'pos':'neg');
+    if(projMsg) projMsg.textContent=posProj
+      ?'✓ Projeção positiva ao final do mês'
+      :'⚠ Projeção ainda deficitária';
+  }
 }
 
 function atualizarFrente(id,v,meta){
@@ -1285,7 +1313,7 @@ function atualizarFrente(id,v,meta){
 // ── LOCAL STORAGE ──
 const LS_KEY = 'vetor_frentes_maio26_v1';
 function salvarLocal(){
-  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}));}catch(e){}
+  try{localStorage.setItem(LS_KEY, JSON.stringify({frentes:FRENTES,caixa,antecipacao,entradasProjetadas,despesasRealizadas,despesasProjetadas}));}catch(e){}
 }
 function carregarLocal(){
   try{
@@ -1295,6 +1323,7 @@ function carregarLocal(){
       if(Array.isArray(stored)&&stored.length){FRENTES=stored;}
       else if(stored?.frentes?.length){
         FRENTES=stored.frentes;caixa=stored.caixa||0;antecipacao=stored.antecipacao||0;
+        entradasProjetadas=stored.entradasProjetadas||0;
         despesasRealizadas=stored.despesasRealizadas||0;
         despesasProjetadas=stored.despesasProjetadas||0;
       }
@@ -1312,7 +1341,7 @@ async function salvar(){
 
   // 1) Broadcast full state para todos que estão com o link aberto agora
   if(_broadcastCh){
-    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}});
+    await _broadcastCh.send({type:'broadcast',event:'state',payload:{frentes:FRENTES,caixa,antecipacao,entradasProjetadas,despesasRealizadas,despesasProjetadas}});
   }
 
   // 2) Persistir realizado dos 5 campos legados no Supabase
@@ -1322,7 +1351,7 @@ async function salvar(){
   });
 
   // 3) Salva via UPDATE (RLS permite update, não insert)
-  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,antecipacao,despesasRealizadas,despesasProjetadas}}).eq('id',1);
+  let {error}=await sb.from('vetor_painel_maio26').update({...legacy,data_json:{frentes:FRENTES,caixa,antecipacao,entradasProjetadas,despesasRealizadas,despesasProjetadas}}).eq('id',1);
   if(error?.code==='42703'||error?.message?.includes('data_json')){
     ({error}=await sb.from('vetor_painel_maio26').update({...legacy}).eq('id',1));
   }
@@ -1346,10 +1375,12 @@ async function carregar(){
       FRENTES=data.data_json.frentes;
       caixa=data.data_json.caixa||0;
       antecipacao=data.data_json.antecipacao||0;
+      entradasProjetadas=data.data_json.entradasProjetadas||0;
       despesasRealizadas=data.data_json.despesasRealizadas||0;
       despesasProjetadas=data.data_json.despesasProjetadas||0;
       set('f_caixa',caixa);
       set('f_antecipacao',antecipacao);
+      set('f_entradas_proj',entradasProjetadas);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
     } else {
@@ -1375,10 +1406,12 @@ function iniciarRealtime(){
       FRENTES=msg.payload.frentes;
       caixa=msg.payload.caixa||0;
       antecipacao=msg.payload.antecipacao||0;
+      entradasProjetadas=msg.payload.entradasProjetadas||0;
       despesasRealizadas=msg.payload.despesasRealizadas||0;
       despesasProjetadas=msg.payload.despesasProjetadas||0;
       set('f_caixa',caixa);
       set('f_antecipacao',antecipacao);
+      set('f_entradas_proj',entradasProjetadas);
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
       renderAll();calcular();
