@@ -1037,6 +1037,7 @@ function metaChanged(frente,el){
   if(f){ f.meta=val(el.id); if(f.locked) f.realizado=f.meta; }
   atualizarDisplayMetas();
   calcular();
+  salvarLocal();
   salvarDebounced();
 }
 
@@ -1274,10 +1275,11 @@ async function carregar(){
   const {data,error}=await sb.from('vetor_painel_maio26').select('*').eq('id',1).single();
   if(!error&&data){
     if(data.data_json?.frentes?.length){
-      // Usa Supabase se tiver dados >= aos da memória atual (evita sobrescrever com zeros)
-      var _supaTotal=(data.data_json.frentes||[]).reduce(function(s,f){return s+(f.realizado||0);},0);
-      var _memTotal=FRENTES.reduce(function(s,f){return s+(f.realizado||0);},0);
-      if(_supaTotal>=_memTotal){
+      // Usa Supabase se tiver score >= ao da memória (realizado + metas + financeiro)
+      var _score=function(fr,cx,an,ep){return (cx||0)+(an||0)+(ep||0)+fr.reduce(function(s,f){return s+(f.realizado||0)+(f.meta||0);},0);};
+      var _supaScore=_score(data.data_json.frentes||[],data.data_json.caixa,data.data_json.antecipacao,data.data_json.entradasProjetadas);
+      var _memScore=_score(FRENTES,caixa,antecipacao,entradasProjetadas);
+      if(_supaScore>=_memScore){
         FRENTES=data.data_json.frentes;
         caixa=data.data_json.caixa||0;
         antecipacao=data.data_json.antecipacao||0;
