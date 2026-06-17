@@ -965,6 +965,8 @@ function renderInputsGrid(){
     </div>
   `).join('');
   FRENTES.forEach(f=>{ set('f_'+f.id, f.realizado); });
+  // Recalcula imediatamente após popular os inputs
+  if(typeof calcular==='function') setTimeout(calcular, 0);
 }
 
 function renderFrentesGrid(){
