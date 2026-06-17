@@ -728,12 +728,12 @@ input[type=number]{-moz-appearance:textfield}
         </div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">🔒 Realizadas — já pagas</div>
-            <input class="inp-field inp-locked" id="f_desp_real" type="text" readonly placeholder="R$ 0,00" title="Travado — edite pelo gestor financeiro">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">✓ Realizadas — já pagas</div>
+            <input class="inp-field" id="f_desp_real" type="text" oninput="mascaraMoeda(this);despRealChanged()" placeholder="R$ 0,00">
           </div>
           <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">🔒 Projetadas — até 31/05</div>
-            <input class="inp-field inp-locked" id="f_desp_proj" type="text" readonly placeholder="R$ 0,00" title="Travado — edite pelo gestor financeiro">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">⏳ Projetadas — até 31/05</div>
+            <input class="inp-field" id="f_desp_proj" type="text" oninput="mascaraMoeda(this);despProjChanged()" placeholder="R$ 0,00">
           </div>
         </div>
         <div class="inp-meta" style="margin-top:8px;border-top:1px solid var(--border);padding-top:6px;">
@@ -1222,6 +1222,7 @@ function carregarLocal(){
         entradasProjetadas=stored.entradasProjetadas||0;
         despesasRealizadas=stored.despesasRealizadas||0;
         despesasProjetadas=stored.despesasProjetadas||0;
+        _dataLoaded=true;
       }
     }
   }catch(e){}
@@ -1286,6 +1287,7 @@ async function carregar(){
       set('f_desp_real',despesasRealizadas);
       set('f_desp_proj',despesasProjetadas);
     } else {
+      _dataLoaded=true;
       // Aplica realizados do Supabase nas frentes base (localStorage já foi carregado antes)
       ['recorrente','novas','base','inad','exames'].forEach(id=>{
         const f=FRENTES.find(f=>f.id===id);
@@ -1508,6 +1510,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
   renderAll();
   iniciarRealtime(); // inicia canais antes do carregar para não perder broadcasts
   try{ await carregar(); }catch(e){console.warn('Carregar falhou:',e);}
+  _dataLoaded=true; // garante save mesmo se Supabase falhou
   calcular();
   calcCrystalBall();
   destacarSemana();
