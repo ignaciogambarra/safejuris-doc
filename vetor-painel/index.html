@@ -164,6 +164,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1
 .inp-field{display:block;width:100%;height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-family:var(--font);font-size:15px;font-weight:700;color:var(--ink);outline:none;transition:all .2s;text-align:center;background:var(--white);box-sizing:border-box}
 .inp-field:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
 .inp-field.locked{background:#f0fdfa;border-color:rgba(13,148,136,.35);color:var(--teal);cursor:default}
+.inp-locked{background:#f1f5f9!important;color:var(--ink-soft)!important;cursor:not-allowed!important;border-color:var(--border)!important;}
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 input[type=number]{-moz-appearance:textfield}
@@ -727,12 +728,12 @@ input[type=number]{-moz-appearance:textfield}
         </div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">✓ Realizadas — já pagas</div>
-            <input class="inp-field" id="f_desp_real" type="text" oninput="mascaraMoeda(this);despRealChanged()" placeholder="R$ 0,00">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">🔒 Realizadas — já pagas</div>
+            <input class="inp-field inp-locked" id="f_desp_real" type="text" readonly placeholder="R$ 0,00" title="Travado — edite pelo gestor financeiro">
           </div>
           <div>
-            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">⏳ Projetadas — até 31/05</div>
-            <input class="inp-field" id="f_desp_proj" type="text" oninput="mascaraMoeda(this);despProjChanged()" placeholder="R$ 0,00">
+            <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px;">🔒 Projetadas — até 31/05</div>
+            <input class="inp-field inp-locked" id="f_desp_proj" type="text" readonly placeholder="R$ 0,00" title="Travado — edite pelo gestor financeiro">
           </div>
         </div>
         <div class="inp-meta" style="margin-top:8px;border-top:1px solid var(--border);padding-top:6px;">
@@ -1299,6 +1300,7 @@ function iniciarRealtime(){
     .on('broadcast',{event:'state'},(msg)=>{
       if(!msg.payload?.frentes?.length) return;
       _syncAtivo=true;
+      _dataLoaded=true;
       FRENTES=msg.payload.frentes;
       caixa=msg.payload.caixa||0;
       antecipacao=msg.payload.antecipacao||0;
