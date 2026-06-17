@@ -341,6 +341,7 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ── SAVE STATUS ── */
 .save-status{font-size:11px;padding:5px 11px;border-radius:7px;font-weight:600;transition:all .3s;white-space:nowrap}
+.save-ts{font-size:10px;color:var(--ink-soft);margin-left:6px;white-space:nowrap;}
 .save-status.idle{color:var(--ink-soft)}
 .save-status.saving{color:var(--yellow);background:var(--yellow-l)}
 .save-status.ok{color:var(--green);background:var(--green-l)}
@@ -446,7 +447,7 @@ input[type=number]{-moz-appearance:textfield}
       <a class="nav-link" onclick="ir('painel')">Receita</a>
     </div>
     <div class="nav-right">
-      <span class="save-status idle" id="save-status">— sincronizado</span>
+      <span class="save-status idle" id="save-status">— sincronizado</span><span class="save-ts" id="save-ts"></span>
       <button class="nav-print" onclick="window.print()">Imprimir</button>
     </div>
   </div>
@@ -906,9 +907,11 @@ function set(id,v){
 }
 
 // ── STATUS SAVE ──
-function setStatus(msg,tipo){
+function setStatus(msg,tipo,ts){
   const el=document.getElementById('save-status');if(!el)return;
   el.textContent=msg;el.className='save-status '+(tipo||'idle');
+  const tel=document.getElementById('save-ts');
+  if(tel&&ts){tel.textContent=ts;}
 }
 
 // ── HELPERS ──
@@ -1264,8 +1267,11 @@ async function salvar(){
     console.error('Supabase save error:',error);
   } else {
     const h=new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    setStatus('✓ Salvo às '+h,'ok');
-    setTimeout(()=>setStatus('— sincronizado','idle'),4000);
+    const _ts='Salvo em '+new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+h;
+    localStorage.setItem('vetor_last_save',_ts);
+    setStatus('✓ Salvo às '+h,'ok',_ts);
+    setTimeout(()=>setStatus('— sincronizado','idle',_ts),4000);
+
   }
 }
 
@@ -1329,8 +1335,9 @@ function iniciarRealtime(){
       _dataLoaded=true;
       renderAll();calcular();calcCrystalBall();
       _syncAtivo=false;
-      setStatus('↻ Atualizado por outro usuário','ok');
-      setTimeout(()=>setStatus('— sincronizado','idle'),3000);
+      const _rts=new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'})+' '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+      setStatus('↻ Atualizado · '+new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),'ok',_rts);
+      setTimeout(()=>setStatus('— sincronizado','idle',_rts),3000);
     })
     .subscribe();
 
@@ -1511,6 +1518,7 @@ function destacarSemana(){
 
 window.addEventListener('DOMContentLoaded',async()=>{
   _dataLoaded=true; // saves sempre habilitados desde o início
+  (function(){const ts=localStorage.getItem('vetor_last_save');const tel=document.getElementById('save-ts');if(ts&&tel)tel.textContent=ts;})();
   if(!localStorage.getItem('vetor_modal_seen')){
     document.getElementById('modal').classList.remove('hidden');
   }
