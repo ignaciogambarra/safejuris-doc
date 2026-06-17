@@ -792,7 +792,8 @@ input[type=number]{-moz-appearance:textfield}
           <div class="cb-prob-badge" id="cb-pess-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-pess-rec">—</span></div>
-        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-pess-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Projetadas</span><span class="cb-metric-val" id="cb-pess-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Ritmo necessário/dia</span><span class="cb-metric-val" id="cb-pess-ritmo" style="color:#ef4444">—</span></div>
         <div class="cb-result-block">
           <div class="cb-result-label">Resultado Operacional</div>
           <div class="cb-result-val neg" id="cb-pess-res">—</div>
@@ -804,7 +805,8 @@ input[type=number]{-moz-appearance:textfield}
           <div class="cb-prob-badge" id="cb-cons-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-cons-rec">—</span></div>
-        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-cons-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Projetadas</span><span class="cb-metric-val" id="cb-cons-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Ritmo necessário/dia</span><span class="cb-metric-val" id="cb-cons-ritmo" style="color:#3b82f6">—</span></div>
         <div class="cb-result-block">
           <div class="cb-result-label">Resultado Operacional</div>
           <div class="cb-result-val" id="cb-cons-res">—</div>
@@ -816,7 +818,8 @@ input[type=number]{-moz-appearance:textfield}
           <div class="cb-prob-badge" id="cb-opt-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-opt-rec">—</span></div>
-        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-opt-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Projetadas</span><span class="cb-metric-val" id="cb-opt-desp">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Ritmo necessário/dia</span><span class="cb-metric-val" id="cb-opt-ritmo" style="color:#22c55e">—</span></div>
         <div class="cb-result-block">
           <div class="cb-result-label">Resultado Operacional</div>
           <div class="cb-result-val pos" id="cb-opt-res">—</div>
@@ -1121,21 +1124,27 @@ function calcCrystalBall(){
   const ritmoAtual=elapsedDU>0?realizado/elapsedDU:0;
   const ritmoNecessario=remainingDU>0?(meta-realizado)/remainingDU:0;
 
-  // Despesas (fixas nos 3 cenários)
-  const totalDesp=despesasRealizadas+despesasProjetadas;
+  // Despesas: realizadas fixas + projetadas escalam com o fator do cenário
+  const despPess=despesasRealizadas+despesasProjetadas*0.8;
+  const despCons=despesasRealizadas+despesasProjetadas*1.0;
+  const despOpt =despesasRealizadas+despesasProjetadas*1.2;
 
   // Projeções de receita
-  // Base de projeção: usa entradasProjetadas (dinheiro vendido ainda não recebido)
-  // Fallback: ritmo × dias restantes (quando mês ainda está ativo e entradas não preenchidas)
   const potencial=entradasProjetadas>0?entradasProjetadas:Math.max(0,ritmoAtual*remainingDU);
   const projPess=realizado+potencial*0.8;
   const projCons=realizado+potencial*1.0;
   const projOpt =realizado+potencial*1.2;
 
   // Resultados operacionais
-  const resPess=projPess-totalDesp;
-  const resCons=projCons-totalDesp;
-  const resOpt =projOpt -totalDesp;
+  const resPess=projPess-despPess;
+  const resCons=projCons-despCons;
+  const resOpt =projOpt -despOpt;
+
+  // Ritmo necessário por cenário
+  const refDU=remainingDU>0?remainingDU:totalDU;
+  const ritmoNecPess=refDU>0?potencial*0.8/refDU:0;
+  const ritmoNecCons=refDU>0?potencial*1.0/refDU:0;
+  const ritmoNecOpt =refDU>0?potencial*1.2/refDU:0;
 
   // Probabilidades — lógica matemática de ritmo
   const pctDecorrido=totalDU>0?(elapsedDU/totalDU)*100:0;
@@ -1170,16 +1179,17 @@ function calcCrystalBall(){
   $('cb-pace').textContent=fmt(ritmoAtual);
   $('cb-required').textContent=remainingDU>0?fmt(Math.max(0,ritmoNecessario)):fmt(0);
 
-  const setCard=(pre,proj,res,prob)=>{
+  const setCard=(pre,proj,desp,res,prob,ritmoNec)=>{
     $(pre+'-prob').textContent=prob+'%';
     $(pre+'-rec').textContent=fmt(proj);
-    $(pre+'-desp').textContent=fmt(totalDesp);
+    $(pre+'-desp').textContent=fmt(desp);
     $(pre+'-res').textContent=(res<0?'−':'')+fmt(Math.abs(res));
     $(pre+'-res').className='cb-result-val '+(res>=0?'pos':'neg');
+    if($(pre+'-ritmo')) $(pre+'-ritmo').textContent=ritmoNec>0?fmt(ritmoNec)+'/dia':'—';
   };
-  setCard('cb-pess',projPess,resPess,pb.pess);
-  setCard('cb-cons',projCons,resCons,pb.cons);
-  setCard('cb-opt', projOpt, resOpt, pb.opt);
+  setCard('cb-pess',projPess,despPess,resPess,pb.pess,ritmoNecPess);
+  setCard('cb-cons',projCons,despCons,resCons,pb.cons,ritmoNecCons);
+  setCard('cb-opt', projOpt, despOpt, resOpt, pb.opt, ritmoNecOpt);
 }
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
