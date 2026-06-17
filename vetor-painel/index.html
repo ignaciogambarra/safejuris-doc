@@ -784,7 +784,7 @@ input[type=number]{-moz-appearance:textfield}
       <div class="cb-ctx-item">
         <div class="cb-ctx-label">Ritmo necessário</div>
         <div class="cb-ctx-val" id="cb-required">R$ —</div>
-        <div class="cb-ctx-sub">para atingir a meta</div>
+        <div class="cb-ctx-sub" id="cb-required-sub">para atingir a meta</div>
       </div>
     </div>
     <div class="cb-grid">
@@ -1156,7 +1156,13 @@ function calcCrystalBall(){
   _tx('cb-remaining',remainingDU);
   _tx('cb-remaining-sub',remainingDU===0?'Mês encerrado':'até o fim do mês');
   _tx('cb-pace',fmt(ritmoAtual));
-  _tx('cb-required',remainingDU>0?fmt(Math.max(0,ritmoNec)):fmt(0));
+  // Cenário de maior probabilidade → ritmo necessário para atingi-lo
+  var maisProbRitmo, maisProbNome, maisProbPct;
+  if(pbC>=pbP&&pbC>=pbO){maisProbRitmo=rNecC;maisProbNome='conservador';maisProbPct=pbC;}
+  else if(pbO>=pbP&&pbO>=pbC){maisProbRitmo=rNecO;maisProbNome='otimista';maisProbPct=pbO;}
+  else{maisProbRitmo=rNecP;maisProbNome='pessimista';maisProbPct=pbP;}
+  _tx('cb-required',remainingDU>0?fmt(Math.max(0,maisProbRitmo)):fmt(0));
+  _tx('cb-required-sub','cenário '+maisProbNome+' ('+maisProbPct+'% de prob.)');
 
   var _card=function(pre,proj,desp,res,prob,rn){
     _tx(pre+'-prob',prob+'%');
