@@ -398,6 +398,36 @@ input[type=number]{-moz-appearance:textfield}
   .frentes-grid{grid-template-columns:1fr 1fr;gap:8px}
   .alert-strip{padding:10px 20px}
 }
+/* ── CRYSTAL BALL ── */
+.cb-section{padding:8px 28px 32px}
+.cb-context{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+@media(max-width:700px){.cb-context{grid-template-columns:1fr 1fr}.cb-grid{grid-template-columns:1fr}}
+.cb-ctx-item{background:var(--white);border-radius:10px;padding:14px 16px;border:1px solid var(--border);box-shadow:var(--sh)}
+.cb-ctx-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink-soft);margin-bottom:6px}
+.cb-ctx-val{font-size:22px;font-weight:900;color:var(--ink);line-height:1;font-family:var(--font-head);letter-spacing:-.5px}
+.cb-ctx-sub{font-size:10px;color:var(--ink-soft);margin-top:3px}
+.cb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cb-card{background:var(--white);border-radius:12px;box-shadow:var(--sh);padding:20px;border:1px solid var(--border);position:relative;overflow:hidden}
+.cb-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.cb-card.pess::before{background:#ef4444}
+.cb-card.cons::before{background:#3b82f6}
+.cb-card.opt::before{background:#22c55e}
+.cb-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:8px}
+.cb-scenario{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink)}
+.cb-adj{font-size:9px;color:var(--ink-soft);margin-top:2px}
+.cb-prob-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;flex-shrink:0}
+.cb-card.pess .cb-prob-badge{background:#fef2f2;color:#ef4444;border:1px solid #fca5a5}
+.cb-card.cons .cb-prob-badge{background:#eff6ff;color:#3b82f6;border:1px solid #93c5fd}
+.cb-card.opt  .cb-prob-badge{background:#f0fdf4;color:#22c55e;border:1px solid #86efac}
+.cb-metric{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px}
+.cb-metric-label{color:var(--ink-soft)}
+.cb-metric-val{font-weight:700;color:var(--ink)}
+.cb-result-block{margin-top:12px;background:var(--bg);border-radius:8px;padding:12px;border:1px solid var(--border)}
+.cb-result-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-soft);margin-bottom:4px}
+.cb-result-val{font-size:20px;font-weight:900;font-family:var(--font-head);line-height:1;letter-spacing:-.5px}
+.cb-result-val.pos{color:var(--green)}.cb-result-val.neg{color:var(--red)}
+.shead.indigo .shead-icon,.shead.indigo h2{color:#4f46e5}
+.shead.indigo .shead-line{background:linear-gradient(to right,#4f46e5,#818cf8,transparent)}
 </style>
 </head>
 <body>
@@ -743,6 +773,77 @@ input[type=number]{-moz-appearance:textfield}
     </div>
   </div>
 
+  <!-- CRYSTAL BALL -->
+  <div id="crystalball" style="scroll-margin-top:64px">
+    <div class="shead indigo">
+      <div class="shead-icon">🔮</div>
+      <div class="shead-text"><h2>Crystal Ball — Projeção de Cenários</h2><p>Baseado no ritmo atual e dias úteis restantes do mês</p></div>
+      <div class="shead-line"></div>
+    </div>
+  </div>
+  <div class="cb-section">
+    <div class="cb-context">
+      <div class="cb-ctx-item">
+        <div class="cb-ctx-label">Dias úteis decorridos</div>
+        <div class="cb-ctx-val" id="cb-elapsed">—</div>
+        <div class="cb-ctx-sub" id="cb-elapsed-sub">de — dias no mês</div>
+      </div>
+      <div class="cb-ctx-item">
+        <div class="cb-ctx-label">Dias úteis restantes</div>
+        <div class="cb-ctx-val" id="cb-remaining">—</div>
+        <div class="cb-ctx-sub" id="cb-remaining-sub">até o fim do mês</div>
+      </div>
+      <div class="cb-ctx-item">
+        <div class="cb-ctx-label">Ritmo atual</div>
+        <div class="cb-ctx-val" id="cb-pace">R$ —</div>
+        <div class="cb-ctx-sub">por dia útil realizado</div>
+      </div>
+      <div class="cb-ctx-item">
+        <div class="cb-ctx-label">Ritmo necessário</div>
+        <div class="cb-ctx-val" id="cb-required">R$ —</div>
+        <div class="cb-ctx-sub">para atingir a meta</div>
+      </div>
+    </div>
+    <div class="cb-grid">
+      <div class="cb-card pess">
+        <div class="cb-card-header">
+          <div><div class="cb-scenario">😟 Pessimista</div><div class="cb-adj">Ritmo −20%</div></div>
+          <div class="cb-prob-badge" id="cb-pess-prob">—%</div>
+        </div>
+        <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-pess-rec">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-pess-desp">—</span></div>
+        <div class="cb-result-block">
+          <div class="cb-result-label">Resultado Operacional</div>
+          <div class="cb-result-val neg" id="cb-pess-res">—</div>
+        </div>
+      </div>
+      <div class="cb-card cons">
+        <div class="cb-card-header">
+          <div><div class="cb-scenario">😐 Conservador</div><div class="cb-adj">Ritmo mantido</div></div>
+          <div class="cb-prob-badge" id="cb-cons-prob">—%</div>
+        </div>
+        <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-cons-rec">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-cons-desp">—</span></div>
+        <div class="cb-result-block">
+          <div class="cb-result-label">Resultado Operacional</div>
+          <div class="cb-result-val" id="cb-cons-res">—</div>
+        </div>
+      </div>
+      <div class="cb-card opt">
+        <div class="cb-card-header">
+          <div><div class="cb-scenario">😊 Otimista</div><div class="cb-adj">Ritmo +20%</div></div>
+          <div class="cb-prob-badge" id="cb-opt-prob">—%</div>
+        </div>
+        <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-opt-rec">—</span></div>
+        <div class="cb-metric"><span class="cb-metric-label">Despesas Totais</span><span class="cb-metric-val" id="cb-opt-desp">—</span></div>
+        <div class="cb-result-block">
+          <div class="cb-result-label">Resultado Operacional</div>
+          <div class="cb-result-val pos" id="cb-opt-res">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- NOTA -->
   <div style="margin-top:32px">
     <div class="nota">
@@ -995,8 +1096,102 @@ function calcular(){
   document.getElementById('alert-dias').textContent=diasR+' dias úteis restantes';
   FRENTES.forEach(f=>atualizarFrente(f.id,f.realizado,f.meta));
   atualizarResultado(totalReceitas);
+  calcCrystalBall();
   if(!_syncAtivo) salvarDebounced();
   if(p>=100) dispararConfetti();
+}
+
+// ── CRYSTAL BALL ──────────────────────────────────────────────────────────
+function calcCrystalBall(){
+  // Mês de referência: Maio 2026
+  const Y=2026, M=4; // M=4 → May (0-indexed)
+  const monthStart=new Date(Y,M,1);
+  const monthEnd=new Date(Y,M+1,0); // último dia do mês
+  const hoje=new Date(); hoje.setHours(0,0,0,0);
+
+  // Total de dias úteis no mês
+  let totalDU=0;
+  const daysInMonth=monthEnd.getDate();
+  for(let d=1;d<=daysInMonth;d++){const w=new Date(Y,M,d).getDay();if(w!==0&&w!==6)totalDU++;}
+
+  // Dias úteis decorridos (do dia 1 até ontem, ou até o fim do mês se passou)
+  const refFim=hoje<=monthEnd?new Date(hoje.getTime()-86400000):monthEnd; // ontem ou fim do mês
+  let elapsedDU=0;
+  if(refFim>=monthStart){
+    for(let d=1;d<=refFim.getDate();d++){
+      if(new Date(Y,M,d)>refFim)break;
+      const w=new Date(Y,M,d).getDay();if(w!==0&&w!==6)elapsedDU++;
+    }
+  }
+  elapsedDU=Math.max(0,Math.min(elapsedDU,totalDU));
+
+  // Dias úteis restantes
+  const remainingDU=Math.max(0,totalDU-elapsedDU);
+
+  // Receita e meta
+  const realizado=FRENTES.reduce((s,f)=>s+f.realizado,0);
+  const meta=FRENTES.reduce((s,f)=>s+f.meta,0);
+
+  // Ritmos
+  const ritmoAtual=elapsedDU>0?realizado/elapsedDU:0;
+  const ritmoNecessario=remainingDU>0?(meta-realizado)/remainingDU:0;
+
+  // Despesas (fixas nos 3 cenários)
+  const totalDesp=despesasRealizadas+despesasProjetadas;
+
+  // Projeções de receita
+  const projPess=realizado+ritmoAtual*0.8*remainingDU;
+  const projCons=realizado+ritmoAtual*1.0*remainingDU;
+  const projOpt =realizado+ritmoAtual*1.2*remainingDU;
+
+  // Resultados operacionais
+  const resPess=projPess-totalDesp;
+  const resCons=projCons-totalDesp;
+  const resOpt =projOpt -totalDesp;
+
+  // Probabilidades — lógica matemática de ritmo
+  const pctDecorrido=totalDU>0?(elapsedDU/totalDU)*100:0;
+  const ritmoPct=meta>0&&totalDU>0?(ritmoAtual/(meta/totalDU))*100:100;
+
+  let pPess=25,pCons=50,pOpt=25;
+  if(ritmoPct<80){
+    const gap=Math.min(80-ritmoPct,40);
+    pPess+=gap*0.35;pOpt-=gap*0.18;pCons-=gap*0.17;
+  } else if(ritmoPct>120){
+    const surplus=Math.min(ritmoPct-120,40);
+    pOpt+=surplus*0.35;pPess-=surplus*0.18;pCons-=surplus*0.17;
+  }
+  // Quanto mais o mês avança, conservador domina
+  pPess*=(1-pctDecorrido/100*0.5);
+  pOpt *=(1-pctDecorrido/100*0.5);
+  pCons=100-pPess-pOpt;
+  pPess=Math.max(5,Math.min(65,pPess));
+  pOpt =Math.max(5,Math.min(65,pOpt));
+  pCons=Math.max(10,100-pPess-pOpt);
+  const tot=pPess+pCons+pOpt;
+  const pb={pess:Math.round(pPess/tot*100),opt:Math.round(pOpt/tot*100)};
+  pb.cons=100-pb.pess-pb.opt;
+
+  // Atualiza UI
+  const $=id=>document.getElementById(id);
+  if(!$('cb-elapsed'))return;
+  $('cb-elapsed').textContent=elapsedDU;
+  $('cb-elapsed-sub').textContent='de '+totalDU+' dias úteis no mês';
+  $('cb-remaining').textContent=remainingDU;
+  $('cb-remaining-sub').textContent=remainingDU===0?'Mês encerrado':'até o fim do mês';
+  $('cb-pace').textContent=fmt(ritmoAtual);
+  $('cb-required').textContent=remainingDU>0?fmt(Math.max(0,ritmoNecessario)):fmt(0);
+
+  const setCard=(pre,proj,res,prob)=>{
+    $(pre+'-prob').textContent=prob+'%';
+    $(pre+'-rec').textContent=fmt(proj);
+    $(pre+'-desp').textContent=fmt(totalDesp);
+    $(pre+'-res').textContent=(res<0?'−':'')+fmt(Math.abs(res));
+    $(pre+'-res').className='cb-result-val '+(res>=0?'pos':'neg');
+  };
+  setCard('cb-pess',projPess,resPess,pb.pess);
+  setCard('cb-cons',projCons,resCons,pb.cons);
+  setCard('cb-opt', projOpt, resOpt, pb.opt);
 }
 
 function caixaChanged(){ caixa=val('f_caixa'); calcular(); }
