@@ -807,7 +807,7 @@ input[type=number]{-moz-appearance:textfield}
     <div class="cb-grid">
       <div class="cb-card pess">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😟 Pessimista</div><div class="cb-adj">Ritmo −20%</div></div>
+          <div><div class="cb-scenario">😟 Pessimista</div><div class="cb-adj">80% das entradas projetadas</div></div>
           <div class="cb-prob-badge" id="cb-pess-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-pess-rec">—</span></div>
@@ -819,7 +819,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <div class="cb-card cons">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😐 Conservador</div><div class="cb-adj">Ritmo mantido</div></div>
+          <div><div class="cb-scenario">😐 Conservador</div><div class="cb-adj">100% das entradas projetadas</div></div>
           <div class="cb-prob-badge" id="cb-cons-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-cons-rec">—</span></div>
@@ -831,7 +831,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
       <div class="cb-card opt">
         <div class="cb-card-header">
-          <div><div class="cb-scenario">😊 Otimista</div><div class="cb-adj">Ritmo +20%</div></div>
+          <div><div class="cb-scenario">😊 Otimista</div><div class="cb-adj">120% das entradas projetadas</div></div>
           <div class="cb-prob-badge" id="cb-opt-prob">—%</div>
         </div>
         <div class="cb-metric"><span class="cb-metric-label">Receita Projetada</span><span class="cb-metric-val" id="cb-opt-rec">—</span></div>
@@ -1144,9 +1144,12 @@ function calcCrystalBall(){
   const totalDesp=despesasRealizadas+despesasProjetadas;
 
   // Projeções de receita
-  const projPess=realizado+ritmoAtual*0.8*remainingDU;
-  const projCons=realizado+ritmoAtual*1.0*remainingDU;
-  const projOpt =realizado+ritmoAtual*1.2*remainingDU;
+  // Base de projeção: usa entradasProjetadas (dinheiro vendido ainda não recebido)
+  // Fallback: ritmo × dias restantes (quando mês ainda está ativo e entradas não preenchidas)
+  const potencial=entradasProjetadas>0?entradasProjetadas:Math.max(0,ritmoAtual*remainingDU);
+  const projPess=realizado+potencial*0.8;
+  const projCons=realizado+potencial*1.0;
+  const projOpt =realizado+potencial*1.2;
 
   // Resultados operacionais
   const resPess=projPess-totalDesp;
