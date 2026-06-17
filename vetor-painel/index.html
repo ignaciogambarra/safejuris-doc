@@ -919,14 +919,12 @@ input[type=number]{-moz-appearance:textfield}
           <span id="desp-total-val" style="font-weight:800;color:var(--orange)">R$ 0</span>
         </div>
       </div>
-      <div class="cd-card resultado-pos inp-group" id="cd-resultado-card" style="display:flex;flex-direction:column;justify-content:space-between">
-        <div>
-          <div class="inp-label" style="margin-bottom:4px">
-            <span class="inp-label-text">📊 Resultado Atual</span>
-          </div>
-          <div class="cd-resultado-val pos" id="cd-resultado-val">R$ 0</div>
-          <div class="cd-resultado-msg" id="cd-resultado-msg">Receitas totais − Contas do período</div>
+      <div class="cd-card resultado-pos inp-group" id="cd-resultado-card">
+        <div class="inp-label" style="margin-bottom:4px">
+          <span class="inp-label-text">📊 Resultado Atual</span>
         </div>
+        <div class="cd-resultado-val pos" id="cd-resultado-val">R$ 0</div>
+        <div class="cd-resultado-msg" id="cd-resultado-msg">Receitas totais − Contas do período</div>
         <div class="cd-resultado-proj-block">
           <div class="cd-resultado-proj-label">📈 Resultado Projetado</div>
           <div class="cd-resultado-proj-val pos" id="cd-resultado-proj-val">R$ 0</div>
@@ -1346,13 +1344,8 @@ function calcCrystalBall(){
   _tx('cb-remaining',remainingDU);
   _tx('cb-remaining-sub',remainingDU===0?'Mês encerrado':'até o fim do mês');
   _tx('cb-pace',fmt(ritmoAtual));
-  // Cenário de maior probabilidade → ritmo necessário para atingi-lo
-  var maisProbRitmo, maisProbNome, maisProbPct;
-  if(pbC>=pbP&&pbC>=pbO){maisProbRitmo=rNecC;maisProbNome='conservador';maisProbPct=pbC;}
-  else if(pbO>=pbP&&pbO>=pbC){maisProbRitmo=rNecO;maisProbNome='otimista';maisProbPct=pbO;}
-  else{maisProbRitmo=rNecP;maisProbNome='pessimista';maisProbPct=pbP;}
-  _tx('cb-required',remainingDU>0?fmt(Math.max(0,maisProbRitmo)):fmt(0));
-  _tx('cb-required-sub','cenário '+maisProbNome+' ('+maisProbPct+'% de prob.)');
+  _tx('cb-required',remainingDU>0?fmt(Math.max(0,ritmoNec)):fmt(0));
+  _tx('cb-required-sub',remainingDU>0?'por dia útil para bater a meta':'Meta do mês encerrada');
 
   var _card=function(pre,proj,desp,res,prob,rn){
     _tx(pre+'-prob',prob+'%');
